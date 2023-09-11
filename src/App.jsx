@@ -7,6 +7,8 @@ import {
 import Login from './Pages/Login';
 import Register from './Pages/Register';
 import { styled } from 'styled-components';
+import Home from './Pages/Home';
+import MyPapers from './Pages/MyPapers';
 const Component=styled.div`
   top:0;
   left:0;
@@ -16,7 +18,11 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <div>Hello world!</div>,
+      element: <Home/>,
+    },
+    {
+      path: "/papers",
+      element: <MyPapers/>,
     },
     {
       path: "/register",

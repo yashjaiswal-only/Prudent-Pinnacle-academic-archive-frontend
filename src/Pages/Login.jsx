@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { login } from '../api_calls/Auth'
 import { CircularProgress, Tooltip } from "@mui/material"
+import { authStarts } from '../redux/userRedux'
 
 
 
@@ -87,6 +88,7 @@ const Login = () => {
     if(res.status)  navigate('/');
   }
   const newlyRegister=location.state?location.state.newlyRegister:null;
+  dispatch(authStarts());
   return ( 
     <Container>
       <Wrapper>
