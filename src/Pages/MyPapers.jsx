@@ -15,6 +15,7 @@ const MyPapers = () => {
   return (
     <Wrapper>
         <Navbar/>
+        my research papers
     </Wrapper>
   )
 }

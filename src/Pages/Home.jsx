@@ -43,6 +43,7 @@ const Home = () => {
   console.log(user);
 
   useEffect(()=>{
+    console.log(user)
     if(user==null)  navigate('/login');
   })
   return (

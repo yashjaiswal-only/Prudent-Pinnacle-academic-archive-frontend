@@ -1,6 +1,8 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useDebugValue } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import { logoutSuccess } from '../redux/userRedux'
+import { useDispatch } from 'react-redux'
 const Container=styled.div`
     position: absolute;
     top:0;
@@ -37,7 +39,12 @@ const Left=styled.div`
   font-weight: normal;  
 `
 const Navbar = () => {
-    
+    const dispatch=useDispatch();
+    const navigate=useNavigate();
+    const handleLogout=()=>{
+      dispatch(logoutSuccess());
+      navigate('/login')
+    }
   return (
     <Container>
     <Left>Academic Archive</Left>
@@ -49,6 +56,7 @@ const Navbar = () => {
         <Link to="/papers">
             <li>My Papers</li>
         </Link>
+        <li onClick={handleLogout}>Logout</li>
       </ul>
     </Right>
   </Container>
