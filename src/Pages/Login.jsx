@@ -82,13 +82,13 @@ const Login = () => {
   const {isFetching ,error} =useSelector(state=>state.user) ;
 
   const handleClick= async e=>{
+    dispatch(authStarts());
     e.preventDefault();
     const res=await login(dispatch,{username,password});
     console.log(res);
     if(res.status)  navigate('/');
   }
   const newlyRegister=location.state?location.state.newlyRegister:null;
-  dispatch(authStarts());
   return ( 
     <Container>
       <Wrapper>
