@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Navbar from '../Components/Navbar'
 import {useSelector } from 'react-redux'
 import { useNavigate } from "react-router-dom";
+import Sidebar from '../Components/Sidebar';
 
 const Wrapper=styled.div`
     width:100vw;
@@ -17,12 +18,13 @@ const Wrapper=styled.div`
 const Profile=styled.div`
   /* margin:5rem auto; */
   background-color: #176B87;
-    width:80%;
+  width:70%;
+  margin-left:20%;
   display: flex;
   justify-content: space-around;
   img{
     width:30%;
-  } 
+  }
   div{
     width:50%;
     display: flex;
@@ -49,6 +51,8 @@ const Home = () => {
   return (
     <Wrapper>
       <Navbar/>
+      <Sidebar/>
+      
       <Profile>
         <img src={user.avatar}/>
         <div>

@@ -1,8 +1,5 @@
-import React, { useDebugValue } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React from 'react'
 import styled from 'styled-components'
-import { logoutSuccess } from '../redux/userRedux'
-import { useDispatch } from 'react-redux'
 const Container=styled.div`
     position: absolute;
     top:0;
@@ -12,24 +9,11 @@ const Container=styled.div`
     height:3rem;
     background-color: #053B50;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     color:#EEEEEE;
-    font-family: "Great Vibes", cursive; 
 `
-const Right=styled.div`
-  width:60%;
-  >ul{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    list-style-type: none;
-    li{
-      cursor: pointer;
-      color:white;
-    }
-  }
-`
+
 const Left=styled.div`
 
   text-shadow: 0 1px 1px #fff; 
@@ -39,26 +23,11 @@ const Left=styled.div`
   font-weight: normal;  
 `
 const Navbar = () => {
-    const dispatch=useDispatch();
-    const navigate=useNavigate();
-    const handleLogout=()=>{
-      dispatch(logoutSuccess());
-      navigate('/login')
-    }
+    
   return (
     <Container>
     <Left>Academic Archive</Left>
-    <Right>
-      <ul>
-        <Link to="/">
-            <li>My Profile</li>
-        </Link>
-        <Link to="/papers">
-            <li>My Papers</li>
-        </Link>
-        <li onClick={handleLogout}>Logout</li>
-      </ul>
-    </Right>
+    
   </Container>
   )
 }
