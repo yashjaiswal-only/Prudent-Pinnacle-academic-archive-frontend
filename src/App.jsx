@@ -9,6 +9,8 @@ import Register from './Pages/Register';
 import { styled } from 'styled-components';
 import Home from './Pages/Home';
 import MyPapers from './Pages/MyPapers';
+import Profie from './Components/Profie';
+import EditProfile from './Components/EditProfile';
 const Component=styled.div`
   top:0;
   left:0;
@@ -19,7 +21,16 @@ function App() {
     {
       path: "/",
       element: <Home/>,
-      
+      children: [
+        {
+          path: "/",
+          element: <Profie  />,
+        },
+        {
+          path: "/profile/edit",
+          element: <EditProfile />,
+        },
+      ],
     },
     {
       path: "/papers",

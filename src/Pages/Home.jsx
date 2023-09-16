@@ -38,8 +38,8 @@ const Home = () => {
       <Navbar/>
       <Sidebar/>  
       <Container>
-        {/* <Outlet/> */}
-        <Profie user={user}/>
+        <Outlet/>
+        {/* <Profie user={user}/> */}
 
       </Container>
 

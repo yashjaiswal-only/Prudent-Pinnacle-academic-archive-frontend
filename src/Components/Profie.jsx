@@ -1,4 +1,6 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+import { Navigate, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 const Wrapper=styled.div`
@@ -32,7 +34,9 @@ const Button=styled.button`
   margin:1rem;
   width:fit-content;
 `
-const Profie = ({user}) => {
+const Profie = () => {
+    const user=useSelector(state=>state.user.currentUser)
+    const navigate=useNavigate();
   return (
     <Container>
         <Wrapper>
@@ -45,7 +49,7 @@ const Profie = ({user}) => {
             <span>qualification : {user.qualification}</span>
             </div>
         </Wrapper>
-        <Button>Edit Profile</Button>
+        <Button onClick={()=>navigate('/profile/edit')}>Edit Profile</Button>
     </Container>
   )
 }
