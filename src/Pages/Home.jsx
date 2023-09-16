@@ -2,8 +2,9 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import Navbar from '../Components/Navbar'
 import {useSelector } from 'react-redux'
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Sidebar from '../Components/Sidebar';
+import Profie from '../Components/Profie';
 
 const Wrapper=styled.div`
     width:100vw;
@@ -12,33 +13,17 @@ const Wrapper=styled.div`
     background-color: #EEEEEE;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    /* justify-content: center; */
 `
-const Profile=styled.div`
-  /* margin:5rem auto; */
-  background-color: #176B87;
-  width:70%;
-  margin-left:20%;
+
+const Container=styled.div`
+  margin:4rem 0 0 22%;
+  height:90%;
+  overflow:scroll;
   display: flex;
-  justify-content: space-around;
-  img{
-    width:30%;
-  }
-  div{
-    width:50%;
-    display: flex;
-    flex-direction: column; 
-    font-size:1.5rem;
-    align-items: flex-start;
-    color:#EEEEEE;
-    font-family: "Great Vibes", cursive; 
-    span{
-      margin:1rem;
-    }
-  }
-    
-` 
+  flex-direction: column;
+`
+
 const Home = () => {
   const user=useSelector(state=>state.user.currentUser);
   const navigate=useNavigate();
@@ -51,18 +36,12 @@ const Home = () => {
   return (
     <Wrapper>
       <Navbar/>
-      <Sidebar/>
-      
-      <Profile>
-        <img src={user.avatar}/>
-        <div>
-          <span>Name : {user.name}</span>
-          <span>Email : {user.email}</span>
-          <span>Username : {user.username}</span>
-          <span>Contact No. : {user.ph}</span>
-          <span>qualification : {user.qualification}</span>
-        </div>
-      </Profile>
+      <Sidebar/>  
+      <Container>
+        {/* <Outlet/> */}
+        <Profie user={user}/>
+
+      </Container>
 
     </Wrapper>
   )
