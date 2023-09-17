@@ -1,6 +1,6 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import { useSelector } from 'react-redux'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 const Wrapper=styled.div`
@@ -37,9 +37,12 @@ const Button=styled.button`
 const Profie = () => {
     const user=useSelector(state=>state.user.currentUser)
     const navigate=useNavigate();
+    useEffect(()=>{
+      if(user===null) navigate('/login');
+    },[])
   return (
     <Container>
-        <Wrapper>
+        {user?<Wrapper>
         <img src={user.avatar}/>
             <div>
             <span>Name : {user.name}</span>
@@ -48,7 +51,7 @@ const Profie = () => {
             <span>Contact No. : {user.ph}</span>
             <span>qualification : {user.qualification}</span>
             </div>
-        </Wrapper>
+        </Wrapper>:''}
         <Button onClick={()=>navigate('/profile/edit')}>Edit Profile</Button>
     </Container>
   )

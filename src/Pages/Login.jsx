@@ -86,7 +86,7 @@ const Login = () => {
     e.preventDefault();
     const res=await login(dispatch,{username,password});
     console.log(res);
-    if(res.status)  navigate('/');
+    if(res.status===200)  navigate('/');
   }
   const newlyRegister=location.state?location.state.newlyRegister:null;
   return ( 

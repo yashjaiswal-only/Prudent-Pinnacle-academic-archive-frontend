@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import Navbar from '../Components/Navbar'
-import {useSelector } from 'react-redux'
 import { Outlet, useNavigate } from "react-router-dom";
 import Sidebar from '../Components/Sidebar';
-import Profie from '../Components/Profie';
 
 const Wrapper=styled.div`
     width:100vw;
@@ -25,22 +23,12 @@ const Container=styled.div`
 `
 
 const Home = () => {
-  const user=useSelector(state=>state.user.currentUser);
-  const navigate=useNavigate();
-  console.log(user);
-
-  useEffect(()=>{
-    console.log(user)
-    if(user==null)  navigate('/login');
-  })
   return (
     <Wrapper>
       <Navbar/>
       <Sidebar/>  
       <Container>
         <Outlet/>
-        {/* <Profie user={user}/> */}
-
       </Container>
 
     </Wrapper>

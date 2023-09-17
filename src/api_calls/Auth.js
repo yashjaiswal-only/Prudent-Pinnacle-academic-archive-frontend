@@ -1,7 +1,6 @@
 import axios from "axios";
 import { authStarts, loginFailure, loginStart, loginSuccess } from "../redux/userRedux";
 
-
 const BASE_URL=import.meta.env.VITE_BASE_URL;
 console.log(BASE_URL)
 const publicRequest = axios.create({
@@ -24,8 +23,8 @@ export const login= async (dispatch,user)=>{
     dispatch(loginStart());
     try{
         const res=await publicRequest.post('/auth/login',user)
-        console.log(res)
-        dispatch(loginSuccess(res.data));
+        const {accessToken,...userDetails}=res.data;
+        dispatch(loginSuccess({accessToken,userDetails}));
         return res;
     }
     catch(err){
@@ -35,10 +34,10 @@ export const login= async (dispatch,user)=>{
     }
 }
 
-export const checkUser= async (user)=>{
+export const checkUser= async (username)=>{
     try{
-        const res=await publicRequest.post('/auth/find',{username:user})
-        console.log(res)
+        const res=await publicRequest.post('/auth/find',{username})
+        // console.log(res)
         return res;
     }
     catch(err){
@@ -46,3 +45,20 @@ export const checkUser= async (user)=>{
         return err;
     }
 }
+
+export const updateUser= async (user,token)=>{
+    const config={
+        headers:{
+            'token': `Bearer ${token}`
+        }
+    }
+    try{
+        const res=await publicRequest.post('/auth/user/update',user,config);
+        return res;
+    }
+    catch(err){
+        console.log(err)
+        return err;
+    }
+}
+

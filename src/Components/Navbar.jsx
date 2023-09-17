@@ -17,7 +17,7 @@ const Container=styled.div`
 const Left=styled.div`
 
   text-shadow: 0 1px 1px #fff; 
-  width:30%;
+  width:50%;
   color: #d54d7b;
   font-size: 2rem; 
   font-weight: normal;  
