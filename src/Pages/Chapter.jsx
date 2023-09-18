@@ -15,6 +15,7 @@ const MyPapers = () => {
   return (
     <Wrapper>
         <Navbar/>
+        <Sidebar/>
         my research papers
     </Wrapper>
   )

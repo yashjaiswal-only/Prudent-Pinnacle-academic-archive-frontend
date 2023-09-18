@@ -8,9 +8,10 @@ import Login from './Pages/Login';
 import Register from './Pages/Register';
 import { styled } from 'styled-components';
 import Home from './Pages/Home';
-import MyPapers from './Pages/MyPapers';
 import Profie from './Components/Profie';
 import EditProfile from './Components/EditProfile';
+import Chapter from './Components/Chapter';
+import EditChapter from './Components/EditChapter';
 const Component=styled.div`
   top:0;
   left:0;
@@ -30,12 +31,17 @@ function App() {
           path: "/profile/edit",
           element: <EditProfile />,
         },
+        {
+          path: "/researchpaper/chapter",
+          element: <Chapter/>,
+        },
+        {
+          path: "/chapter/edit",
+          element: <EditChapter />,
+        },
       ],
     },
-    {
-      path: "/papers",
-      element: <MyPapers/>,
-    },
+    
     {
       path: "/register",
       element: <Register/>,

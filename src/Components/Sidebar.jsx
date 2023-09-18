@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
@@ -17,22 +17,58 @@ const Container=styled.div`
     flex-direction: column; 
     align-items: center;
 `
-const Item=styled.span`
+const Item=styled.div`
     width:80%;
     padding:0.5rem 1rem;
-    /* background-color: #EEEEEE; */
+    box-sizing:border-box;
     color:floralwhite;
     margin:0.5rem 1rem;
     cursor: pointer;
-    border-radius:1.2rem;
+    border-radius:0.4rem;
     font-size:1.2rem;
     font-weight: 600;
+    text-align:left;
+    &:hover{
+        background-color:#e1f2f7;
+        color:black;
+    }
     >a{
         color:inherit;
         font-weight:inherit;
     }
 `
+const Drop=styled.span`
+  width:80%;
+  padding:0rem 1rem;
+  margin:0rem 1rem;
+  box-sizing:border-box;
+  cursor: pointer;
+  border-radius:1.2rem;
+  font-size:1rem;
+  font-weight: 600;
+  text-align:left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow:hidden;
+  height:${props=>props.drop?'200px':'0'};
+  transition:height 0.5s ease;
+  span{
+    color:floralwhite;
+    width:90%;
+    margin:0.5rem;
+    padding:0.2rem 1rem;
+    border-radius:0.4rem;
+    &:hover{
+        background-color:#e1f2f7;
+        color:black;
+    }
+  }
+`
+
+
 const Sidebar = () => {
+    const [researchDrop,setResearchDrop]=useState(1);
     const dispatch=useDispatch();
     const navigate=useNavigate();
     const handleLogout=()=>{
@@ -44,11 +80,15 @@ const Sidebar = () => {
       <Item>
         <Link to="/">My Profile</Link>
       </Item>
-      <Item>
-        <Link to="/">
-            Research Papers
-        </Link> 
+      <Item onClick={()=>setResearchDrop((prev)=>prev?false:true)}>
+          Research Papers
       </Item>
+      <Drop drop={researchDrop}>
+          <Link to="/researchpaper/chapter"><span> Book Chapters</span></Link>
+          <span>Books</span>
+          <span>Journal papers</span>
+          <span>Conference papers</span>
+      </Drop>
       <Item  onClick={handleLogout}> Logout </Item>
     </Container>
   )
