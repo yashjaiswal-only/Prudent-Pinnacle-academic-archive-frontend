@@ -41,7 +41,7 @@ const EditProfile = () => {
   }
   const handleSubmit=async()=>{
     // console.log(inputs)
-    const res=await updateUser(dispatch,{...inputs,_id:user._id},token);
+    const res=await updateUser({...inputs,_id:user._id},token);
     if(res.status===200){
       const res2=await checkUser(user.username);
       console.log(res2)

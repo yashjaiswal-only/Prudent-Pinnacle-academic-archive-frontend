@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
-
 import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
 import { getAllPaper } from '../api_calls/Papers';
+import { Link  } from 'react-router-dom';
+
 const Container=styled.div`
     display: flex;
     flex-direction: column;
@@ -29,11 +31,13 @@ const Top=styled.div`
 const Bottom=styled.div`
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
   width:100%;
   padding:1rem;
 `
 const Entry=styled.div`
   background-color: #fff;
+  margin:0.5rem;
   width:90%;
   padding:1rem;
   -webkit-box-shadow: 0px 0px 10px -10px rgba(0, 0, 0, 0.75);
@@ -43,6 +47,14 @@ const Entry=styled.div`
   flex-direction: column;
   align-items: flex-start;
   font-size:1.2rem;
+  position: relative;
+  >section{
+    position: absolute;
+    top:0.5rem;
+    right:0.5rem;
+    cursor: pointer;
+    border-radius:50%;
+  }
   span{
     font-weight:600;
     margin:0 0.5rem;
@@ -57,36 +69,7 @@ const Entry=styled.div`
 `
 
 const Chapter = () => {
-  const [chapters,setChapters]=useState([{
-    uid:"64fd711a0604578415de9b4d",
-    title:"Why aren't we using 3d user interfaces, and will we ever?",
-    authors:[
-        {
-            first:"Raman",
-            last:"Balakrishnan"
-        },
-        {
-            first:"Ramon",
-            last:"Brown"
-        }
-    ],
-    editors:[
-        {
-            first:"Raman",
-            last:"Balakrishnan"
-        },
-        {
-            first:"Ramon",
-            last:"Brown"
-        }
-    ],
-    bookTitle:"IEEE Symposium on 3D User Interfaces",
-    publishedOn:"2006, March 25-26",
-    doi:"https://doi.org/10.1109/VR.2006.148",
-    publisher:"IEEE",
-    isbn:"1-4244-0225-5",
-    pageRange:"(22-25)"
-  }]);
+  const [chapters,setChapters]=useState([]);
   const user=useSelector(state=>state.user.currentUser)
   const token=useSelector(state=>state.user.token)
   const get=async()=>{
@@ -101,11 +84,18 @@ const Chapter = () => {
     <Container>
       <Top>
         <span>Book Chapter</span>
-        <button><AddIcon/> Add New</button>
+        <Link to='/chapter/edit' >
+          <button><AddIcon/> Add New</button>
+        </Link>
       </Top>
       <Bottom>
         {chapters.map((chapter)=>
           <Entry>
+            <section>
+            <Link to="/chapter/edit" state={chapter}>
+              <EditIcon/>
+            </Link>
+            </section>
           <div><span>Title : </span>{chapter.title}</div>
           <div><span>Authors : </span>
             <ul>
@@ -114,7 +104,7 @@ const Chapter = () => {
           </div>
           <div><span>Editors : </span>
             <ul>
-              {chapter.authors.map((a)=><li> {`${a.first}`+" "+`${a.last}`} </li>)}
+              {chapter.editors.map((a)=><li> {`${a.first}`+" "+`${a.last}`} </li>)}
             </ul>
           </div>
           <div><span>Book Title : </span>{chapter.bookTitle}</div>

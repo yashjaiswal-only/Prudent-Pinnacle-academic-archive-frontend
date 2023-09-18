@@ -21,3 +21,35 @@ export const getAllPaper= async (uid,type,token)=>{
         return err;
     }
 }
+
+export const addPaper= async (paper,type,token)=>{
+    const config={
+        headers:{
+            'token': `Bearer ${token}`
+        }
+    }
+    try{
+        const res=await publicRequest.post('/papers/create/'+`${type}`,paper,config)
+        return res;
+    }
+    catch(err){
+        console.log(err)
+        return err;
+    }
+}
+
+export const editPaper= async (paper,type,token)=>{
+    const config={
+        headers:{
+            'token': `Bearer ${token}`
+        }
+    }
+    try{
+        const res=await publicRequest.post('/papers/update/'+`${type}`,paper,config)
+        return res;
+    }
+    catch(err){
+        console.log(err)
+        return err;
+    }
+}
