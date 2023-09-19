@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {  useSelector } from 'react-redux'
+import {  useDispatch, useSelector } from 'react-redux'
 import ClearIcon from '@mui/icons-material/Clear';
 import { addPaper, editPaper } from '../api_calls/Papers';
 import { useLocation, useNavigate } from 'react-router-dom'
+import { removeChapters } from '../redux/papersRedux';
 
 
 const Container=styled.div`
@@ -55,6 +56,7 @@ const Button=styled.button`
 `
 const EditChapter = () => {
   const location=useLocation();
+  const dispatch=useDispatch();
   const user=useSelector(state=>state.user.currentUser);
   const token=useSelector(state=>state.user.token);
   const navigate=useNavigate();
@@ -102,19 +104,21 @@ const EditChapter = () => {
   }
   const handleSubmit=async()=>{
     //need to implement checks here
+    var res={};
     if(location.state === null){
       const paper={...inputs,authors,editors,_id:user._id};
       console.log(paper)
-      const res=await addPaper(paper,'chapter',token);
-      console.log(res)
-      if(res.status===200)  navigate('/researchpaper/chapter')
+      res=await addPaper(paper,'chapter',token);
     }
-  else{
+    else{
       const paper={...inputs,authors,editors,_id:user._id,pid:inputs._id};
       console.log(paper)
-      const res=await editPaper(paper,'chapter',token);
-      console.log(res)
-      if(res.status===200)  navigate('/researchpaper/chapter')
+      res=await editPaper(paper,'chapter',token);
+    }
+    console.log(res)
+    if(res.status===200){
+      dispatch(removeChapters());
+      navigate('/researchpaper/chapter')
     }
   }
   useEffect(()=>{

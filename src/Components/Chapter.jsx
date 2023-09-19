@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import { getAllPaper } from '../api_calls/Papers';
 import { Link  } from 'react-router-dom';
+import { updateChapters } from '../redux/papersRedux';
+import Loader from './Loader';
+import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 
 const Container=styled.div`
     display: flex;
@@ -30,10 +33,12 @@ const Top=styled.div`
 `
 const Bottom=styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
   width:100%;
   padding:1rem;
+  min-height:60vh;
 `
 const Entry=styled.div`
   background-color: #fff;
@@ -67,18 +72,35 @@ const Entry=styled.div`
     }
   }
 `
-
+const Error=styled.span`
+  font-size:1.2rem;
+  font-weight:500;
+  color:red;
+  display: flex;
+  align-items: center;
+`
 const Chapter = () => {
-  const [chapters,setChapters]=useState([]);
+  const [chaptersList,setChaptersList]=useState([]);
+  const [fetching,setFetching]=useState(false);
+  const [error,setError]=useState(false);
+  const {chapters}=useSelector(state=>state.papers)
   const user=useSelector(state=>state.user.currentUser)
   const token=useSelector(state=>state.user.token)
+  const dispatch=useDispatch();
   const get=async()=>{
+    setFetching(true);
     const res=await getAllPaper(user._id,'chapter',token);
-    // console.log(res)
-    if(res.status===200)  setChapters(res.data);
+    console.log(res)
+    if(res.status===200){
+      dispatch(updateChapters(res.data));
+      setChaptersList(res.data);
+    }
+    else setError(true);
+    setFetching(false);
   }
   useEffect(()=>{
-    get();  //get all the chapter
+    if(chapters)  setChaptersList(chapters);
+    else get();
   },[])
   return (
     <Container>
@@ -89,7 +111,7 @@ const Chapter = () => {
         </Link>
       </Top>
       <Bottom>
-        {chapters.map((chapter)=>
+        {fetching===false?chaptersList.map((chapter)=>
           <Entry>
             <section>
             <Link to="/chapter/edit" state={chapter}>
@@ -113,8 +135,13 @@ const Chapter = () => {
           <div><span>DOI : </span>{chapter.doi}</div>
           <div><span>ISBN : </span>{chapter.isbn}</div>
           <div><span>Page Range : </span>{chapter.pageRange}</div>
-        </Entry>
-        )}
+          </Entry>
+        ):
+          <Loader/>
+        }
+        {error?
+          <Error><ReportProblemIcon/>Unable to fetch data</Error>
+        :''}
       </Bottom>
     </Container>
   )
