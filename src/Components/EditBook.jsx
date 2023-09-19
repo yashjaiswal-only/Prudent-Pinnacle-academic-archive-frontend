@@ -4,7 +4,7 @@ import {  useDispatch, useSelector } from 'react-redux'
 import ClearIcon from '@mui/icons-material/Clear';
 import { addPaper, editPaper } from '../api_calls/Papers';
 import { useLocation, useNavigate } from 'react-router-dom'
-import { removeChapters } from '../redux/papersRedux';
+import { removeBooks } from '../redux/papersRedux';
 import { CircularProgress } from '@mui/material';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 
@@ -37,6 +37,7 @@ const Container=styled.div`
         font-weight: 500;
         display: flex;
         align-items: center;
+        cursor: pointer;
       }
     }
   }
@@ -71,7 +72,7 @@ const Error=styled.span`
   display: flex;
   align-items: center;
 `
-const EditChapter = () => {
+const EditBook = () => {
   const location=useLocation();
   const dispatch=useDispatch();
   const user=useSelector(state=>state.user.currentUser);
@@ -80,41 +81,23 @@ const EditChapter = () => {
   const [inputs,setInputs]=useState({});
   const [author,setAuthor]=useState('');
   const [authors,setAuthors]=useState([]);
-  const [editor,setEditor]=useState('');
-  const [editors,setEditors]=useState([]);
   const [sending,setSending]=useState(false);
   const [error,setError]=useState(false);
 
-  const addName=(e,isAuthor)=>{
+  const addName=(e)=>{
     let a=e.target.value.split(' ');
     if (e.key === 'Enter' && e.target.value!='') {
       let temp=authors;
-      if(isAuthor){
-        temp=authors;
         setAuthors([...temp,{first:a[0],last:a[1]}]);
         setAuthor('');
-      }
-      else{
-        temp=editors;
-        setEditors([...temp,{first:a[0],last:a[1]}]);
-        setEditor('');
-      }
     }
   }
-  const removeName=(name,isAuthor)=>{
+  const removeName=(name)=>{
     var temp=[];
-    if(isAuthor){
-      authors.forEach(a => {
-        if(a!=name) temp.push(a);
-      }); 
-      setAuthors(temp);
-    }
-    else{
-      editors.forEach(a => {
-        if(a!=name) temp.push(a);
-      }); 
-      setEditors(temp);
-    }
+    authors.forEach(a => {
+      if(a!=name) temp.push(a);
+    }); 
+    setAuthors(temp);
   }
   
   const handleChange=e=>{
@@ -127,30 +110,29 @@ const EditChapter = () => {
     var res={};
     setSending(true);
     if(location.state === null){
-      const paper={...inputs,authors,editors,_id:user._id};
+      const paper={...inputs,authors,_id:user._id};
       console.log(paper)
-      res=await addPaper(paper,'chapter',token);
+      res=await addPaper(paper,'book',token);
     }
     else{
-      const paper={...inputs,authors,editors,_id:user._id,pid:inputs._id};
+      const paper={...inputs,authors,_id:user._id,pid:inputs._id};
       console.log(paper)
-      res=await editPaper(paper,'chapter',token);
+      res=await editPaper(paper,'book',token);
     }
     console.log(res)
     if(res.status===200){
-      dispatch(removeChapters());
-      navigate('/researchpaper/chapter')
+      dispatch(removeBooks());
+      navigate('/researchpaper/book')
     }
     else setError(true);
     setSending(fasle);
   }
   useEffect(()=>{
     if(location.state){
-      const {authors,editors,uid,createdAt,updatedAt,...others}=location.state;
+      const {authors,uid,createdAt,updatedAt,...others}=location.state;
       setInputs(others);
       console.log(others)
       setAuthors(authors);
-      setEditors(editors);
     }
   },[])
 
@@ -159,29 +141,20 @@ const EditChapter = () => {
       <section>{location.state?'Edit Book Chapter':'Add new book chapter'}</section>
       <Form>
         <Input name="title" onChange={handleChange} type="text" placeholder="Title" value={inputs.title}/>
-        <Input name="bookTitle" onChange={handleChange} type="text" placeholder="Book Title" value={inputs.bookTitle}/>        
         <Input name="doi" onChange={handleChange} type="text" placeholder="DOI" value={inputs.doi}/>
         <Input name="publisher" onChange={handleChange} type="text" placeholder="Publisher" value={inputs.publisher}/>
         <Input name="publishedOn" onChange={handleChange} type="text" placeholder="Published Date" value={inputs.publishedOn}/>
         <Input name="isbn" onChange={handleChange} type="text" placeholder="ISBN" value={inputs.isbn}/>
-        <Input name="pageRange" onChange={handleChange} type="text" placeholder="Page Range" value={inputs.pageRange}/>
+        <Input name="edition" onChange={handleChange} type="text" placeholder="Edition" value={inputs.edition}/>
       </Form>
 
       <div>
-        <Input name="authors" onChange={(e)=>setAuthor(e.target.value)} onKeyDown={(e)=>addName(e,true)} type="text" placeholder="Authors (First Name (space) Last Name)" value={author}/>
+        <Input name="authors" onChange={(e)=>setAuthor(e.target.value)} onKeyDown={(e)=>addName(e)} type="text" placeholder="Authors (First Name (space) Last Name)" value={author}/>
         <section>
           {authors.map(a=>(
           <span key={a}>{`${a.first}`+" "+`${a.last}`} 
-            <ClearIcon sx={{fontSize:'medium'}} onClick={()=>removeName(a,true)}/>
+            <ClearIcon sx={{fontSize:'medium'}} onClick={()=>removeName(a)}/>
           </span>
-          ))} 
-        </section>
-      </div>
-      <div>
-        <Input name="editors" onChange={(e)=>setEditor(e.target.value)} onKeyDown={(e)=>addName(e,false)} type="text" placeholder="Editors(First Name (space) Last Name)" value={editor}/>
-        <section>
-          {editors.map(a=>(
-          <span key={a}>{`${a.first}`+" "+`${a.last}`} <ClearIcon sx={{fontSize:'medium'}} onClick={()=>removeName(a,false)}/></span>
           ))} 
         </section>
       </div>
@@ -195,4 +168,4 @@ const EditChapter = () => {
   )
 }
 
-export default EditChapter;
+export default EditBook;

@@ -5,7 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import { getAllPaper } from '../api_calls/Papers';
 import { Link  } from 'react-router-dom';
-import { updateChapters } from '../redux/papersRedux';
+import { updateBooks } from '../redux/papersRedux';
 import Loader from './Loader';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 
@@ -79,63 +79,60 @@ const Error=styled.span`
   display: flex;
   align-items: center;
 `
-const Chapter = () => {
-  const [chaptersList,setChaptersList]=useState([]);
+const Book = () => {
+  const [booksList,setBooksList]=useState([]);
   const [fetching,setFetching]=useState(false);
   const [error,setError]=useState(false);
-  const {chapters}=useSelector(state=>state.papers)
+  const {books}=useSelector(state=>state.papers)
   const user=useSelector(state=>state.user.currentUser)
   const token=useSelector(state=>state.user.token)
   const dispatch=useDispatch();
+
   const get=async()=>{
     setError(false);
     setFetching(true);
-    const res=await getAllPaper(user._id,'chapter',token);
+    const res=await getAllPaper(user._id,'book',token);
     console.log(res)
     if(res.status===200){
-      dispatch(updateChapters(res.data));
-      setChaptersList(res.data);
+      dispatch(updateBooks(res.data));
+      setBooksList(res.data);
     }
     else setError(true);
     setFetching(false);
   }
   useEffect(()=>{
-    if(chapters)  setChaptersList(chapters);
+    if(books)  setBooksList(books);
     else get();
+    console.log(books)
   },[])
   return (
     <Container>
       <Top>
-        <span>Book Chapter</span>
-        <Link to='/chapter/edit' >
+        <span>Books</span>
+        <Link to='/book/edit' >
           <button><AddIcon/> Add New</button>
         </Link>
       </Top>
       <Bottom>
-        {fetching===false?chaptersList.map((chapter)=>
-          <Entry key={chapter._id}>
+        {fetching===false?booksList.map((book)=>
+          <Entry>
             <section>
-            <Link to="/chapter/edit" state={chapter}>
+            <Link to="/book/edit" state={book}>
               <EditIcon/>
             </Link>
             </section>
-          <div><span>Title : </span>{chapter.title}</div>
+          <div><span>Title : </span>{book.title}</div>
           <div><span>Authors : </span>
             <ul>
-              {chapter.authors.map((a)=><li> {`${a.first}`+" "+`${a.last}`} </li>)}
+              {book.authors.map((a)=><li> {`${a.first}`+" "+`${a.last}`} </li>)}
             </ul>
           </div>
-          <div><span>Editors : </span>
-            <ul>
-              {chapter.editors.map((a)=><li> {`${a.first}`+" "+`${a.last}`} </li>)}
-            </ul>
-          </div>
-          <div><span>Book Title : </span>{chapter.bookTitle}</div>
-          <div><span>Publisher : </span>{chapter.publisher}</div>
-          <div><span>Published on : </span>{chapter.publishedOn}</div>
-          <div><span>DOI : </span>{chapter.doi}</div>
-          <div><span>ISBN : </span>{chapter.isbn}</div>
-          <div><span>Page Range : </span>{chapter.pageRange}</div>
+          
+          <div><span>Publisher : </span>{book.publisher}</div>
+          <div><span>Published on : </span>{book.publishedOn}</div>
+          <div><span>DOI : </span>{book.doi}</div>
+          <div><span>ISBN : </span>{book.isbn}</div>
+          <div><span>Edition : </span>{book.edition}</div>
           </Entry>
         ):
           <Loader/>
@@ -148,4 +145,4 @@ const Chapter = () => {
   )
 }
 
-export default Chapter
+export default Book;

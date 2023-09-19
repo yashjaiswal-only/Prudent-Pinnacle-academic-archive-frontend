@@ -77,17 +77,17 @@ const Sidebar = () => {
     }
   return (
     <Container>
-      <Item>
-        <Link to="/">My Profile</Link>
+      <Item onClick={()=>navigate('/')}>
+        My Profile
       </Item>
       <Item onClick={()=>setResearchDrop((prev)=>prev?false:true)}>
           Research Papers
       </Item>
       <Drop drop={researchDrop}>
-          <Link to="/researchpaper/chapter"><span> Book Chapters</span></Link>
-          <span>Books</span>
-          <span>Journal papers</span>
-          <span>Conference papers</span>
+          <span onClick={()=>navigate('/researchpaper/chapter')}> Book Chapters</span>
+          <span onClick={()=>navigate('/researchpaper/book')}>Books</span>
+          <span onClick={()=>navigate('/researchpaper/journal')}>Journal papers</span>
+          <span onClick={()=>navigate('/researchpaper/conference')}>Conference papers</span>
       </Drop>
       <Item  onClick={handleLogout}> Logout </Item>
     </Container>

@@ -12,6 +12,8 @@ import Profie from './Components/Profie';
 import EditProfile from './Components/EditProfile';
 import Chapter from './Components/Chapter';
 import EditChapter from './Components/EditChapter';
+import Book from './Components/Book';
+import EditBook from './Components/EditBook';
 const Component=styled.div`
   top:0;
   left:0;
@@ -38,6 +40,14 @@ function App() {
         {
           path: "/chapter/edit",
           element: <EditChapter />,
+        },
+        {
+          path: "/researchpaper/book",
+          element: <Book/>,
+        },
+        {
+          path: "/book/edit",
+          element: <EditBook />,
         },
       ],
     },
