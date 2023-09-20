@@ -14,6 +14,8 @@ import Chapter from './Components/Chapter';
 import EditChapter from './Components/EditChapter';
 import Book from './Components/Book';
 import EditBook from './Components/EditBook';
+import Journal from './Components/Journal';
+import EditJournal from './Components/EditJournal';
 const Component=styled.div`
   top:0;
   left:0;
@@ -48,6 +50,14 @@ function App() {
         {
           path: "/book/edit",
           element: <EditBook />,
+        },
+        {
+          path: "/researchpaper/journal",
+          element: <Journal/>,
+        },
+        {
+          path: "/journal/edit",
+          element: <EditJournal />,
         },
       ],
     },
