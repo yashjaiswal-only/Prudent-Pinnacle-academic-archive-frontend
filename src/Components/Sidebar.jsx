@@ -51,7 +51,7 @@ const Drop=styled.span`
   flex-direction: column;
   align-items: flex-start;
   overflow:hidden;
-  height:${props=>props.drop?'200px':'0'};
+  height:${props=>props.drop?'400px':'0'};
   transition:height 0.5s ease;
   span{
     color:floralwhite;

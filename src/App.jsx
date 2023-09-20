@@ -16,6 +16,8 @@ import Book from './Components/Book';
 import EditBook from './Components/EditBook';
 import Journal from './Components/Journal';
 import EditJournal from './Components/EditJournal';
+import Conference from './Components/Conference';
+import EditConference from './Components/EditConference';
 const Component=styled.div`
   top:0;
   left:0;
@@ -58,6 +60,14 @@ function App() {
         {
           path: "/journal/edit",
           element: <EditJournal />,
+        },
+        {
+          path: "/researchpaper/conference",
+          element: <Conference/>,
+        },
+        {
+          path: "/conference/edit",
+          element: <EditConference />,
         },
       ],
     },
