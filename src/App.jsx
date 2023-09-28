@@ -18,6 +18,9 @@ import Journal from './Components/Journal';
 import EditJournal from './Components/EditJournal';
 import Conference from './Components/Conference';
 import EditConference from './Components/EditConference';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+
 const Component=styled.div`
   top:0;
   left:0;
@@ -83,7 +86,9 @@ function App() {
   ]);
   return (
     <Component>
-     <RouterProvider router={router} />
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <RouterProvider router={router} />
+      </LocalizationProvider>
     </Component>
   )
 }

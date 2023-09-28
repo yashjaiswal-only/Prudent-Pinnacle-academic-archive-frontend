@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { removeChapters } from '../redux/papersRedux';
 import { CircularProgress } from '@mui/material';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
+import DatePicker from './DatePicker';
 
 
 const Container=styled.div`
@@ -84,6 +85,7 @@ const EditChapter = () => {
   const [editors,setEditors]=useState([]);
   const [sending,setSending]=useState(false);
   const [error,setError]=useState(false);
+  const [date, setDate] = useState(null);
 
   const addName=(e,isAuthor)=>{
     let a=e.target.value.split(' ');
@@ -127,12 +129,13 @@ const EditChapter = () => {
     var res={};
     setSending(true);
     if(location.state === null){
-      const paper={...inputs,authors,editors,_id:user._id};
+      const paper={...inputs,authors,editors,_id:user._id,publishedOn:date};
       console.log(paper)
       res=await addPaper(paper,'chapter',token);
     }
     else{
-      const paper={...inputs,authors,editors,_id:user._id,pid:inputs._id};
+      var paper={...inputs,authors,editors,_id:user._id,pid:inputs._id};
+      paper={...paper,publishedOn:date};
       console.log(paper)
       res=await editPaper(paper,'chapter',token);
     }
@@ -142,18 +145,18 @@ const EditChapter = () => {
       navigate('/researchpaper/chapter')
     }
     else setError(true);
-    setSending(fasle);
+    setSending(false);
   }
   useEffect(()=>{
     if(location.state){
-      const {authors,editors,uid,createdAt,updatedAt,...others}=location.state;
+      const {authors,editors,uid,createdAt,updatedAt,publishedOn,...others}=location.state;
+      setDate(publishedOn);
       setInputs(others);
       console.log(others)
       setAuthors(authors);
       setEditors(editors);
     }
   },[])
-
   return (
     <Container>
       <section>{location.state?'Edit Book Chapter':'Add new book chapter'}</section>
@@ -162,9 +165,9 @@ const EditChapter = () => {
         <Input name="bookTitle" onChange={handleChange} type="text" placeholder="Book Title" value={inputs.bookTitle}/>        
         <Input name="doi" onChange={handleChange} type="text" placeholder="DOI" value={inputs.doi}/>
         <Input name="publisher" onChange={handleChange} type="text" placeholder="Publisher" value={inputs.publisher}/>
-        <Input name="publishedOn" onChange={handleChange} type="text" placeholder="Published Date" value={inputs.publishedOn}/>
         <Input name="isbn" onChange={handleChange} type="text" placeholder="ISBN" value={inputs.isbn}/>
         <Input name="pageRange" onChange={handleChange} type="text" placeholder="Page Range" value={inputs.pageRange}/>
+        <DatePicker  date={date} setDate={setDate} title="Publication Date"/>
       </Form>
 
       <div>
@@ -190,7 +193,7 @@ const EditChapter = () => {
         <Button onClick={handleSubmit} disabled={sending}>Save</Button> 
         {sending?<CircularProgress/>:''}
       </Bottom>
-      {error?<Bottom><Error><ReportProblemIcon/>Unable to fetch data</Error></Bottom>:''}
+      {error?<Bottom><Error><ReportProblemIcon/>Unable to save data</Error></Bottom>:''}
     </Container>
   )
 }
