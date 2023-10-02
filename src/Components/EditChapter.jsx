@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import {  useDispatch, useSelector } from 'react-redux'
-import ClearIcon from '@mui/icons-material/Clear';
 import { addPaper, editPaper } from '../api_calls/Papers';
 import { useLocation, useNavigate } from 'react-router-dom'
 import { removeChapters } from '../redux/papersRedux';
 import { CircularProgress } from '@mui/material';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import DatePicker from './DatePicker';
+import AddAuthor from './AddAuthor';
+import AddEditor from './AddEditor';
 
 
 const Container=styled.div`
@@ -25,21 +26,7 @@ const Container=styled.div`
     >input{
       width:50%;
     }
-    >section{
-      display: flex;
-      width:100%;
-      flex-wrap:wrap;
-      >span{
-        background-color: powderblue;
-        margin: 0.5rem;
-        padding: 0.5rem 1rem;
-        border-radius: 20px;
-        font-size: 1rem;
-        font-weight: 500;
-        display: flex;
-        align-items: center;
-      }
-    }
+    
   }
 `
 const Form=styled.form`
@@ -79,46 +66,13 @@ const EditChapter = () => {
   const token=useSelector(state=>state.user.token);
   const navigate=useNavigate();
   const [inputs,setInputs]=useState({});
-  const [author,setAuthor]=useState('');
   const [authors,setAuthors]=useState([]);
-  const [editor,setEditor]=useState('');
   const [editors,setEditors]=useState([]);
   const [sending,setSending]=useState(false);
-  const [error,setError]=useState(false);
+  const [error,setError]=useState(false);  
   const [date, setDate] = useState(null);
-
-  const addName=(e,isAuthor)=>{
-    let a=e.target.value.split(' ');
-    if (e.key === 'Enter' && e.target.value!='') {
-      let temp=authors;
-      if(isAuthor){
-        temp=authors;
-        setAuthors([...temp,{first:a[0],last:a[1]}]);
-        setAuthor('');
-      }
-      else{
-        temp=editors;
-        setEditors([...temp,{first:a[0],last:a[1]}]);
-        setEditor('');
-      }
-    }
-  }
-  const removeName=(name,isAuthor)=>{
-    var temp=[];
-    if(isAuthor){
-      authors.forEach(a => {
-        if(a!=name) temp.push(a);
-      }); 
-      setAuthors(temp);
-    }
-    else{
-      editors.forEach(a => {
-        if(a!=name) temp.push(a);
-      }); 
-      setEditors(temp);
-    }
-  }
   
+
   const handleChange=e=>{
     setInputs(prev=>{
       return {...prev,[e.target.name]:e.target.value}
@@ -157,6 +111,7 @@ const EditChapter = () => {
       setEditors(editors);
     }
   },[])
+
   return (
     <Container>
       <section>{location.state?'Edit Book Chapter':'Add new book chapter'}</section>
@@ -170,24 +125,9 @@ const EditChapter = () => {
         <DatePicker  date={date} setDate={setDate} title="Publication Date"/>
       </Form>
 
-      <div>
-        <Input name="authors" onChange={(e)=>setAuthor(e.target.value)} onKeyDown={(e)=>addName(e,true)} type="text" placeholder="Authors (First Name (space) Last Name)" value={author}/>
-        <section>
-          {authors.map(a=>(
-          <span key={a}>{`${a.first}`+" "+`${a.last}`} 
-            <ClearIcon sx={{fontSize:'medium'}} onClick={()=>removeName(a,true)}/>
-          </span>
-          ))} 
-        </section>
-      </div>
-      <div>
-        <Input name="editors" onChange={(e)=>setEditor(e.target.value)} onKeyDown={(e)=>addName(e,false)} type="text" placeholder="Editors(First Name (space) Last Name)" value={editor}/>
-        <section>
-          {editors.map(a=>(
-          <span key={a}>{`${a.first}`+" "+`${a.last}`} <ClearIcon sx={{fontSize:'medium'}} onClick={()=>removeName(a,false)}/></span>
-          ))} 
-        </section>
-      </div>
+      <AddAuthor authors={authors} setAuthors={setAuthors} />
+
+      <AddEditor editors={editors}  setEditors={setEditors} />
 
       <Bottom>
         <Button onClick={handleSubmit} disabled={sending}>Save</Button> 
