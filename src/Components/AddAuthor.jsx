@@ -6,7 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import { Tooltip } from '@mui/material';
-import { Capitalize, lowerize } from '../services';
+import { Capitalize } from '../services';
 
 const Container=styled.div`
     display: flex;
@@ -54,7 +54,13 @@ const Author=({author,index,removeAuthor,editAuthor})=>{
   const [editing,setEditing]=useState(false);
     
   const saveAuthor=()=>{
-    editAuthor(index,{first,last,middle,corresponding});
+    const newVal={
+        first:Capitalize(first),
+        last:Capitalize(last),
+        middle:Capitalize(middle),
+        corresponding:corresponding
+    }
+    editAuthor(index,newVal);
     setEditing(false);
   }
   
@@ -70,9 +76,9 @@ const Author=({author,index,removeAuthor,editAuthor})=>{
       {editing==false?
         <Entry>
             {index+1}.
-            <Input type="text" value={Capitalize(first)}/>
-            <Input value={Capitalize(middle)}/>
-            <Input value={Capitalize(last)}/>
+            <Input type="text" value={first}/>
+            <Input value={middle}/>
+            <Input value={last}/>
             <Tooltip title='Corresponding Author'>
                 {corresponding?<PersonIcon sx={{color:'#8787d8',marginRight:'2rem'}}/>:''}
             </Tooltip>
@@ -87,11 +93,11 @@ const Author=({author,index,removeAuthor,editAuthor})=>{
           <Entry>
               {index+1}.
               <Input onChange={(e)=>setFirst(e.target.value)} type="text" 
-                  placeholder="First Name" value={Capitalize(first)}/>
+                  placeholder="First Name" value={first}/>
               <Input onChange={(e)=>setMiddle(e.target.value)} type="text" 
-                  placeholder="Middle Name" value={Capitalize(middle)}/>
+                  placeholder="Middle Name" value={middle}/>
               <Input onChange={(e)=>setLast(e.target.value)} type="text" 
-                  placeholder="Last Name" value={Capitalize(last)}/>
+                  placeholder="Last Name" value={last}/>
               <CheckCircleIcon onClick={saveAuthor}/>
           </Entry>
           <Entry>
@@ -114,14 +120,14 @@ const AddAuthor = ({authors,setAuthors}) => {
 
     const buttonClick=()=>{
         if(adding){
-            if(first==='' || last===''){
+            if(!first || !last || first==='' || last===''){
                 setError('*First Name & Last Name required')
                 return ;
             }
             const newValue={
-                last:lowerize(last),
-                first:lowerize(first),
-                middle:lowerize(middle),
+                last:Capitalize(last),
+                first:Capitalize(first),
+                middle:Capitalize(middle),
                 corresponding:corresponding
             }
             var temp=[...authors,newValue];
@@ -143,6 +149,10 @@ const AddAuthor = ({authors,setAuthors}) => {
     }
 
     const editAuthor=(index,newValue)=>{
+        if(!newValue.first || !newValue.last || newValue.first==='' || newValue.last===''){
+            setError('*First Name & Last Name required')
+            return ;
+        }
         var temp=authors.slice();
         temp[index]=newValue;
         setAuthors(temp);
@@ -161,7 +171,7 @@ const AddAuthor = ({authors,setAuthors}) => {
             <Input onChange={(e)=>setFirst(e.target.value)} type="text" 
                 placeholder="First Name" value={first}/>
             <Input onChange={(e)=>setMiddle(e.target.value)} type="text" 
-                placeholder="Middle Name" value={middle}/>
+                placeholder="Middle Name (optional)" value={middle}/>
             <Input onChange={(e)=>setLast(e.target.value)} type="text" 
                 placeholder="Last Name" value={last}/>
             <Tooltip title="Close">

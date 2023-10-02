@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { logoutSuccess } from '../redux/userRedux'
+import { removeAll } from '../redux/papersRedux'
 
 const Container=styled.div`
     position: absolute;
@@ -73,6 +74,7 @@ const Sidebar = () => {
     const navigate=useNavigate();
     const handleLogout=()=>{
       dispatch(logoutSuccess());
+      dispatch(removeAll())
       navigate('/login')
     }
   return (

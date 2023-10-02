@@ -122,12 +122,12 @@ const Chapter = () => {
           <div><span>Title : </span>{chapter.title}</div>
           <div><span>Authors : </span>
             <ul>
-              {chapter.authors.map((a)=><li> {`${a.first}`+" "+`${a.last}`} </li>)}
+              {chapter.authors.map((a)=><li>{`${a.first}`+" "+`${a.middle?a.middle:''}`+" "+`${a.last}`} </li>)}
             </ul>
           </div>
           <div><span>Editors : </span>
             <ul>
-              {chapter.editors.map((a)=><li> {`${a.first}`+" "+`${a.last}`} </li>)}
+              {chapter.editors.map((a)=><li>{`${a.first}`+" "+`${a.middle?a.middle:''}`+" "+`${a.last}`}</li>)}
             </ul>
           </div>
           <div><span>Book Title : </span>{chapter.bookTitle}</div>

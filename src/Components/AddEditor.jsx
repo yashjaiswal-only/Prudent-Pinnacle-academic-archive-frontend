@@ -5,6 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import { Tooltip } from '@mui/material';
+import { Capitalize } from '../services';
 
 const Container=styled.div`
     display: flex;
@@ -33,10 +34,6 @@ const Entry=styled.div`
     label{
         fontSize:'0.8rem'
     }
-    #corresponding{
-        margin:0 0.5rem 0 2rem;
-        cursor: pointer;
-    }
 `
 const Error=styled.div`
     color: red;
@@ -51,7 +48,12 @@ const Editor=({editor,index,removeEditor,editEditor})=>{
   const [editing,setEditing]=useState(false);
     
   const saveEditor=()=>{
-    editEditor(index,{first,last,middle});
+    const newVal={
+        first:Capitalize(first),
+        last:Capitalize(last),
+        middle:Capitalize(middle),
+    }
+    editEditor(index,newVal);
     setEditing(false);
   }
   
@@ -103,16 +105,16 @@ const AddEditor = ({editors,setEditors}) => {
 
     const buttonClick=()=>{
         if(adding){
-            if(first==='' || last===''){
+            if(!first || !last || first==='' || last===''){
                 setError('*First Name & Last Name required')
                 return ;
             }
             const newValue={
-                last:lowerize(last),
-                first:lowerize(first),
-                middle:lowerize(middle),
+                last:Capitalize(last),
+                first:Capitalize(first),
+                middle:Capitalize(middle),
             }
-            var temp=[...authors,newValue];
+            var temp=[...editors,newValue];
             setEditors(temp)
             setAdding(false);
             setFirst('');
@@ -130,6 +132,10 @@ const AddEditor = ({editors,setEditors}) => {
     }
 
     const editEditor=(index,newValue)=>{
+        if(!newValue.first || !newValue.last || newValue.first==='' || newValue.last===''){
+            setError('*First Name & Last Name required')
+            return ;
+        }
         var temp=editors.slice();
         temp[index]=newValue;
         setEditors(temp);
@@ -147,7 +153,7 @@ const AddEditor = ({editors,setEditors}) => {
             <Input onChange={(e)=>setFirst(e.target.value)} type="text" 
                 placeholder="First Name" value={first}/>
             <Input onChange={(e)=>setMiddle(e.target.value)} type="text" 
-                placeholder="Middle Name" value={middle}/>
+                placeholder="Middle Name (optional)" value={middle}/>
             <Input onChange={(e)=>setLast(e.target.value)} type="text" 
                 placeholder="Last Name" value={last}/>
             <Tooltip title="Close">
