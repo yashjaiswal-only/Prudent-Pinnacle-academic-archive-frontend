@@ -88,8 +88,7 @@ const EditChapter = () => {
       res=await addPaper(paper,'chapter',token);
     }
     else{
-      var paper={...inputs,authors,editors,_id:user._id,pid:inputs._id};
-      paper={...paper,publishedOn:date};
+      const paper={...inputs,authors,editors,_id:user._id,pid:inputs._id,publishedOn:date};
       console.log(paper)
       res=await editPaper(paper,'chapter',token);
     }
@@ -106,7 +105,6 @@ const EditChapter = () => {
       const {authors,editors,uid,createdAt,updatedAt,publishedOn,...others}=location.state;
       setDate(publishedOn);
       setInputs(others);
-      console.log(others)
       setAuthors(authors);
       setEditors(editors);
     }
@@ -122,8 +120,8 @@ const EditChapter = () => {
         <Input name="publisher" onChange={handleChange} type="text" placeholder="Publisher" value={inputs.publisher}/>
         <Input name="isbn" onChange={handleChange} type="text" placeholder="ISBN" value={inputs.isbn}/>
         <Input name="pageRange" onChange={handleChange} type="text" placeholder="Page Range" value={inputs.pageRange}/>
-        <DatePicker  date={date} setDate={setDate} title="Publication Date"/>
       </Form>
+      <DatePicker  date={date} setDate={setDate} title="Publication Date"/>
 
       <AddAuthor authors={authors} setAuthors={setAuthors} />
 

@@ -123,9 +123,9 @@ const Book = () => {
             </section>
           <div><span>Title : </span>{book.title}</div>
           <div><span>Authors : </span>
-            <ul>
-              {book.authors.map((a)=><li> {`${a.first}`+" "+`${a.last}`} </li>)}
-            </ul>
+          <ul>
+            {book.authors.map((a)=><li>{`${a.first}`+" "+`${a.middle?a.middle:''}`+" "+`${a.last}`} </li>)}
+          </ul>
           </div>
           
           <div><span>Publisher : </span>{book.publisher}</div>

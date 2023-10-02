@@ -124,7 +124,7 @@ const Conference = () => {
           <div><span>Title : </span>{conference.title}</div>
           <div><span>Authors : </span>
             <ul>
-              {conference.authors.map((a)=><li> {`${a.first}`+" "+`${a.last}`} </li>)}
+              {conference.authors.map((a)=><li>{`${a.first}`+" "+`${a.middle?a.middle:''}`+" "+`${a.last}`} </li>)}
             </ul>
           </div>
           

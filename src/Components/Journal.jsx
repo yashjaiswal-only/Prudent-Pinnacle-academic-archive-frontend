@@ -124,7 +124,7 @@ const Journal = () => {
           <div><span>Title : </span>{journal.title}</div>
           <div><span>Authors : </span>
             <ul>
-              {journal.authors.map((a)=><li> {`${a.first}`+" "+`${a.last}`} </li>)}
+              {journal.authors.map((a)=><li>{`${a.first}`+" "+`${a.middle?a.middle:''}`+" "+`${a.last}`} </li>)}
             </ul>
           </div>
           
@@ -132,7 +132,8 @@ const Journal = () => {
           <div><span>Published on : </span>{journal.publishedOn}</div>
           <div><span>DOI : </span>{journal.doi}</div>
           <div><span>ISSN : </span>{journal.issn}</div>
-          <div><span>Volume Issue : </span>{journal.volumeIssue}</div>
+          <div><span>Volume : </span>{journal.volume}</div>
+          <div><span>Issue : </span>{journal.issue}</div>
           <div><span>Page Range : </span>{journal.pageRange}</div>
           </Entry>
         ):

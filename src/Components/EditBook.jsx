@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import {  useDispatch, useSelector } from 'react-redux'
-import ClearIcon from '@mui/icons-material/Clear';
 import { addPaper, editPaper } from '../api_calls/Papers';
 import { useLocation, useNavigate } from 'react-router-dom'
 import { removeBooks } from '../redux/papersRedux';
 import { CircularProgress } from '@mui/material';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
+import AddAuthor from './AddAuthor';
+import DatePicker from './DatePicker';
 
 
 const Container=styled.div`
@@ -79,26 +80,11 @@ const EditBook = () => {
   const token=useSelector(state=>state.user.token);
   const navigate=useNavigate();
   const [inputs,setInputs]=useState({});
-  const [author,setAuthor]=useState('');
   const [authors,setAuthors]=useState([]);
   const [sending,setSending]=useState(false);
   const [error,setError]=useState(false);
+  const [date, setDate] = useState(null);
 
-  const addName=(e)=>{
-    let a=e.target.value.split(' ');
-    if (e.key === 'Enter' && e.target.value!='') {
-      let temp=authors;
-        setAuthors([...temp,{first:a[0],last:a[1]}]);
-        setAuthor('');
-    }
-  }
-  const removeName=(name)=>{
-    var temp=[];
-    authors.forEach(a => {
-      if(a!=name) temp.push(a);
-    }); 
-    setAuthors(temp);
-  }
   
   const handleChange=e=>{
     setInputs(prev=>{
@@ -110,12 +96,12 @@ const EditBook = () => {
     var res={};
     setSending(true);
     if(location.state === null){
-      const paper={...inputs,authors,_id:user._id};
+      const paper={...inputs,authors,_id:user._id,publishedOn:date};
       console.log(paper)
       res=await addPaper(paper,'book',token);
     }
     else{
-      const paper={...inputs,authors,_id:user._id,pid:inputs._id};
+      const paper={...inputs,authors,_id:user._id,pid:inputs._id,publishedOn:date};
       console.log(paper)
       res=await editPaper(paper,'book',token);
     }
@@ -125,45 +111,36 @@ const EditBook = () => {
       navigate('/researchpaper/book')
     }
     else setError(true);
-    setSending(fasle);
+    setSending(false);
   }
   useEffect(()=>{
     if(location.state){
-      const {authors,uid,createdAt,updatedAt,...others}=location.state;
+      const {authors,uid,createdAt,updatedAt,publishedOn,...others}=location.state;
+      setDate(publishedOn);
       setInputs(others);
-      console.log(others)
       setAuthors(authors);
     }
   },[])
 
   return (
     <Container>
-      <section>{location.state?'Edit Book Chapter':'Add new book chapter'}</section>
+      <section>{location.state?'Edit Book':'Add new book'}</section>
       <Form>
         <Input name="title" onChange={handleChange} type="text" placeholder="Title" value={inputs.title}/>
         <Input name="doi" onChange={handleChange} type="text" placeholder="DOI" value={inputs.doi}/>
         <Input name="publisher" onChange={handleChange} type="text" placeholder="Publisher" value={inputs.publisher}/>
-        <Input name="publishedOn" onChange={handleChange} type="text" placeholder="Published Date" value={inputs.publishedOn}/>
         <Input name="isbn" onChange={handleChange} type="text" placeholder="ISBN" value={inputs.isbn}/>
         <Input name="edition" onChange={handleChange} type="text" placeholder="Edition" value={inputs.edition}/>
       </Form>
+      <DatePicker  date={date} setDate={setDate} title="Publication Date"/>
 
-      <div>
-        <Input name="authors" onChange={(e)=>setAuthor(e.target.value)} onKeyDown={(e)=>addName(e)} type="text" placeholder="Authors (First Name (space) Last Name)" value={author}/>
-        <section>
-          {authors.map(a=>(
-          <span key={a}>{`${a.first}`+" "+`${a.last}`} 
-            <ClearIcon sx={{fontSize:'medium'}} onClick={()=>removeName(a)}/>
-          </span>
-          ))} 
-        </section>
-      </div>
+      <AddAuthor authors={authors} setAuthors={setAuthors} />
 
       <Bottom>
         <Button onClick={handleSubmit} disabled={sending}>Save</Button> 
         {sending?<CircularProgress/>:''}
       </Bottom>
-      {error?<Bottom><Error><ReportProblemIcon/>Unable to fetch data</Error></Bottom>:''}
+      {error?<Bottom><Error><ReportProblemIcon/>Unable to save data</Error></Bottom>:''}
     </Container>
   )
 }
