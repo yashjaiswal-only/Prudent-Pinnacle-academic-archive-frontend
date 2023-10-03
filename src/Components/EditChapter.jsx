@@ -69,7 +69,7 @@ const EditChapter = () => {
   const [authors,setAuthors]=useState([]);
   const [editors,setEditors]=useState([]);
   const [sending,setSending]=useState(false);
-  const [error,setError]=useState(false);  
+  const [error,setError]=useState(null);  
   const [date, setDate] = useState(null);
   
 
@@ -97,7 +97,7 @@ const EditChapter = () => {
       dispatch(removeChapters());
       navigate('/researchpaper/chapter')
     }
-    else setError(true);
+    else setError(res.data.message);
     setSending(false);
   }
   useEffect(()=>{
@@ -131,7 +131,7 @@ const EditChapter = () => {
         <Button onClick={handleSubmit} disabled={sending}>Save</Button> 
         {sending?<CircularProgress/>:''}
       </Bottom>
-      {error?<Bottom><Error><ReportProblemIcon/>Unable to save data</Error></Bottom>:''}
+      {error?<Bottom><Error><ReportProblemIcon/>Unable to save data : {error}</Error></Bottom>:''}
     </Container>
   )
 }
