@@ -11,6 +11,7 @@ import { register, checkUser } from '../api_calls/Auth';
 import {  useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { CircularProgress } from '@mui/material';
+import MultipleSelectPlaceholder from '../Components/DepartmentSelector.jsx';
 
 
 const Container=styled.div`
@@ -74,6 +75,7 @@ const Bottom=styled.div`
 `
 const Register = () => {
     const [inputs,setInputs]=useState({});
+    const [department,setDepartment]=useState('');
     const [file,setFile]=useState(null);
     const [hasUsername,setHasUsername]=useState(false);
     const [Required,setRequired]=useState(false);
@@ -103,13 +105,14 @@ const Register = () => {
 
         const a=await checkUser(inputs.username) 
         console.log(a);
-        if(a.data) {
+        if(a.status===200 && a.data.found===0) setHasUsername(false);
+        else{
           setHasUsername(true);
           setChecking(false);
           return ;
         }
-        else setHasUsername(false);
         console.log('registering')
+
       if(file){
         const fileName=new Date().getTime()+file?file.name:'';  
         //to make file unique as when any file with same name upload later its gonna overwrite because of same name
@@ -151,11 +154,11 @@ const Register = () => {
         console.log('section')
       }
       else{
-        const user={...inputs};
+        const user={...inputs,department};
         console.log(user)
         setChecking(false);
-        // const res=register(dispatch,user);
-        // if(res)navigate('/login',{state:{newlyRegister:true}});
+        const res=register(dispatch,user);
+        if(res)navigate('/login',{state:{newlyRegister:true}});
       }
 
     }
@@ -171,6 +174,7 @@ const Register = () => {
                 <Input name="password" onChange={handleChange} type="password" placeholder="password"/>
                 <Input name="ph" onChange={handleChange} type="text" placeholder="contact number (optional)"/>
                 <Input name="qualification" onChange={handleChange} type="text" placeholder="qualification (optional) "/>
+                <MultipleSelectPlaceholder department={department} setDepartment={setDepartment}/>
                 <Box>
                   <label htmlFor="avatar" style={{marginRight:"10px",marginBottom:"10px"}}>YOUR IMAGE:</label>
                   <input name="avatar" id='avatar' onChange={e=>setFile(e.target.files[0])} type="file" />

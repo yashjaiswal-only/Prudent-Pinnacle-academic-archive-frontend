@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { checkUser, updateUser } from '../api_calls/Auth'
 import { updateCurrentUser } from '../redux/userRedux'
+import MultipleSelectPlaceholder from './DepartmentSelector'
 const Container=styled.div`
   display: flex;
   flex-direction: column;
@@ -25,6 +26,7 @@ const Button=styled.button`
 const EditProfile = () => {
   const user=useSelector(state=>state.user.currentUser)
   const token=useSelector(state=>state.user.token)
+  const [department,setDepartment]=useState(user.department);
   const [inputs,setInputs]=useState({
     name:user.name,
     email:user.email,
@@ -41,7 +43,7 @@ const EditProfile = () => {
   }
   const handleSubmit=async()=>{
     // console.log(inputs)
-    const res=await updateUser({...inputs,_id:user._id},token);
+    const res=await updateUser({...inputs,_id:user._id,department},token);
     if(res.status===200){
       const res2=await checkUser(user.username);
       console.log(res2)
@@ -56,11 +58,12 @@ const EditProfile = () => {
       <Form>
         <Input name="name" onChange={handleChange} type="text" placeholder="Full name" value={inputs.name}/>
         <Input name="email" onChange={handleChange} type="email" placeholder="Email" value={inputs.email}/>
-        <Input name="address" onChange={handleChange} type="text" placeholder="Address" value={inputs.address}/>
+        {/* <Input name="address" onChange={handleChange} type="text" placeholder="Address" value={inputs.address}/> */}
         <Input name="ph" onChange={handleChange} type="text" placeholder="contact number" value={inputs.ph}/>
         <Input name="qualification" onChange={handleChange} type="text" placeholder="qualification" value={inputs.qualification}/>
+        <MultipleSelectPlaceholder setDepartment={setDepartment} department={department}/>
       </Form>
-        <Button onClick={handleSubmit}>Save</Button>
+      <Button onClick={handleSubmit}>Save</Button>
     </Container>
   )
 }

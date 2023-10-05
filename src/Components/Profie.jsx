@@ -49,7 +49,8 @@ const Profie = () => {
             <span>Email : {user.email}</span>
             <span>Username : {user.username}</span>
             <span>Contact No. : {user.ph}</span>
-            <span>qualification : {user.qualification}</span>
+            <span>Qualification : {user.qualification}</span>
+            <span>Department : {user.department}</span>
             </div>
         </Wrapper>:''}
         <Button onClick={()=>navigate('/profile/edit')}>Edit Profile</Button>
