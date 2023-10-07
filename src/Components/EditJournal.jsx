@@ -89,7 +89,7 @@ const EditJournal = () => {
 
   const handleChange=e=>{
     setInputs(prev=>{
-      return {...prev,[e.target.name]:e.target.value}
+      return {...prev,[e.target.name]:e.target.value.toLowerCase()}
     })
   }
   const handleSubmit=async()=>{
