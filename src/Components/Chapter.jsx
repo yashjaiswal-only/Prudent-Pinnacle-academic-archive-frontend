@@ -8,6 +8,7 @@ import { Link  } from 'react-router-dom';
 import { updateChapters } from '../redux/papersRedux';
 import Loader from './Loader';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
+import PersonIcon from '@mui/icons-material/Person';
 
 const Container=styled.div`
     display: flex;
@@ -69,6 +70,10 @@ const Entry=styled.div`
     ul{
       margin:0 1.5rem;
       text-align:left;
+      li{
+        display: flex;
+        align-items: center;
+      }
     }
   }
 `
@@ -82,7 +87,7 @@ const Error=styled.span`
 const Chapter = () => {
   const [chaptersList,setChaptersList]=useState([]);
   const [fetching,setFetching]=useState(false);
-  const [error,setError]=useState(false);
+  const [error,setError]=useState(null);
   const {chapters}=useSelector(state=>state.papers)
   const user=useSelector(state=>state.user.currentUser)
   const token=useSelector(state=>state.user.token)
@@ -96,7 +101,7 @@ const Chapter = () => {
       dispatch(updateChapters(res.data));
       setChaptersList(res.data);
     }
-    else setError(true);
+    else setError(res.response.data.message);
     setFetching(false);
   }
   useEffect(()=>{
@@ -122,7 +127,11 @@ const Chapter = () => {
           <div><span>Title : </span>{chapter.title}</div>
           <div><span>Authors : </span>
             <ul>
-              {chapter.authors.map((a)=><li>{`${a.first}`+" "+`${a.middle?a.middle:''}`+" "+`${a.last}`} </li>)}
+              {chapter.authors.map((a)=>
+              <li>
+                {`${a.first}`+" "+`${a.middle?a.middle:''}`+" "+`${a.last}`} 
+                {a.corresponding?<PersonIcon sx={{color:'#8787d8'}}/>:''}
+              </li>)}
             </ul>
           </div>
           <div><span>Editors : </span>
@@ -141,7 +150,7 @@ const Chapter = () => {
           <Loader/>
         }
         {error?
-          <Error><ReportProblemIcon/>Unable to fetch data</Error>
+          <Error><ReportProblemIcon/>Unable to fetch data:{error}</Error>
         :''}
       </Bottom>
     </Container>

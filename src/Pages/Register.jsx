@@ -64,6 +64,7 @@ const Box=styled.div`
   margin: 20px 0px;
   display: flex;
   flex-wrap: wrap;
+  width:70%;
   justify-content: space-around;
 `
 const Error=styled.span`
@@ -92,26 +93,26 @@ const Register = () => {
     }
     
     const handleClick=async e=>{
-        e.preventDefault();
-        // setChecking(true);
-        setRequired(false);
-        setHasUsername(false);
-        if(!inputs.username || !inputs.password){
-          setRequired(true);
-          setChecking(false);
-          return ;
-        }
-        else setRequired(false);
+      e.preventDefault();
+      // setChecking(true);
+      setRequired(false);
+      setHasUsername(false);
+      if(!inputs.username || !inputs.password){
+        setRequired(true);
+        setChecking(false);
+        return ;
+      }
+      else setRequired(false);
 
-        const a=await checkUser(inputs.username) 
-        console.log(a);
-        if(a.status===200 && a.data.found===0) setHasUsername(false);
-        else{
-          setHasUsername(true);
-          setChecking(false);
-          return ;
-        }
-        console.log('registering')
+      const a=await checkUser(inputs.username) 
+      console.log(a);
+      if(a.status===200 && a.data.found===0) setHasUsername(false);
+      else{
+        setHasUsername(true);
+        setChecking(false);
+        return ;
+      }
+      console.log('registering')
 
       if(file){
         const fileName=new Date().getTime()+file?file.name:'';  
@@ -142,7 +143,7 @@ const Register = () => {
           () => {
             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
               const user = { ...inputs, avatar: downloadURL};
-              // console.log(downloadURL)
+              console.log(downloadURL)
               console.log(user);
               console.log('registering')
               setChecking(false);

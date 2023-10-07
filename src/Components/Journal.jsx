@@ -8,6 +8,7 @@ import { Link  } from 'react-router-dom';
 import { updateJournals } from '../redux/papersRedux';
 import Loader from './Loader';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
+import PersonIcon from '@mui/icons-material/Person';
 
 const Container=styled.div`
     display: flex;
@@ -69,6 +70,10 @@ const Entry=styled.div`
     ul{
       margin:0 1.5rem;
       text-align:left;
+      li{
+        display: flex;
+        align-items: center;
+      }
     }
   }
 `
@@ -82,7 +87,7 @@ const Error=styled.span`
 const Journal = () => {
   const [jounalsList,setJournalsList]=useState([]);
   const [fetching,setFetching]=useState(false);
-  const [error,setError]=useState(false);
+  const [error,setError]=useState(null);
   const {journals}=useSelector(state=>state.papers)
   const user=useSelector(state=>state.user.currentUser)
   const token=useSelector(state=>state.user.token)
@@ -97,7 +102,7 @@ const Journal = () => {
       dispatch(updateJournals(res.data));
       setJournalsList(res.data);
     }
-    else setError(true);
+    else setError(res.response.data.message);
     setFetching(false);
   }
   useEffect(()=>{
@@ -124,7 +129,11 @@ const Journal = () => {
           <div><span>Title : </span>{journal.title}</div>
           <div><span>Authors : </span>
             <ul>
-              {journal.authors.map((a)=><li>{`${a.first}`+" "+`${a.middle?a.middle:''}`+" "+`${a.last}`} </li>)}
+              {journal.authors.map((a)=>
+              <li>
+              {`${a.first}`+" "+`${a.middle?a.middle:''}`+" "+`${a.last}`} 
+              {a.corresponding?<PersonIcon sx={{color:'#8787d8'}}/>:''}
+              </li>)}
             </ul>
           </div>
           
@@ -140,7 +149,7 @@ const Journal = () => {
           <Loader/>
         }
         {error?
-          <Error><ReportProblemIcon/>Unable to fetch data</Error>
+          <Error><ReportProblemIcon/>Unable to fetch data:{error}</Error>
         :''}
       </Bottom>
     </Container>
