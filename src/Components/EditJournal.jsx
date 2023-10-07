@@ -84,25 +84,27 @@ const EditJournal = () => {
   const [inputs,setInputs]=useState({});
   const [authors,setAuthors]=useState([]);
   const [sending,setSending]=useState(false);
-  const [error,setError]=useState(false);
+  const [error,setError]=useState(null);
   const [date, setDate] = useState(null);
 
   const handleChange=e=>{
     setInputs(prev=>{
-      return {...prev,[e.target.name]:e.target.value.toLowerCase()}
+      return {...prev,[e.target.name]:e.target.value}
     })
   }
   const handleSubmit=async()=>{
     //need to implement checks here
     var res={};
+    setError(null);
     setSending(true);
+    const {title,...rest}=inputs;
     if(location.state === null){
-      const paper={...inputs,authors,_id:user._id,publishedOn:date};
+      const paper={...rest,title:title.toLowerCase(),authors,_id:user._id,publishedOn:date};
       console.log(paper)
       res=await addPaper(paper,'journal',token);
     }
     else{
-      const paper={...inputs,authors,_id:user._id,pid:inputs._id,publishedOn:date};
+      const paper={...rest,title:title.toLowerCase(),authors,_id:user._id,pid:inputs._id,publishedOn:date};
       console.log(paper)
       res=await editPaper(paper,'journal',token);
     }
@@ -111,7 +113,7 @@ const EditJournal = () => {
       dispatch(removeJournals());
       navigate('/researchpaper/journal')
     }
-    else setError(true);
+    else setError(res.response.data.message);
     setSending(false);
   }
   useEffect(()=>{
@@ -129,7 +131,7 @@ const EditJournal = () => {
       <Form>
         <Input name="title" onChange={handleChange} type="text" placeholder="Title" value={inputs.title}/>
         <Input name="doi" onChange={handleChange} type="text" placeholder="DOI" value={inputs.doi}/>
-        <Input name="journalTitle" onChange={handleChange} type="text" placeholder="JournalTitle" value={inputs.journalTitle}/>
+        <Input name="journalTitle" onChange={handleChange} type="text" placeholder="Journal Title" value={inputs.journalTitle}/>
         <Input name="issn" onChange={handleChange} type="text" placeholder="ISSN" value={inputs.issn}/>
         <Input name="volume" onChange={handleChange} type="text" placeholder="Volume" value={inputs.volume}/>
         <Input name="issue" onChange={handleChange} type="text" placeholder="Issue" value={inputs.issue}/>
@@ -143,7 +145,7 @@ const EditJournal = () => {
         <Button onClick={handleSubmit} disabled={sending}>Save</Button> 
         {sending?<CircularProgress/>:''}
       </Bottom>
-      {error?<Bottom><Error><ReportProblemIcon/>Unable to save data</Error></Bottom>:''}
+      {error?<Bottom><Error><ReportProblemIcon/>Unable to save data :{error}</Error></Bottom>:''}
     </Container>
   )
 }

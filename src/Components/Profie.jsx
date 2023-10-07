@@ -11,7 +11,8 @@ const Wrapper=styled.div`
   img{
     width:10rem;
     height:10rem;
-
+    border-radius:50%;
+    margin-top:2rem;
   }
   div{
     width:60%;

@@ -9,6 +9,7 @@ import { updateConferences, updateJournals } from '../redux/papersRedux';
 import Loader from './Loader';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import PersonIcon from '@mui/icons-material/Person';
+import { Capitalize } from '../services';
 
 const Container=styled.div`
     display: flex;
@@ -126,7 +127,7 @@ const Conference = () => {
               <EditIcon/>
             </Link>
             </section>
-          <div><span>Title : </span>{conference.title}</div>
+          <div><span>Title : </span>{Capitalize(conference.title)}</div>
           <div><span>Authors : </span>
             <ul>
               {conference.authors.map((a)=>

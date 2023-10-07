@@ -83,25 +83,28 @@ const EditConference = () => {
   const [inputs,setInputs]=useState({});
   const [authors,setAuthors]=useState([]);
   const [sending,setSending]=useState(false);
-  const [error,setError]=useState(false);
+  const [error,setError]=useState(null);
   const [date, setDate] = useState(null);
+  const [conferenceDate, setConferenceDate] = useState(null);
 
   const handleChange=e=>{
     setInputs(prev=>{
-      return {...prev,[e.target.name]:e.target.value.toLowerCase()}
+      return {...prev,[e.target.name]:e.target.value}
     })
   }
   const handleSubmit=async()=>{
     //need to implement checks here
     var res={};
+    setError(null);
     setSending(true);
+    const {title,...rest}=inputs;
     if(location.state === null){
-      const paper={...inputs,authors,_id:user._id,publishedOn:date};
+      const paper={...rest,title:title.toLowerCase(),authors,_id:user._id,publishedOn:date,conferenceDate:conferenceDate};
       console.log(paper)
       res=await addPaper(paper,'conference',token);
     }
     else{
-      const paper={...inputs,authors,_id:user._id,pid:inputs._id,publishedOn:date};
+      const paper={...rest,title:title.toLowerCase(),authors,_id:user._id,pid:inputs._id,publishedOn:date,conferenceDate:conferenceDate};
       console.log(paper)
       res=await editPaper(paper,'conference',token);
     }
@@ -110,13 +113,14 @@ const EditConference = () => {
       dispatch(removeConferences());
       navigate('/researchpaper/conference')
     }
-    else setError(true);
+    else setError(res.response.data.message);
     setSending(false);
   }
   useEffect(()=>{
     if(location.state){
-      const {authors,uid,createdAt,updatedAt,publishedOn,...others}=location.state;
+      const {authors,uid,createdAt,updatedAt,publishedOn,conferenceDate,...others}=location.state;
       setDate(publishedOn);
+      setConferenceDate(conferenceDate);
       setInputs(others);
       setAuthors(authors);
     }
@@ -129,12 +133,12 @@ const EditConference = () => {
         <Input name="title" onChange={handleChange} type="text" placeholder="Title" value={inputs.title}/>
         <Input name="doi" onChange={handleChange} type="text" placeholder="DOI" value={inputs.doi}/>
         <Input name="conferenceTitle" onChange={handleChange} type="text" placeholder="Conference Title" value={inputs.conferenceTitle}/>
-        <Input name="conferenceDate" onChange={handleChange} type="text" placeholder="Conference Date" value={inputs.conferenceDate}/>
         <Input name="publisher" onChange={handleChange} type="text" placeholder="Publisher" value={inputs.publisher}/>
         <Input name="isbn" onChange={handleChange} type="text" placeholder="ISBN" value={inputs.isbn}/>
         <Input name="location" onChange={handleChange} type="text" placeholder="Conference Location" value={inputs.location}/>
       </Form>
       <DatePicker  date={date} setDate={setDate} title="Publication Date"/>
+      <DatePicker  date={conferenceDate} setDate={setConferenceDate} title="Conference Date"/>
 
       <AddAuthor authors={authors} setAuthors={setAuthors} />
 
@@ -142,7 +146,7 @@ const EditConference = () => {
         <Button onClick={handleSubmit} disabled={sending}>Save</Button> 
         {sending?<CircularProgress/>:''}
       </Bottom>
-      {error?<Bottom><Error><ReportProblemIcon/>Unable to save data</Error></Bottom>:''}
+      {error?<Bottom><Error><ReportProblemIcon/>Unable to save data :{error}</Error></Bottom>:''}
     </Container>
   )
 }

@@ -9,7 +9,7 @@ import { updateChapters } from '../redux/papersRedux';
 import Loader from './Loader';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import PersonIcon from '@mui/icons-material/Person';
-
+import { Capitalize } from '../services';
 const Container=styled.div`
     display: flex;
     flex-direction: column;
@@ -124,7 +124,7 @@ const Chapter = () => {
               <EditIcon/>
             </Link>
             </section>
-          <div><span>Title : </span>{chapter.title}</div>
+          <div><span>Title : </span>{Capitalize(chapter.title)}</div>
           <div><span>Authors : </span>
             <ul>
               {chapter.authors.map((a)=>

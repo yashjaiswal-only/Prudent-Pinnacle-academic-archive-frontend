@@ -75,20 +75,23 @@ const EditChapter = () => {
 
   const handleChange=e=>{
     setInputs(prev=>{
-      return {...prev,[e.target.name]:e.target.value.toLowerCase()}
+      return {...prev,[e.target.name]:e.target.value}
     })
   }
   const handleSubmit=async()=>{
     //need to implement checks here
     var res={};
+    setError(null);
     setSending(true);
+    const {title,...rest}=inputs;
+    //title lowercase me to enhance search
     if(location.state === null){
-      const paper={...inputs,authors,editors,_id:user._id,publishedOn:date};
+      const paper={...rest,title:title.toLowerCase(),authors,editors,_id:user._id,publishedOn:date};
       console.log(paper)
       res=await addPaper(paper,'chapter',token);
     }
     else{
-      const paper={...inputs,authors,editors,_id:user._id,pid:inputs._id,publishedOn:date};
+      const paper={...rest,title:title.toLowerCase(),authors,editors,_id:user._id,pid:inputs._id,publishedOn:date};
       console.log(paper)
       res=await editPaper(paper,'chapter',token);
     }
@@ -97,7 +100,7 @@ const EditChapter = () => {
       dispatch(removeChapters());
       navigate('/researchpaper/chapter')
     }
-    else setError(res.data.message);
+    else setError(res.response.data.message);
     setSending(false);
   }
   useEffect(()=>{

@@ -82,26 +82,28 @@ const EditBook = () => {
   const [inputs,setInputs]=useState({});
   const [authors,setAuthors]=useState([]);
   const [sending,setSending]=useState(false);
-  const [error,setError]=useState(false);
+  const [error,setError]=useState(null);
   const [date, setDate] = useState(null);
 
   
   const handleChange=e=>{
     setInputs(prev=>{
-      return {...prev,[e.target.name]:e.target.value.toLowerCase()}
+      return {...prev,[e.target.name]:e.target.value}
     })
   }
   const handleSubmit=async()=>{
     //need to implement checks here
     var res={};
     setSending(true);
+    setError(null);
+    const {title,...rest}=inputs;
     if(location.state === null){
-      const paper={...inputs,authors,_id:user._id,publishedOn:date};
+      const paper={...rest,title:title.toLowerCase(),authors,_id:user._id,publishedOn:date};
       console.log(paper)
       res=await addPaper(paper,'book',token);
     }
     else{
-      const paper={...inputs,authors,_id:user._id,pid:inputs._id,publishedOn:date};
+      const paper={...rest,title:title.toLowerCase(),authors,_id:user._id,pid:inputs._id,publishedOn:date};
       console.log(paper)
       res=await editPaper(paper,'book',token);
     }
@@ -110,7 +112,7 @@ const EditBook = () => {
       dispatch(removeBooks());
       navigate('/researchpaper/book')
     }
-    else setError(true);
+    else setError(res.response.data.message);
     setSending(false);
   }
   useEffect(()=>{
@@ -127,7 +129,7 @@ const EditBook = () => {
       <section>{location.state?'Edit Book':'Add new book'}</section>
       <Form>
         <Input name="title" onChange={handleChange} type="text" placeholder="Title" value={inputs.title}/>
-        <Input name="doi" onChange={handleChange} type="text" placeholder="DOI" value={inputs.doi}/>
+        <Input name="doi" onChange={handleChange} type="text" placeholder="DOI" value={inputs.doi} />
         <Input name="publisher" onChange={handleChange} type="text" placeholder="Publisher" value={inputs.publisher}/>
         <Input name="isbn" onChange={handleChange} type="text" placeholder="ISBN" value={inputs.isbn}/>
         <Input name="edition" onChange={handleChange} type="text" placeholder="Edition" value={inputs.edition}/>
@@ -140,7 +142,7 @@ const EditBook = () => {
         <Button onClick={handleSubmit} disabled={sending}>Save</Button> 
         {sending?<CircularProgress/>:''}
       </Bottom>
-      {error?<Bottom><Error><ReportProblemIcon/>Unable to save data</Error></Bottom>:''}
+      {error?<Bottom><Error><ReportProblemIcon/>Unable to save data: {error}</Error></Bottom>:''}
     </Container>
   )
 }

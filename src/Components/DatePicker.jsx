@@ -18,9 +18,9 @@ const DatePicker = ({date, setDate,title}) => {
           border:'1px solid black',
           background:'blue'
         }}} slotProps={{ textField: { size: 'small',width:'40%' } }} 
-        onChange={(newValue) => setDate(moment(newValue.$d).format('DD-MM-YYYY'))}
-        value={date?dayjs(date,"DD-MM-YYYY"):null} 
-        format="DD/MM/YYYY"
+        onChange={(newValue) => setDate(moment(newValue.$d).format('YYYY-MM-DD'))}
+        value={date?dayjs(date,"YYYY-MM-DD"):null} 
+        format="YYYY/MM/DD"
         />
         {title}
 
