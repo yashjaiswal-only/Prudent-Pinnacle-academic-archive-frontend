@@ -6,9 +6,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Link  } from 'react-router-dom';
 import Loader from '../Loader';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
-import PersonIcon from '@mui/icons-material/Person';
 import { Capitalize } from '../../services';
-import { updateBtp } from '../../redux/recordsRedux';
+import { updateBtp, updateMtp } from '../../redux/recordsRedux';
 import { getAllRecord } from '../../api_calls/Record';
 
 const Container=styled.div`
@@ -86,10 +85,10 @@ const Error=styled.span`
   align-items: center;
 `
 const Mtp = () => {
-  const [btpList,setBtpList]=useState([]);
+  const [mtpList,setMtpList]=useState([]);
   const [fetching,setFetching]=useState(false);
-  const [error,setError]=useState(null);
-  const {btp}=useSelector(state=>state.records)
+  const [error,setError]=useState('Fail');
+  const {mtp}=useSelector(state=>state.records)
   const user=useSelector(state=>state.user.currentUser)
   const token=useSelector(state=>state.user.token)
   const dispatch=useDispatch();
@@ -97,48 +96,48 @@ const Mtp = () => {
   const get=async()=>{
     setError(false);
     setFetching(true);
-    const res=await getAllRecord(user._id,'btp',token);
+    const res=await getAllRecord(user._id,'mtp',token);
     console.log(res)
     if(res.status===200){
-      dispatch(updateBtp(res.data));
-      setBtpList(res.data);
+      dispatch(updateMtp(res.data));
+      setMtpList(res.data);
     }
     else setError(res.response.data.message);
     setFetching(false);
   }
   useEffect(()=>{
-    if(btp)  setBtpList(btp);
+    if(mtp)  setMtpList(mtp);
     else get();
-    console.log(btp)
+    console.log(mtp)
   },[])
   return (
     <Container>
       <Top>
-        <span>B.Tech Projects</span>
-        <Link to='/btechproject/edit' >
+        <span>M.Tech Projects</span>
+        <Link to='/mtechproject/edit' >
           <button><AddIcon/> Add New</button>
         </Link>
       </Top>
       <Bottom>
-        {fetching===false?btpList.map((project)=>
+        {fetching===false?
+        mtpList.map((project)=>
           <Entry>
             <section>
-            <Link to="/book/edit" state={project}>
+            <Link to="/mtechproject/edit" state={project}>
               <EditIcon/>
             </Link>
             </section>
           <div><span>Title : </span>{Capitalize(project.title)}</div>
-          <div><span>Authors : </span>
+          <div><span>Students : </span>
           <ul>
-              {project.students.map((a)=>
-              <li>
-                {`${a.first}`+" "+`${a.middle?a.middle:''}`+" "+`${a.last}`} 
-              </li>)}
+              {project.student&&<li>
+                {`${project.student.first}`+" "+`${project.student.middle?project.student.middle:''}`+" "+`${project.student.last}`} 
+                {project.student.rollno?" ("+`${project.student.rollno}`+") ":''}
+              </li>}
           </ul>
           </div>
           
           <div><span>Year : </span>{project.year}</div>
-          <div><span>Major/Minor : </span>{project.type}</div>
           </Entry>
         ):
           <Loader/>

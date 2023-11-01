@@ -35,11 +35,17 @@ const recordsSlice = createSlice({
             state.error=false;
         },
         removeBtp:(state)=>{state.btp=null;},
+        updateMtp:(state,action)=>{
+            state.mtp=action.payload;
+            state.isFetching=false;
+            state.error=false;
+        },
+        removeMtp:(state)=>{state.mtp=null;},
     }//just in redux toolkit 
     
 });
 
-export const {removeAllRecord,updateBtp,removeBtp}=recordsSlice.actions;
+export const {removeAllRecord,updateBtp,removeBtp,updateMtp,removeMtp}=recordsSlice.actions;
 export default recordsSlice.reducer;
 //reducer is combination of actions(functions)
 

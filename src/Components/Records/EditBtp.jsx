@@ -98,12 +98,12 @@ const EditBtp = () => {
     setError(null);
     const {title,...rest}=inputs;
     if(location.state === null){
-      const record={...rest,title:title.toLowerCase(),students,_id:user._id,type:type};
+      const record={...rest,students,_id:user._id,type:type};
       console.log(record)
       res=await addRecord(record,'btp',token);
     }
     else{
-      const record={...rest,title:title.toLowerCase(),students,_id:user._id,type:type,id:inputs._id};
+      const record={...rest,students,_id:user._id,type:type,id:inputs._id};
       console.log(record)
       res=await editRecord(record,'btp',token);
     }

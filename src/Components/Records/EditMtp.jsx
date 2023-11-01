@@ -6,8 +6,7 @@ import { CircularProgress } from '@mui/material';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import AddAuthor from '../AddAuthor';
 import { addRecord, editRecord } from '../../api_calls/Record';
-import { removeBtp } from '../../redux/recordsRedux';
-import MultipleSelectPlaceholder from '../DepartmentSelector';
+import { removeMtp } from '../../redux/recordsRedux';
 
 
 const Container=styled.div`
@@ -83,7 +82,6 @@ const EditMtp = () => {
   const [students,setStudents]=useState([]);
   const [sending,setSending]=useState(false);
   const [error,setError]=useState(null);
-  const [type, setType] = useState([]);
 
   
   const handleChange=e=>{
@@ -96,46 +94,39 @@ const EditMtp = () => {
     var res={};
     setSending(true);
     setError(null);
-    const {title,...rest}=inputs;
     if(location.state === null){
-      const record={...rest,title:title.toLowerCase(),students,_id:user._id,type:type.toLowerCase()};
+      const record={...inputs,student:students[0],_id:user._id};
       console.log(record)
-      res=await addRecord(record,'btp',token);
+      res=await addRecord(record,'mtp',token);
     }
     else{
-      const record={...rest,title:title.toLowerCase(),authors,_id:user._id};
+      const record={...inputs,student:students[0],_id:user._id,id:inputs._id};
       console.log(record)
-      res=await editRecord(record,'btp',token);
+      res=await editRecord(record,'mtp',token);
     }
     console.log(res)
     if(res.status===200){
-      dispatch(removeBtp());
-      navigate('/btechproject')
+      dispatch(removeMtp());
+      navigate('/mtechproject')
     }
     else setError(res.response.data.message);
     setSending(false);
   }
   useEffect(()=>{
     if(location.state){
-      const {students,type,uid,createdAt,updatedAt,publishedOn,...others}=location.state;
+      const {students,uid,createdAt,updatedAt,publishedOn,...others}=location.state;
       setInputs(others);
-      setType(type);
-      setStudents(authors);
+      if(students)  setStudents([students]);
     }
   },[])
 
-  const names = [
-    'Major',
-    'Minor',
-  ];
+  
   return (
     <Container>
-      <section>{location.state?'Edit B.Tech Project':'Add new B.Tech Project'}</section>
+      <section>{location.state?'Edit M.Tech Project':'Add new M.Tech Project'}</section>
       <Form>
         <Input name="title" onChange={handleChange} type="text" placeholder="Title" value={inputs.title}/>
         <Input name="year" onChange={handleChange} type="text" placeholder="Year" value={inputs.year}/>
-        
-        <MultipleSelectPlaceholder defaultLabel='Major/Minor' names={names} department={type} setDepartment={setType}/>
       </Form>
 
       <AddAuthor authors={students} setAuthors={setStudents} students={true}/>
