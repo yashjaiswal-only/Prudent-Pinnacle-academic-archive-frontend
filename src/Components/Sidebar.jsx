@@ -106,6 +106,8 @@ const Sidebar = () => {
       <Item onClick={()=>navigate('/mtechproject')}>M.Tech Project</Item>
  
       <Item onClick={()=>navigate('/btechproject')}>B.Tech Project</Item>
+
+      <Item onClick={()=>navigate('/phdscholar')}>Phd Scholar</Item>
  
       <Item onClick={()=>navigate('/facultydevelopmentprogram')}>Faculty Development Program</Item>
  

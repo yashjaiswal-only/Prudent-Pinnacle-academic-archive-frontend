@@ -7,6 +7,7 @@ const recordsSlice = createSlice({
         mtp:null,
         fdp:null,
         stc:null,
+        phd:null,
         patents:null,
         projectgrands:null,
         consultancy:null,
@@ -29,23 +30,41 @@ const recordsSlice = createSlice({
             state.society=null;
             state.error=false;
         },
-        updateBtp:(state,action)=>{
-            state.btp=action.payload;
-            state.isFetching=false;
-            state.error=false;
-        },
+        updateBtp:(state,action)=>{state.btp=action.payload;},
         removeBtp:(state)=>{state.btp=null;},
-        updateMtp:(state,action)=>{
-            state.mtp=action.payload;
-            state.isFetching=false;
-            state.error=false;
-        },
+
+        updateMtp:(state,action)=>{state.mtp=action.payload;},
         removeMtp:(state)=>{state.mtp=null;},
+
+        updateFdp:(state,action)=>{state.fdp=action.payload;},
+        removeFdp:(state)=>{state.fdp=null;},
+
+        updateStc:(state,action)=>{state.stc=action.payload;},
+        removeStc:(state)=>{state.stc=null;},
+
+        updatePatents:(state,action)=>{state.patents=action.payload;},
+        removePatents:(state)=>{state.patents=null;},
+        
+        updateProjectgrands:(state,action)=>{state.projectgrands=action.payload;},
+        removeProjectgrands:(state)=>{state.projectgrands=null;},
+
+        updateConsultancy:(state,action)=>{state.consultancy=action.payload;},
+        removeConsultancy:(state)=>{state.consultancy=null;},
+        
+        updateTalks:(state,action)=>{state.talks=action.payload;},
+        removeTalks:(state)=>{state.talks=null;},
+        
+        updateSociety:(state,action)=>{state.society=action.payload;},
+        removeSociety:(state)=>{state.society=null;},
+        
+        updatePhd:(state,action)=>{state.phd=action.payload;},
+        removePhd:(state)=>{state.phd=null;},
+
     }//just in redux toolkit 
     
 });
 
-export const {removeAllRecord,updateBtp,removeBtp,updateMtp,removeMtp}=recordsSlice.actions;
+export const {removeAllRecord,updateBtp,removeBtp,updateMtp,removeMtp,updateFdp,removeFdp,updateStc,removeStc,updatePatents,removePatents,updateConsultancy,removeConsultancy,updateProjectgrands,removeProjectgrands,updateSociety,removeSociety,updateTalks,removeTalks,updatePhd,removePhd}=recordsSlice.actions;
 export default recordsSlice.reducer;
 //reducer is combination of actions(functions)
 

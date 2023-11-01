@@ -24,6 +24,22 @@ import Btp from './Components/Records/Btp';
 import EditBtp from './Components/Records/EditBtp';
 import Mtp from './Components/Records/Mtp';
 import EditMtp from './Components/Records/EditMtp';
+import Fdp from './Components/Records/Fdp';
+import EditFdp from './Components/Records/EditFdp';
+import Stc from './Components/Records/Stc';
+import EditStc from './Components/Records/EditStc';
+import Patents from './Components/Records/Patents';
+import EditPatents from './Components/Records/EditPatents';
+import Society from './Components/Records/Society';
+import EditSociety from './Components/Records/EditSociety';
+import Talk from './Components/Records/Talk';
+import EditTalk from './Components/Records/EditTalk';
+import Phd from './Components/Records/Phd';
+import EditPhd from './Components/Records/EditPhd';
+import Project from './Components/Records/Project';
+import EditProject from './Components/Records/EditProject';
+import Consultancy from './Components/Records/Consultancy';
+import EditConsultancy from './Components/Records/EditConsultancy';
 
 const Component=styled.div`
   top:0;
@@ -77,6 +93,14 @@ function App() {
           element: <EditConference />,
         },
         {
+          path: "/phdscholar",
+          element: <Phd/>,
+        },
+        {
+          path: "/phdscholar/edit",
+          element: <EditPhd />,
+        },
+        {
           path: "/btechproject",
           element: <Btp/>,
         },
@@ -94,59 +118,59 @@ function App() {
         },
         {
           path: "/facultydevelopmentprogram",
-          element: <Conference/>,
+          element: <Fdp/>,
         },
         {
           path: "/facultydevelopmentprogram/edit",
-          element: <EditConference />,
+          element: <EditFdp />,
         },
         {
           path: "/shorttermcourses",
-          element: <Conference/>,
+          element: <Stc/>,
         },
         {
           path: "/shorttermcourses/edit",
-          element: <EditConference />,
+          element: <EditStc />,
         },
         {
           path: "/patents",
-          element: <Conference/>,
+          element: <Patents/>,
         },
         {
           path: "/patents/edit",
-          element: <EditConference />,
+          element: <EditPatents />,
         },
         {
           path: "/projectgrands",
-          element: <Conference/>,
+          element: <Project/>,
         },
         {
           path: "/projectgrands/edit",
-          element: <EditConference />,
+          element: <EditProject />,
         },
         {
           path: "/consultancy",
-          element: <Conference/>,
+          element: <Consultancy/>,
         },
         {
           path: "/consultancy/edit",
-          element: <EditConference />,
+          element: <EditConsultancy />,
         },
         {
           path: "/invitedtalk",
-          element: <Conference/>,
+          element: <Talk/>,
         },
         {
           path: "/invitedtalk/edit",
-          element: <EditConference />,
+          element: <EditTalk />,
         },
         {
           path: "/societymembership",
-          element: <Conference/>,
+          element: <Society/>,
         },
         {
           path: "/societymembership/edit",
-          element: <EditConference />,
+          element: <EditSociety />,
         },
       ],
     },

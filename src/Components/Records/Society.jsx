@@ -7,7 +7,7 @@ import { Link  } from 'react-router-dom';
 import Loader from '../Loader';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import { Capitalize } from '../../services';
-import { updateBtp, updateMtp } from '../../redux/recordsRedux';
+import { updateBtp, updateFdp, updateMtp, updatePatents, updateSociety, updateStc } from '../../redux/recordsRedux';
 import { getAllRecord } from '../../api_calls/Record';
 
 const Container=styled.div`
@@ -84,11 +84,11 @@ const Error=styled.span`
   display: flex;
   align-items: center;
 `
-const Mtp = () => {
-  const [mtpList,setMtpList]=useState([]);
+const Society = () => {
+  const [societyList,setSocietyList]=useState([]);
   const [fetching,setFetching]=useState(false);
   const [error,setError]=useState(null);
-  const {mtp}=useSelector(state=>state.records)
+  const {society}=useSelector(state=>state.records)
   const user=useSelector(state=>state.user.currentUser)
   const token=useSelector(state=>state.user.token)
   const dispatch=useDispatch();
@@ -96,48 +96,39 @@ const Mtp = () => {
   const get=async()=>{
     setError(false);
     setFetching(true);
-    const res=await getAllRecord(user._id,'mtp',token);
+    const res=await getAllRecord(user._id,'society',token);
     console.log(res)
     if(res.status===200){
-      dispatch(updateMtp(res.data));
-      setMtpList(res.data);
+      dispatch(updateSociety(res.data));
+      setSocietyList(res.data);
     }
     else setError(res.response.data.message);
     setFetching(false);
   }
   useEffect(()=>{
-    if(mtp)  setMtpList(mtp);
+    if(society)  setSocietyList(society);
     else get();
-    console.log(mtp)
+    console.log(society)
   },[])
   return (
     <Container>
       <Top>
-        <span>M.Tech Projects</span>
-        <Link to='/mtechproject/edit' >
+        <span>Society Membership</span>
+        <Link to='/societymembership/edit' >
           <button><AddIcon/> Add New</button>
         </Link>
       </Top>
       <Bottom>
         {fetching===false?
-        mtpList.map((project)=>
+        societyList.map((society)=>
           <Entry>
             <section>
-            <Link to="/mtechproject/edit" state={project}>
+            <Link to="/societymembership/edit" state={society}>
               <EditIcon/>
             </Link>
             </section>
-          <div><span>Title : </span>{Capitalize(project.title)}</div>
-          <div><span>Students : </span>
-          <ul>
-              {project.student&&<li>
-                {`${project.student.first}`+" "+`${project.student.middle?project.student.middle:''}`+" "+`${project.student.last}`} 
-                {project.student.rollno?" ("+`${project.student.rollno}`+") ":''}
-              </li>}
-          </ul>
-          </div>
-          
-          <div><span>Year : </span>{project.year}</div>
+          <div><span>Name : </span>{Capitalize(society.societyName)}</div>
+          <div><span>Duration : </span>{Capitalize(society.duration)}</div>
           </Entry>
         ):
           <Loader/>
@@ -150,4 +141,4 @@ const Mtp = () => {
   )
 }
 
-export default Mtp;
+export default Society;

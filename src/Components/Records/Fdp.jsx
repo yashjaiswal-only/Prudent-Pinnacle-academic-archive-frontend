@@ -7,7 +7,7 @@ import { Link  } from 'react-router-dom';
 import Loader from '../Loader';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import { Capitalize } from '../../services';
-import { updateBtp, updateMtp } from '../../redux/recordsRedux';
+import { updateBtp, updateFdp, updateMtp } from '../../redux/recordsRedux';
 import { getAllRecord } from '../../api_calls/Record';
 
 const Container=styled.div`
@@ -84,11 +84,11 @@ const Error=styled.span`
   display: flex;
   align-items: center;
 `
-const Mtp = () => {
-  const [mtpList,setMtpList]=useState([]);
+const Fdp = () => {
+  const [fdpList,setFdpList]=useState([]);
   const [fetching,setFetching]=useState(false);
   const [error,setError]=useState(null);
-  const {mtp}=useSelector(state=>state.records)
+  const {fdp}=useSelector(state=>state.records)
   const user=useSelector(state=>state.user.currentUser)
   const token=useSelector(state=>state.user.token)
   const dispatch=useDispatch();
@@ -96,48 +96,43 @@ const Mtp = () => {
   const get=async()=>{
     setError(false);
     setFetching(true);
-    const res=await getAllRecord(user._id,'mtp',token);
+    const res=await getAllRecord(user._id,'fdp',token);
     console.log(res)
     if(res.status===200){
-      dispatch(updateMtp(res.data));
-      setMtpList(res.data);
+      dispatch(updateFdp(res.data));
+      setFdpList(res.data);
     }
     else setError(res.response.data.message);
     setFetching(false);
   }
   useEffect(()=>{
-    if(mtp)  setMtpList(mtp);
+    if(fdp)  setFdpList(fdp);
     else get();
-    console.log(mtp)
+    console.log(fdp)
   },[])
   return (
     <Container>
       <Top>
-        <span>M.Tech Projects</span>
-        <Link to='/mtechproject/edit' >
+        <span>Faculty Development Programs</span>
+        <Link to='/facultydevelopmentprogram/edit' >
           <button><AddIcon/> Add New</button>
         </Link>
       </Top>
       <Bottom>
         {fetching===false?
-        mtpList.map((project)=>
+        fdpList.map((program)=>
           <Entry>
             <section>
-            <Link to="/mtechproject/edit" state={project}>
+            <Link to="/facultydevelopmentprogram/edit" state={program}>
               <EditIcon/>
             </Link>
             </section>
-          <div><span>Title : </span>{Capitalize(project.title)}</div>
-          <div><span>Students : </span>
-          <ul>
-              {project.student&&<li>
-                {`${project.student.first}`+" "+`${project.student.middle?project.student.middle:''}`+" "+`${project.student.last}`} 
-                {project.student.rollno?" ("+`${project.student.rollno}`+") ":''}
-              </li>}
-          </ul>
-          </div>
+          <div><span>Name : </span>{Capitalize(program.name)}</div>
+          <div><span>Duration : </span>{Capitalize(program.duration)}</div>
+          <div><span>Organiser : </span>{Capitalize(program.organiser)}</div>
+          <div><span>Start Date : </span>{Capitalize(program.startDate)}</div>
+          <div><span>End Date : </span>{Capitalize(program.endDate)}</div>
           
-          <div><span>Year : </span>{project.year}</div>
           </Entry>
         ):
           <Loader/>
@@ -150,4 +145,4 @@ const Mtp = () => {
   )
 }
 
-export default Mtp;
+export default Fdp;
