@@ -16,30 +16,25 @@ const MenuProps = {
   },
 };
 
-const names = [
-  'Computer Science',
-  'Information Technology',
-  'Electronics',
-  'Electrical',
-  'Mechanical',
-];
 
-export default  function MultipleSelectPlaceholder({department,setDepartment}){
+
+export default  function MultipleSelectPlaceholder({department,setDepartment,names,defaultLabel}){
 
   const handleChange = (event) => {
     setDepartment(event.target.value);
   };
   return (
     <div>
-      <FormControl sx={{ width: 200, mt: 1 ,background:'white'}}>
+      <FormControl sx={{ width: 150, mt: 1 ,background:'white'}}>
         <Select
           displayEmpty
+          sx={{height:40}}
           value={department}
           onChange={handleChange}
           input={<OutlinedInput />}
           renderValue={(selected) => {
             if (selected.length===0 ) {
-              return <em>Department</em>;
+              return <em>{defaultLabel}</em>;
             }
             return selected;
           }}
@@ -47,7 +42,7 @@ export default  function MultipleSelectPlaceholder({department,setDepartment}){
           inputProps={{ 'aria-label': 'Without label' }}
         >
           <MenuItem disabled value="">
-            <em>Department</em>
+          <em>{defaultLabel}</em>
           </MenuItem>
           {names.map((name) => (
             <MenuItem

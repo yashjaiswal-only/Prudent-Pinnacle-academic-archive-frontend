@@ -163,7 +163,13 @@ const Register = () => {
       }
 
     }
-    
+    const names = [
+      'Computer Science',
+      'Information Technology',
+      'Electronics',
+      'Electrical',
+      'Mechanical',
+    ];
   return (
     <Container>
         <Wrapper>
@@ -175,7 +181,7 @@ const Register = () => {
                 <Input name="password" onChange={handleChange} type="password" placeholder="password"/>
                 <Input name="ph" onChange={handleChange} type="text" placeholder="contact number (optional)"/>
                 <Input name="qualification" onChange={handleChange} type="text" placeholder="qualification (optional) "/>
-                <MultipleSelectPlaceholder department={department} setDepartment={setDepartment}/>
+                <MultipleSelectPlaceholder names={names} defaultLabel='Department' department={department} setDepartment={setDepartment}/>
                 <Box>
                   <label htmlFor="avatar" style={{marginRight:"10px",marginBottom:"10px"}}>YOUR IMAGE:</label>
                   <input name="avatar" id='avatar' onChange={e=>setFile(e.target.files[0])} type="file" />

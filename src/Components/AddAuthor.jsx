@@ -25,6 +25,8 @@ const Input=styled.input`
     max-width:20%;
     margin: 5px 10px;
     padding: 10px;
+    pointer-events:${(props)=>props.disabled?'none':null};
+    background-color:white;
 `
 const Entry=styled.div`
     display: flex;
@@ -46,18 +48,30 @@ const Error=styled.div`
     font-size: 0.9rem;
 `
 
-const Author=({author,index,removeAuthor,editAuthor})=>{
+const Author=({author,index,removeAuthor,editAuthor,students,setError})=>{
   const [first,setFirst]=useState(author.first);
   const [middle,setMiddle]=useState(author.middle);
   const [last,setLast]=useState(author.last);
+  const [rollno,setRollno]=useState(author.rollno);
   const [corresponding,setCorresponding]=useState(author.corresponding);
   const [editing,setEditing]=useState(false);
     
   const saveAuthor=()=>{
+    setError(null)
+    console.log(rollno)
+    if(!first || !last || first==='' || last===''){
+        setError('*First Name & Last Name required')
+        return ;
+    }
+    if(students && (!rollno || rollno==='')){
+        setError('*Roll No required')
+        return ;
+    }
     const newVal={
         first:Capitalize(first),
         last:Capitalize(last),
         middle:Capitalize(middle),
+        rollno:rollno,
         corresponding:corresponding
     }
     editAuthor(index,newVal);
@@ -69,6 +83,7 @@ const Author=({author,index,removeAuthor,editAuthor})=>{
         setFirst(author.first)
         setMiddle(author.middle)
         setLast(author.last)
+        setRollno(author.rollno)
     }
   },[author])
   return (
@@ -76,9 +91,10 @@ const Author=({author,index,removeAuthor,editAuthor})=>{
       {editing==false?
         <Entry>
             {index+1}.
-            <Input type="text" value={first}/>
-            <Input value={middle}/>
-            <Input value={last}/>
+            <Input type="text" value={first} placeholder='First Name' disabled/>
+            {!students&&<Input value={middle} placeholder='Middle Name' disabled/>}
+            <Input value={last} placeholder='Last Name' disabled/>
+            {students&&<Input value={rollno} placeholder='Roll No' disabled />}
             <Tooltip title='Corresponding Author'>
                 {corresponding?<PersonIcon sx={{color:'#8787d8',marginRight:'2rem'}}/>:''}
             </Tooltip>
@@ -94,40 +110,49 @@ const Author=({author,index,removeAuthor,editAuthor})=>{
               {index+1}.
               <Input onChange={(e)=>setFirst(e.target.value)} type="text" 
                   placeholder="First Name" value={first}/>
-              <Input onChange={(e)=>setMiddle(e.target.value)} type="text" 
-                  placeholder="Middle Name" value={middle}/>
+              {students===false?<Input onChange={(e)=>setMiddle(e.target.value)} type="text" 
+                  placeholder="Middle Name" value={middle}/>:''}
               <Input onChange={(e)=>setLast(e.target.value)} type="text" 
                   placeholder="Last Name" value={last}/>
+            {students&&<Input onChange={(e)=>setRollno(e.target.value)} type="text" 
+            placeholder="Roll No." value={rollno}/>}
               <CheckCircleIcon onClick={saveAuthor}/>
           </Entry>
-          <Entry>
+          {students===false?<Entry>
               <input id="corresponding" type="checkbox" checked={corresponding} onChange={()=>setCorresponding(prev=>prev?false:true)}/>   
               <label htmlFor="corresponding"> Corresponding Author</label>
-          </Entry>
+          </Entry>:''}
         </>
         }
     </>
   )
 }
 
-const AddAuthor = ({authors,setAuthors}) => {
+const AddAuthor = ({authors,setAuthors,students}) => {
     const [adding,setAdding]=useState(false);
     const [first,setFirst]=useState('');
+    const [title,setTitle]=useState(students?'Student':'Author');
     const [middle,setMiddle]=useState('');
     const [last,setLast]=useState('');
-    const [error,setError]=useState();
+    const [rollno,setRollno]=useState('');
+    const [error,setError]=useState(null);
     const [corresponding,setCorresponding]=useState(false);
-
+    
     const buttonClick=()=>{
         if(adding){
             if(!first || !last || first==='' || last===''){
                 setError('*First Name & Last Name required')
                 return ;
             }
+            if(students && rollno===''){
+                setError('*Roll No required')
+                return ;
+            }
             const newValue={
                 last:Capitalize(last),
                 first:Capitalize(first),
                 middle:Capitalize(middle),
+                rollno:rollno,
                 corresponding:corresponding
             }
             var temp=[...authors,newValue];
@@ -149,8 +174,13 @@ const AddAuthor = ({authors,setAuthors}) => {
     }
 
     const editAuthor=(index,newValue)=>{
+        setError(null)
         if(!newValue.first || !newValue.last || newValue.first==='' || newValue.last===''){
             setError('*First Name & Last Name required')
+            return ;
+        }
+        if(students && newValue.rollno===''){
+            setError('*Roll No required')
             return ;
         }
         var temp=authors.slice();
@@ -159,9 +189,9 @@ const AddAuthor = ({authors,setAuthors}) => {
     }
   return (
     <Container>
-       {authors.length?'Authors :':''}
+       {authors.length?`${title}s :`:''}
         {authors.map((a,index)=>(        
-          <Author author={a} index={index} removeAuthor={removeAuthor} editAuthor={editAuthor}/>
+          <Author author={a} index={index} removeAuthor={removeAuthor} editAuthor={editAuthor} students={students} setError={setError}/>
         ))}
 
         {adding?
@@ -170,23 +200,25 @@ const AddAuthor = ({authors,setAuthors}) => {
             {authors.length+1}.
             <Input onChange={(e)=>setFirst(e.target.value)} type="text" 
                 placeholder="First Name" value={first}/>
-            <Input onChange={(e)=>setMiddle(e.target.value)} type="text" 
-                placeholder="Middle Name (optional)" value={middle}/>
+            {!students&&<Input onChange={(e)=>setMiddle(e.target.value)} type="text" 
+                placeholder="Middle Name (optional)" value={middle}/>}
             <Input onChange={(e)=>setLast(e.target.value)} type="text" 
                 placeholder="Last Name" value={last}/>
+            {students&&<Input onChange={(e)=>setRollno(e.target.value)} type="text" 
+                placeholder="Roll No." value={rollno}/>}
             <Tooltip title="Close">
                 <CloseIcon  onClick={()=>setAdding(false)}/>
             </Tooltip>
         </Entry>
-        <Entry>
+        {students===false?<Entry>
             <input id="corresponding" type="checkbox" checked={corresponding} onChange={()=>setCorresponding(prev=>prev?false:true)}/>   
             <label htmlFor="corresponding"> Corresponding Author</label>
-        </Entry>
+        </Entry>:''}
         </>
         :''}
         
         {error?<Error>{error}</Error>:''}
-        <button onClick={buttonClick}>{adding?'Save Author':'Add Author'}</button>
+        <button onClick={buttonClick}>{adding?`Save ${title}`:`Add ${title}`}</button>
     </Container>
   )
 }

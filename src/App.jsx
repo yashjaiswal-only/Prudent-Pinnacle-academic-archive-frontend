@@ -20,6 +20,10 @@ import Conference from './Components/Conference';
 import EditConference from './Components/EditConference';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import Btp from './Components/Records/Btp';
+import EditBtp from './Components/Records/EditBtp';
+import Mtp from './Components/Records/Mtp';
+import EditMtp from './Components/Records/EditMtp';
 
 const Component=styled.div`
   top:0;
@@ -70,6 +74,78 @@ function App() {
         },
         {
           path: "/conference/edit",
+          element: <EditConference />,
+        },
+        {
+          path: "/btechproject",
+          element: <Btp/>,
+        },
+        {
+          path: "/btechproject/edit",
+          element: <EditBtp />,
+        },
+        {
+          path: "/mtechproject",
+          element: <Mtp/>,
+        },
+        {
+          path: "/mtechproject/edit",
+          element: <EditMtp />,
+        },
+        {
+          path: "/facultydevelopmentprogram",
+          element: <Conference/>,
+        },
+        {
+          path: "/facultydevelopmentprogram/edit",
+          element: <EditConference />,
+        },
+        {
+          path: "/shorttermcourses",
+          element: <Conference/>,
+        },
+        {
+          path: "/shorttermcourses/edit",
+          element: <EditConference />,
+        },
+        {
+          path: "/patents",
+          element: <Conference/>,
+        },
+        {
+          path: "/patents/edit",
+          element: <EditConference />,
+        },
+        {
+          path: "/projectgrands",
+          element: <Conference/>,
+        },
+        {
+          path: "/projectgrands/edit",
+          element: <EditConference />,
+        },
+        {
+          path: "/consultancy",
+          element: <Conference/>,
+        },
+        {
+          path: "/consultancy/edit",
+          element: <EditConference />,
+        },
+        {
+          path: "/invitedtalk",
+          element: <Conference/>,
+        },
+        {
+          path: "/invitedtalk/edit",
+          element: <EditConference />,
+        },
+        {
+          path: "/societymembership",
+          element: <Conference/>,
+        },
+        {
+          path: "/societymembership/edit",
           element: <EditConference />,
         },
       ],

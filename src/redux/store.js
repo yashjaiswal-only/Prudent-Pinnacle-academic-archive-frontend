@@ -1,6 +1,7 @@
 import { configureStore,combineReducers } from "@reduxjs/toolkit";
 import userReducer from './userRedux';
 import papersReducer from './papersRedux';
+import recordsReducer from './recordsRedux';
 import {
     persistStore,
     persistReducer,
@@ -18,7 +19,7 @@ const persistConfig = {
     version: 1,
     storage,
 }
-const rootReducer=combineReducers({user:userReducer,papers:papersReducer});
+const rootReducer=combineReducers({user:userReducer,papers:papersReducer,records:recordsReducer});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 //combined both to persist
