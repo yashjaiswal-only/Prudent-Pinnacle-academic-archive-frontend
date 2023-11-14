@@ -1,11 +1,6 @@
 import { useState } from 'react'
 import styled from 'styled-components'
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from "firebase/storage";
+import {getStorage,ref,uploadBytesResumable,getDownloadURL} from "firebase/storage";
 import app from "../firebase.js";
 import { register, checkUser } from '../api_calls/Auth';
 import {  useNavigate } from 'react-router-dom';
@@ -74,14 +69,20 @@ const Bottom=styled.div`
   width: 100%;
   display: flex; 
 `
+
+const names = [
+  'Computer Science',
+  'Information Technology',
+  'Electronics',
+  'Electrical',
+  'Mechanical',
+];
 const Register = () => {
     const [inputs,setInputs]=useState({});
     const [department,setDepartment]=useState('');
     const [file,setFile]=useState(null);
-    const [hasUsername,setHasUsername]=useState(false);
-    const [Required,setRequired]=useState(false);
-    const [checking,setChecking]=useState(false);
-    const {isFetching ,error,currentUser} =useSelector(state=>state.user) ;
+    const [loading,setLoading]=useState(false);
+    const [error,setError]=useState(false);
     const dispatch=useDispatch();
     const navigate=useNavigate();
 
@@ -94,82 +95,72 @@ const Register = () => {
     
     const handleClick=async e=>{
       e.preventDefault();
-      // setChecking(true);
-      setRequired(false);
-      setHasUsername(false);
+      setLoading(true);
+      setError(false);
       if(!inputs.username || !inputs.password){
-        setRequired(true);
-        setChecking(false);
+        if(!inputs.username)  setError('Username is Required');
+        if(!inputs.password)  setError('Password is Required');
+        setLoading(false);
         return ;
       }
-      else setRequired(false);
 
       const a=await checkUser(inputs.username) 
       console.log(a);
-      if(a.status===200 && a.data.found===0) setHasUsername(false);
-      else{
-        setHasUsername(true);
-        setChecking(false);
+      if(a.status!==200 || (a.status===200 && a.data.found)){
+        setError('Username already exists');
+        setLoading(false);
         return ;
       }
-      console.log('registering')
 
       if(file){
+        console.log(file)
         const fileName=new Date().getTime()+file?file.name:'';  
-        //to make file unique as when any file with same name upload later its gonna overwrite because of same name
-        const storage=getStorage(app);
-        const storageRef=ref(storage,fileName);
+        const storage = getStorage(app);
+        const storageRef = ref(storage, fileName);
         const uploadTask = uploadBytesResumable(storageRef, file);
-        console.log('uploading')
-        uploadTask.on(
-          "state_changed",
+        uploadTask.on('state_changed', 
           (snapshot) => {
-            const progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log("Upload is " + progress + "% done");
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
             switch (snapshot.state) {
-              case "paused":
-                console.log("Upload is paused");
+              case 'paused':
+                console.log('Upload is paused');
                 break;
-              case "running":
-                console.log("Upload is running");
+              case 'running':
+                console.log('Upload is running');
                 break;
-              default:
+              default: console.log('upload stoped default')
             }
-          },
+          }, 
           (error) => {
             console.log(error)
-          },
-          () => {
-            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          }, 
+          async() => {
+            getDownloadURL(uploadTask.snapshot.ref).then(async(downloadURL) => {
+              console.log('File available at', downloadURL);
               const user = { ...inputs, avatar: downloadURL};
-              console.log(downloadURL)
+              // console.log(downloadURL)
               console.log(user);
-              console.log('registering')
-              setChecking(false);
-              // const res=register(dispatch,user);
-              // if(res)navigate('/login',{state:{newlyRegister:true}});
+              const res=await register(dispatch,user);
+              console.log(res)
+              if(res.status==200) navigate('/login',{state:{newlyRegister:true}});
+              else setError('Something went wrong, unable to register..')
+
             });
           }
         );
-        console.log('section')
       }
       else{
         const user={...inputs,department};
         console.log(user)
-        setChecking(false);
-        const res=register(dispatch,user);
-        if(res)navigate('/login',{state:{newlyRegister:true}});
+        const res=await register(dispatch,user);
+        console.log(res)
+        if(res.status==200) navigate('/login',{state:{newlyRegister:true}});
+        else setError('Something went wrong, Unable to register..')
       }
-
+      setLoading(false)
     }
-    const names = [
-      'Computer Science',
-      'Information Technology',
-      'Electronics',
-      'Electrical',
-      'Mechanical',
-    ];
+   
   return (
     <Container>
         <Wrapper>
@@ -190,12 +181,11 @@ const Register = () => {
                     By creating an account , I consent to the processing of my personal data in accordance with the <b>PRIVACY POLICY</b>
                 </Agreement>
                 <Bottom>
-                  <Button onClick={handleClick} disabled={(isFetching || checking)}>CREATE</Button>
-                  {(isFetching || checking) && <CircularProgress/>}
+                  <Button onClick={handleClick} disabled={loading}>CREATE</Button>
+                  {loading && <CircularProgress/>}
                 </Bottom>
-                {error && <Error>Something went wrong....</Error>}
-                {hasUsername && <Error>Username already exist</Error>}
-                {Required && <Error>Username & password are required</Error>}
+
+                {error && <Error>{error}</Error>}
             </Form>
         </Wrapper>
     </Container>

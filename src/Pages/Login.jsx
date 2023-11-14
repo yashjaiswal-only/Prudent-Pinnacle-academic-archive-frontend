@@ -4,7 +4,6 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { login } from '../api_calls/Auth'
 import { CircularProgress, Tooltip } from "@mui/material"
-import { authStarts } from '../redux/userRedux'
 
 
 
@@ -76,17 +75,22 @@ const Error=styled.span`
 const Login = () => {
   const [username,setUsername]=useState('');
   const [password,setPassword]=useState('');
+  const [loading,setLoading]=useState(false);
+  const [error,setError]=useState(false);
   const dispatch =useDispatch();
   const navigate=useNavigate();
   const location=useLocation();
-  const {isFetching ,error} =useSelector(state=>state.user) ;
 
   const handleClick= async e=>{
-    dispatch(authStarts());
     e.preventDefault();
+    setLoading(true)
+    setError(false)
     const res=await login(dispatch,{username,password});
-    console.log(res);
+    console.log(res.response);
+    setLoading(false)
     if(res.status===200)  navigate('/');
+    else if(res.response.status===401) setError(res.response.data) 
+    else setError('Something went wrong.Unable to login..')
   }
   const newlyRegister=location.state?location.state.newlyRegister:null;
   return ( 
@@ -99,9 +103,9 @@ const Login = () => {
                 <Input placeholder="password" onChange={e=>setPassword(e.target.value)} type='password'/>
                 <Bottom>
                   <Button onClick={handleClick} >LOGIN</Button>
-                  {isFetching && <CircularProgress />}
+                  {loading && <CircularProgress />}
                 </Bottom>
-                {error && <Error>Something went wrong....</Error>}
+                {error && <Error>{error}</Error>}
                 <Link to='/register' className='link'><URL>CREATE A NEW ACCOUNT</URL></Link>
                 <Tooltip title='Contact Admin'><URL>DO NOT YOU REMEMBER THE PASSWORD?</URL></Tooltip>
             </Form>
