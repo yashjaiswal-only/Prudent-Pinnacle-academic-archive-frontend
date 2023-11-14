@@ -7,8 +7,9 @@ import { Link  } from 'react-router-dom';
 import Loader from '../Loader';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import { Capitalize } from '../../services';
-import { updateBtp, updateFdp, updateMtp, updatePatents, updateSociety, updateStc, updateTalks } from '../../redux/recordsRedux';
+import { updateTalks } from '../../redux/recordsRedux';
 import { getAllRecord } from '../../api_calls/Record';
+import EmptyList from '../EmptyList'
 
 const Container=styled.div`
     display: flex;
@@ -119,6 +120,9 @@ const Talk = () => {
         </Link>
       </Top>
       <Bottom>
+      {fetching===false&&talkList.length===0?
+        <EmptyList qoute={'Nothing to show here. Please add your Invited Talks'}/>
+        :''}
         {fetching===false?
         talkList.map((talk)=>
           <Entry>

@@ -80,19 +80,20 @@ const Login = () => {
   const dispatch =useDispatch();
   const navigate=useNavigate();
   const location=useLocation();
-
+  const newlyRegister=location.state?location.state.newlyRegister:null;
+  
   const handleClick= async e=>{
     e.preventDefault();
     setLoading(true)
     setError(false)
     const res=await login(dispatch,{username,password});
     console.log(res.response);
-    setLoading(false)
     if(res.status===200)  navigate('/');
     else if(res.response.status===401) setError(res.response.data) 
     else setError('Something went wrong.Unable to login..')
+    setLoading(false)
   }
-  const newlyRegister=location.state?location.state.newlyRegister:null;
+
   return ( 
     <Container>
       <Wrapper>
@@ -102,7 +103,7 @@ const Login = () => {
                 <Input placeholder="username"  onChange={e=>setUsername(e.target.value)}/>
                 <Input placeholder="password" onChange={e=>setPassword(e.target.value)} type='password'/>
                 <Bottom>
-                  <Button onClick={handleClick} >LOGIN</Button>
+                  <Button onClick={handleClick} disabled={loading}>LOGIN</Button>
                   {loading && <CircularProgress />}
                 </Bottom>
                 {error && <Error>{error}</Error>}

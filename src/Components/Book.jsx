@@ -10,6 +10,7 @@ import Loader from './Loader';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import PersonIcon from '@mui/icons-material/Person';
 import { Capitalize } from '../services';
+import EmptyList from './EmptyList';
 
 const Container=styled.div`
     display: flex;
@@ -40,7 +41,7 @@ const Bottom=styled.div`
   flex-direction: column;
   width:100%;
   padding:1rem;
-  min-height:60vh;
+  min-height:80vh;
 `
 const Entry=styled.div`
   background-color: #fff;
@@ -93,7 +94,7 @@ const Book = () => {
   const user=useSelector(state=>state.user.currentUser)
   const token=useSelector(state=>state.user.token)
   const dispatch=useDispatch();
-
+ 
   const get=async()=>{
     setError(false);
     setFetching(true);
@@ -120,6 +121,9 @@ const Book = () => {
         </Link>
       </Top>
       <Bottom>
+        {fetching===false&&booksList.length===0?
+        <EmptyList qoute={'Nothing to show here. Please add your Books'}/>
+        :''}
         {fetching===false?booksList.map((book)=>
           <Entry>
             <section>

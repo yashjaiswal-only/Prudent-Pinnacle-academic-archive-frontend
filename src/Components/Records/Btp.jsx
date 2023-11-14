@@ -10,6 +10,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import { Capitalize } from '../../services';
 import { updateBtp } from '../../redux/recordsRedux';
 import { getAllRecord } from '../../api_calls/Record';
+import EmptyList from '../EmptyList';
 
 const Container=styled.div`
     display: flex;
@@ -120,6 +121,9 @@ const Btp = () => {
         </Link>
       </Top>
       <Bottom>
+      {fetching===false&&btpList.length===0?
+        <EmptyList qoute={'Nothing to show here. Please add your B.Tech Projects'}/>
+        :''}
         {fetching===false?btpList.map((project)=>
           <Entry>
             <section>

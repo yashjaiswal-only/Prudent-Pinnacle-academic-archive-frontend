@@ -7,8 +7,9 @@ import { Link  } from 'react-router-dom';
 import Loader from '../Loader';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import { Capitalize } from '../../services';
-import { updateBtp, updateFdp, updateMtp, updatePatents, updateSociety, updateStc } from '../../redux/recordsRedux';
+import {  updateSociety } from '../../redux/recordsRedux';
 import { getAllRecord } from '../../api_calls/Record';
+import EmptyList from '../EmptyList'
 
 const Container=styled.div`
     display: flex;
@@ -119,6 +120,9 @@ const Society = () => {
         </Link>
       </Top>
       <Bottom>
+      {fetching===false&&societyList.length===0?
+        <EmptyList qoute={'Nothing to show here. Please add your Society Memberships'}/>
+        :''}
         {fetching===false?
         societyList.map((society)=>
           <Entry>

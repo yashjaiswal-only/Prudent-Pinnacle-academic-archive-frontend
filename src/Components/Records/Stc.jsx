@@ -9,6 +9,7 @@ import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import { Capitalize } from '../../services';
 import { updateBtp, updateFdp, updateMtp, updateStc } from '../../redux/recordsRedux';
 import { getAllRecord } from '../../api_calls/Record';
+import EmptyList from '../EmptyList';
 
 const Container=styled.div`
     display: flex;
@@ -119,6 +120,9 @@ const Stc = () => {
         </Link>
       </Top>
       <Bottom>
+      {fetching===false&&stcList.length===0?
+        <EmptyList qoute={'Nothing to show here. Please add your attended Short Term Courses'}/>
+        :''}
         {fetching===false?
         stcList.map((program)=>
           <Entry>

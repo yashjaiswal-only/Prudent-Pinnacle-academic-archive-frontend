@@ -6,9 +6,7 @@ const papersSlice = createSlice({
         chapters:null,
         books:null,
         journals:null,
-        conferences:null,
-        isFetching:false,
-        error:false ,
+        conferences:null
     },
 
     reducers:{
@@ -17,28 +15,18 @@ const papersSlice = createSlice({
             state.books=null;
             state.journals=null;
             state.conferences=null;
-            state.isFetching=false;
-            state.error=false;
         },
         updateChapters:(state,action)=>{
             state.chapters=action.payload;
-            state.isFetching=false;
-            state.error=false;
         },
         updateBooks:(state,action)=>{
             state.books=action.payload;
-            state.isFetching=false;
-            state.error=false;
         },
         updateJournals:(state,action)=>{
             state.journals=action.payload;
-            state.isFetching=false;
-            state.error=false;
         },
         updateConferences:(state,action)=>{
             state.conferences=action.payload;
-            state.isFetching=false;
-            state.error=false;
         },
         removeChapters:(state)=>{state.chapters=null;},
         removeBooks:(state)=>{state.books=null;},

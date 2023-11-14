@@ -10,6 +10,7 @@ import Loader from './Loader';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import PersonIcon from '@mui/icons-material/Person';
 import { Capitalize } from '../services';
+import EmptyList from './EmptyList';
 const Container=styled.div`
     display: flex;
     flex-direction: column;
@@ -117,6 +118,9 @@ const Chapter = () => {
         </Link>
       </Top>
       <Bottom>
+      {fetching===false&&chaptersList.length===0?
+        <EmptyList qoute={'Nothing to show here. Please add your Book Chapters'}/>
+        :''}
         {fetching===false?chaptersList.map((chapter)=>
           <Entry key={chapter._id}>
             <section>

@@ -13,8 +13,6 @@ const recordsSlice = createSlice({
         consultancy:null,
         talks:null,
         society:null,
-        isFetching:false,
-        error:false,
     },
 
     reducers:{

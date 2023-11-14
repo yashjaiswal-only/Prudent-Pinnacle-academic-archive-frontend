@@ -9,6 +9,7 @@ import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import { Capitalize } from '../../services';
 import { updateBtp, updateFdp, updateMtp, updatePatents, updatePhd, updateStc } from '../../redux/recordsRedux';
 import { getAllRecord } from '../../api_calls/Record';
+import EmptyList from '../EmptyList';
 
 const Container=styled.div`
     display: flex;
@@ -119,6 +120,9 @@ const Phd = () => {
         </Link>
       </Top>
       <Bottom>
+      {fetching===false&&phdList.length===0?
+        <EmptyList qoute={'Nothing to show here. Please add your Phd Scholars'}/>
+        :''}
         {fetching===false?
         phdList.map((scholars)=>
           <Entry>

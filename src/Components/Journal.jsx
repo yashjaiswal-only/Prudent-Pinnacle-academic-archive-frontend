@@ -10,6 +10,7 @@ import Loader from './Loader';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import PersonIcon from '@mui/icons-material/Person';
 import { Capitalize } from '../services';
+import EmptyList from './EmptyList';
 
 const Container=styled.div`
     display: flex;
@@ -120,6 +121,9 @@ const Journal = () => {
         </Link>
       </Top>
       <Bottom>
+        {fetching===false&&jounalsList.length===0?
+        <EmptyList qoute={'Nothing to show here. Please add your Journal Papers'}/>
+        :''}
         {fetching===false?jounalsList.map((journal)=>
           <Entry>
             <section>

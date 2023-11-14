@@ -10,6 +10,7 @@ import Loader from './Loader';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import PersonIcon from '@mui/icons-material/Person';
 import { Capitalize } from '../services';
+import EmptyList from './EmptyList';
 
 const Container=styled.div`
     display: flex;
@@ -120,6 +121,9 @@ const Conference = () => {
         </Link>
       </Top>
       <Bottom>
+      {fetching===false&&conferencesList.length===0?
+        <EmptyList qoute={'Nothing to show here. Please add your Conference Papers'}/>
+        :''}
         {fetching===false?conferencesList.map((conference)=>
           <Entry>
             <section>
