@@ -128,7 +128,7 @@ const Author=({author,index,removeAuthor,editAuthor,students,setError})=>{
   )
 }
 
-const AddAuthor = ({authors,setAuthors,students}) => {
+const AddAuthor = ({authors,setAuthors,students,single}) => {
     const [adding,setAdding]=useState(false);
     const [first,setFirst]=useState('');
     const [title,setTitle]=useState(students?'Student':'Author');
@@ -187,6 +187,7 @@ const AddAuthor = ({authors,setAuthors,students}) => {
         temp[index]=newValue;
         setAuthors(temp);
     }
+    console.log(authors)
   return (
     <Container>
        {authors.length?`${title}s :`:''}
@@ -218,7 +219,7 @@ const AddAuthor = ({authors,setAuthors,students}) => {
         :''}
         
         {error?<Error>{error}</Error>:''}
-        <button onClick={buttonClick}>{adding?`Save ${title}`:`Add ${title}`}</button>
+        <button disabled={single&&authors.length} onClick={buttonClick} >{adding?`Save ${title}`:`Add ${title}`}</button>
     </Container>
   )
 }

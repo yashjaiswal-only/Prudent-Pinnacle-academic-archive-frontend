@@ -25,7 +25,7 @@ export default  function MultipleSelectPlaceholder({department,setDepartment,nam
   };
   return (
     <div>
-      <FormControl sx={{ width: 150, mt: 1 ,background:'white'}}>
+      <FormControl sx={{ width: 200, mt: 1 ,background:'white'}}>
         <Select
           displayEmpty
           sx={{height:40}}

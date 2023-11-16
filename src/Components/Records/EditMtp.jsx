@@ -45,12 +45,12 @@ const Container=styled.div`
 const Form=styled.form`
     display: flex;
     flex-wrap:wrap;
+    flex-direction: column;
+    width:100%;
 `
 const Input=styled.input`
     flex:1;
-    min-width:40%;
-    max-width:40%;
-    margin: 20px 10px 0px 0px;
+    width:100%;
     padding: 10px;
 `
 const Button=styled.button`
@@ -71,6 +71,19 @@ const Error=styled.span`
   color:red;
   display: flex;
   align-items: center;
+`
+const Entry=styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width:max-content;
+  min-width:40%;
+  max-width:40%;
+  margin: 0.5rem;
+  span{
+    font-weight: 700;
+    font-size: 0.8rem;
+  }
 `
 const EditMtp = () => {
   const location=useLocation();
@@ -114,9 +127,9 @@ const EditMtp = () => {
   }
   useEffect(()=>{
     if(location.state){
-      const {students,uid,createdAt,updatedAt,publishedOn,...others}=location.state;
+      const {student,uid,createdAt,updatedAt,publishedOn,...others}=location.state;
       setInputs(others);
-      if(students)  setStudents([students]);
+      if(students)  setStudents([student]);
     }
   },[])
 
@@ -125,11 +138,17 @@ const EditMtp = () => {
     <Container>
       <section>{location.state?'Edit M.Tech Project':'Add new M.Tech Project'}</section>
       <Form>
-        <Input name="title" onChange={handleChange} type="text" placeholder="Title" value={inputs.title}/>
-        <Input name="year" onChange={handleChange} type="text" placeholder="Year" value={inputs.year}/>
+        <Entry>
+          <span>Name</span>
+          <Input name="title" onChange={handleChange} type="text" placeholder="Title" value={inputs.title}/>
+        </Entry>
+        <Entry>
+          <span>Year</span>
+          <Input name="year" onChange={handleChange} type="text" placeholder="Year" value={inputs.year}/>
+        </Entry>
       </Form>
 
-      <AddAuthor authors={students} setAuthors={setStudents} students={true}/>
+      <AddAuthor authors={students} setAuthors={setStudents} students={true} single={true}/>
 
       <Bottom>
         <Button onClick={handleSubmit} disabled={sending}>Save</Button> 

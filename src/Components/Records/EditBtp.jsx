@@ -46,12 +46,12 @@ const Container=styled.div`
 const Form=styled.form`
     display: flex;
     flex-wrap:wrap;
+    width:100%;
+    flex-direction: column;
 `
 const Input=styled.input`
     flex:1;
-    min-width:40%;
-    max-width:40%;
-    margin: 20px 10px 0px 0px;
+    width:100%;
     padding: 10px;
 `
 const Button=styled.button`
@@ -72,6 +72,19 @@ const Error=styled.span`
   color:red;
   display: flex;
   align-items: center;
+`
+const Entry=styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width:max-content;
+  min-width:40%;
+  max-width:40%;
+  margin: 0.5rem;
+  span{
+    font-weight: 700;
+    font-size: 0.8rem;
+  }
 `
 const EditBtp = () => {
   const location=useLocation();
@@ -132,10 +145,19 @@ const EditBtp = () => {
     <Container>
       <section>{location.state?'Edit B.Tech Project':'Add new B.Tech Project'}</section>
       <Form>
-        <Input name="title" onChange={handleChange} type="text" placeholder="Title" value={inputs.title}/>
-        <Input name="year" onChange={handleChange} type="text" placeholder="Year" value={inputs.year}/>
+        <Entry>
+          <span>Name</span>
+          <Input name="title" onChange={handleChange} type="text" placeholder="Title" value={inputs.title}/>
+        </Entry>
+        <Entry>
+          <span>Year</span>
+          <Input name="year" onChange={handleChange} type="text" placeholder="Year" value={inputs.year}/>
+        </Entry>
+        <Entry>
+          <span>Project Type</span>
+          <MultipleSelectPlaceholder defaultLabel='Major/Minor' names={names} department={type} setDepartment={setType}/>
+        </Entry>
         
-        <MultipleSelectPlaceholder defaultLabel='Major/Minor' names={names} department={type} setDepartment={setType}/>
       </Form>
 
       <AddAuthor authors={students} setAuthors={setStudents} students={true}/>

@@ -7,6 +7,7 @@ import {  useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { CircularProgress } from '@mui/material';
 import MultipleSelectPlaceholder from '../Components/DepartmentSelector.jsx';
+import { departmentNames } from '../data.js';
 
 
 const Container=styled.div`
@@ -70,13 +71,7 @@ const Bottom=styled.div`
   display: flex; 
 `
 
-const names = [
-  'Computer Science',
-  'Information Technology',
-  'Electronics',
-  'Electrical',
-  'Mechanical',
-];
+
 const Register = () => {
     const [inputs,setInputs]=useState({});
     const [department,setDepartment]=useState('');
@@ -172,7 +167,7 @@ const Register = () => {
                 <Input name="password" onChange={handleChange} type="password" placeholder="password"/>
                 <Input name="ph" onChange={handleChange} type="text" placeholder="contact number (optional)"/>
                 <Input name="qualification" onChange={handleChange} type="text" placeholder="qualification (optional) "/>
-                <MultipleSelectPlaceholder names={names} defaultLabel='Department' department={department} setDepartment={setDepartment}/>
+                <MultipleSelectPlaceholder names={departmentNames} defaultLabel='Department' department={department} setDepartment={setDepartment}/>
                 <Box>
                   <label htmlFor="avatar" style={{marginRight:"10px",marginBottom:"10px"}}>YOUR IMAGE:</label>
                   <input name="avatar" id='avatar' onChange={e=>setFile(e.target.files[0])} type="file" />
