@@ -46,13 +46,26 @@ const Container=styled.div`
 const Form=styled.form`
     display: flex;
     flex-wrap:wrap;
+    width:100%;
+    flex-direction: column;
 `
 const Input=styled.input`
     flex:1;
-    min-width:40%;
-    max-width:40%;
-    margin: 20px 10px 0px 0px;
+    width:100%;
     padding: 10px;
+`
+const Entry=styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width:max-content;
+  min-width:40%;
+  max-width:40%;
+  margin: 0.5rem;
+  span{
+    font-weight: 700;
+    font-size: 0.8rem;
+  }
 `
 const Button=styled.button`
   margin:1rem;
@@ -125,8 +138,14 @@ const EditTalk = () => {
     <Container>
       <section>{location.state?'Edit Invited Talk':'Add Invited Talk'}</section>
       <Form>
-        <Input name="title" onChange={handleChange} type="text" placeholder="Talk Title" value={inputs.title}/>
-        <Input name="venue" onChange={handleChange} type="text" placeholder="Venue" value={inputs.venue}/>
+        <Entry>
+          <span>Title of Talk</span>
+          <Input name="title" onChange={handleChange} type="text" placeholder="Talk Title" value={inputs.title}/>
+        </Entry>
+        <Entry>
+          <span>Talk Venue</span>
+          <Input name="venue" onChange={handleChange} type="text" placeholder="Venue" value={inputs.venue}/>
+        </Entry>
       </Form>
       <DatePicker  date={date} setDate={setDate} title="Talk Date"/>
 

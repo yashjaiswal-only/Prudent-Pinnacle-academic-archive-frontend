@@ -46,13 +46,26 @@ const Container=styled.div`
 const Form=styled.form`
     display: flex;
     flex-wrap:wrap;
+    width:100%;
+    flex-direction: column;
 `
 const Input=styled.input`
     flex:1;
-    min-width:40%;
-    max-width:40%;
-    margin: 20px 10px 0px 0px;
+    width:100%;
     padding: 10px;
+`
+const Entry=styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width:max-content;
+  min-width:40%;
+  max-width:40%;
+  margin: 0.5rem;
+  span{
+    font-weight: 700;
+    font-size: 0.8rem;
+  }
 `
 const Button=styled.button`
   margin:1rem;
@@ -73,6 +86,7 @@ const Error=styled.span`
   display: flex;
   align-items: center;
 `
+
 const EditFdp = () => {
   const location=useLocation();
   const dispatch=useDispatch();
@@ -127,9 +141,18 @@ const EditFdp = () => {
     <Container>
       <section>{location.state?'Edit Faculty Developement Program':'Add Faculty Developement Program'}</section>
       <Form>
-        <Input name="name" onChange={handleChange} type="text" placeholder="Name" value={inputs.name}/>
-        <Input name="duration" onChange={handleChange} type="text" placeholder="Duration" value={inputs.duration}/>
-        <Input name="organiser" onChange={handleChange} type="text" placeholder="Organiser" value={inputs.organiser}/>
+        <Entry>
+          <span>Name of Program</span>
+          <Input name="name" onChange={handleChange} type="text" placeholder="Name" value={inputs.name}/>
+        </Entry>
+        <Entry>
+          <span>Duration of Program</span>
+          <Input name="duration" onChange={handleChange} type="text" placeholder="Duration" value={inputs.duration}/>
+        </Entry>
+        <Entry>
+          <span>Organizer of Program</span>
+          <Input name="organiser" onChange={handleChange} type="text" placeholder="Organiser" value={inputs.organiser}/>
+        </Entry>
       </Form>
       <DatePicker  date={startDate} setDate={setStartDate} title="Start Date"/>
       <DatePicker  date={endDate} setDate={setEndDate} title="End Date"/>

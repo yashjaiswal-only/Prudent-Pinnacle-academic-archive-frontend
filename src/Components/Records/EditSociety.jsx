@@ -46,13 +46,26 @@ const Container=styled.div`
 const Form=styled.form`
     display: flex;
     flex-wrap:wrap;
+    width:100%;
+    flex-direction: column;
 `
 const Input=styled.input`
     flex:1;
-    min-width:40%;
-    max-width:40%;
-    margin: 20px 10px 0px 0px;
+    width:100%;
     padding: 10px;
+`
+const Entry=styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width:max-content;
+  min-width:40%;
+  max-width:40%;
+  margin: 0.5rem;
+  span{
+    font-weight: 700;
+    font-size: 0.8rem;
+  }
 `
 const Button=styled.button`
   margin:1rem;
@@ -123,8 +136,14 @@ const EditSociety = () => {
     <Container>
       <section>{location.state?'Edit Society Membership':'Add Society Membership'}</section>
       <Form>
-        <Input name="societyName" onChange={handleChange} type="text" placeholder="Society Name" value={inputs.societyName}/>
-        <Input name="duration" onChange={handleChange} type="text" placeholder="Duration" value={inputs.duration}/>
+        <Entry>
+          <span>Society Name</span>
+          <Input name="societyName" onChange={handleChange} type="text" placeholder="Society Name" value={inputs.societyName}/>
+        </Entry>
+        <Entry>
+          <span>Duration of Membership</span>
+          <Input name="duration" onChange={handleChange} type="text" placeholder="Duration" value={inputs.duration}/>
+        </Entry>
       </Form>
 
       <Bottom>

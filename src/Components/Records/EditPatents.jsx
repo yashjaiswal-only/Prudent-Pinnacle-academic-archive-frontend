@@ -47,13 +47,26 @@ const Container=styled.div`
 const Form=styled.form`
     display: flex;
     flex-wrap:wrap;
+    width:100%;
+    flex-direction: column;
 `
 const Input=styled.input`
     flex:1;
-    min-width:40%;
-    max-width:40%;
-    margin: 20px 10px 0px 0px;
+    width:100%;
     padding: 10px;
+`
+const Entry=styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width:max-content;
+  min-width:40%;
+  max-width:40%;
+  margin: 0.5rem;
+  span{
+    font-weight: 700;
+    font-size: 0.8rem;
+  }
 `
 const Button=styled.button`
   margin:1rem;
@@ -130,11 +143,26 @@ const EditPatents = () => {
     <Container>
       <section>{location.state?'Edit Patent':'Add Patent'}</section>
       <Form>
-        <Input name="name" onChange={handleChange} type="text" placeholder="Name" value={inputs.name}/>
-        <Input name="country" onChange={handleChange} type="text" placeholder="Country" value={inputs.country}/>
-        <Input name="year" onChange={handleChange} type="text" placeholder="Year" value={inputs.year}/>
-        <Input name="awardNo" onChange={handleChange} type="text" placeholder="Award Number" value={inputs.awardNo}/>
-        <MultipleSelectPlaceholder defaultLabel='Status' names={names} department={status} setDepartment={setStatus}/>
+        <Entry>
+          <span>Name of Patent</span>
+          <Input name="name" onChange={handleChange} type="text" placeholder="Name" value={inputs.name}/>
+        </Entry>
+        <Entry>
+          <span>Country</span>
+          <Input name="country" onChange={handleChange} type="text" placeholder="Country" value={inputs.country}/>
+        </Entry>
+        <Entry>
+          <span>Year</span>
+          <Input name="year" onChange={handleChange} type="text" placeholder="Year" value={inputs.year}/>
+        </Entry>
+        <Entry>
+          <span>Award Number</span>
+          <Input name="awardNo" onChange={handleChange} type="text" placeholder="Award Number" value={inputs.awardNo}/>
+        </Entry>
+        <Entry>
+          <span>Status</span>
+          <MultipleSelectPlaceholder defaultLabel='Status' names={names} department={status} setDepartment={setStatus}/>
+        </Entry>
       </Form>
 
       <Bottom>

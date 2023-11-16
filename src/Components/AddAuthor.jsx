@@ -187,7 +187,6 @@ const AddAuthor = ({authors,setAuthors,students,single}) => {
         temp[index]=newValue;
         setAuthors(temp);
     }
-    console.log(authors)
   return (
     <Container>
        {authors.length?`${title}s :`:''}

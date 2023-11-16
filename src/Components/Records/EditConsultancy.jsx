@@ -45,13 +45,26 @@ const Container=styled.div`
 const Form=styled.form`
     display: flex;
     flex-wrap:wrap;
+    width:100%;
+    flex-direction: column;
 `
 const Input=styled.input`
     flex:1;
-    min-width:40%;
-    max-width:40%;
-    margin: 20px 10px 0px 0px;
+    width:100%;
     padding: 10px;
+`
+const Entry=styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width:max-content;
+  min-width:40%;
+  max-width:40%;
+  margin: 0.5rem;
+  span{
+    font-weight: 700;
+    font-size: 0.8rem;
+  }
 `
 const Button=styled.button`
   margin:1rem;
@@ -125,11 +138,23 @@ const EditConsultancy = () => {
     <Container>
       <section>{location.state?'Edit Consultancy Project':'Add Consultancy Project'}</section>
       <Form>
-        <Input name="title" onChange={handleChange} type="text" placeholder="Project Title" value={inputs.title}/>
-        <Input name="awardingAgency" onChange={handleChange} type="text" placeholder="Awarding Agency" value={inputs.awardingAgency}/>
-        <Input name="cost" onChange={handleChange} type="text" placeholder="Project Cost" value={inputs.cost}/>
+        <Entry>
+          <span>Project Title</span>
+          <Input name="title" onChange={handleChange} type="text" placeholder="Project Title" value={inputs.title}/>
+        </Entry>
+        <Entry>
+          <span>Awarding Agency</span>
+          <Input name="awardingAgency" onChange={handleChange} type="text" placeholder="Awarding Agency" value={inputs.awardingAgency}/>
+        </Entry>
+        <Entry>
+          <span>Project Cost</span>
+          <Input name="cost" onChange={handleChange} type="text" placeholder="Project Cost" value={inputs.cost}/>
+        </Entry>
+        <Entry>
+          <span>Project Status</span>
+          <MultipleSelectPlaceholder defaultLabel='Status' names={names} department={status} setDepartment={setStatus}/>
+        </Entry>
       </Form>
-        <MultipleSelectPlaceholder defaultLabel='Status' names={names} department={status} setDepartment={setStatus}/>
       <Bottom>
         <Button onClick={handleSubmit} disabled={sending}>Save</Button> 
         {sending?<CircularProgress/>:''}

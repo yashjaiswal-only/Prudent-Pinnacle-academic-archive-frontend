@@ -111,12 +111,12 @@ const EditBtp = () => {
     setError(null);
     const {title,...rest}=inputs;
     if(location.state === null){
-      const record={...rest,students,_id:user._id,type:type};
+      const record={...inputs,students,_id:user._id,type:type};
       console.log(record)
       res=await addRecord(record,'btp',token);
     }
     else{
-      const record={...rest,students,_id:user._id,type:type,id:inputs._id};
+      const record={...inputs,students,_id:user._id,type:type,id:inputs._id};
       console.log(record)
       res=await editRecord(record,'btp',token);
     }
@@ -146,7 +146,7 @@ const EditBtp = () => {
       <section>{location.state?'Edit B.Tech Project':'Add new B.Tech Project'}</section>
       <Form>
         <Entry>
-          <span>Name</span>
+          <span>Project Title</span>
           <Input name="title" onChange={handleChange} type="text" placeholder="Title" value={inputs.title}/>
         </Entry>
         <Entry>

@@ -47,12 +47,12 @@ const Container=styled.div`
 const Form=styled.form`
     display: flex;
     flex-wrap:wrap;
+    flex-direction: column;
+    width:100%;
 `
 const Input=styled.input`
     flex:1;
-    min-width:40%;
-    max-width:40%;
-    margin: 20px 10px 0px 0px;
+    width:100%;
     padding: 10px;
 `
 const Button=styled.button`
@@ -73,6 +73,19 @@ const Error=styled.span`
   color:red;
   display: flex;
   align-items: center;
+`
+const Entry=styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width:max-content;
+  min-width:40%;
+  max-width:40%;
+  margin: 0.5rem;
+  span{
+    font-weight: 700;
+    font-size: 0.8rem;
+  }
 `
 const EditPhd = () => {
   const location=useLocation();
@@ -130,11 +143,20 @@ const EditPhd = () => {
 
   return (
     <Container>
-      <section>{location.state?'Edit Patent':'Add Patent'}</section>
+      <section>{location.state?'Edit Scholar':'Add Scholar'}</section>
       <Form>
-        <Input name="scholarName" onChange={handleChange} type="text" placeholder="Scholar Name" value={inputs.scholarName}/>
-        <Input name="phdTitle" onChange={handleChange} type="text" placeholder="PHD Title" value={inputs.phdTitle}/>
-        <MultipleSelectPlaceholder defaultLabel='Status' names={names} department={status} setDepartment={setStatus}/>
+        <Entry>
+          <span>Scholar Name</span>
+          <Input name="scholarName" onChange={handleChange} type="text" placeholder="Scholar Name" value={inputs.scholarName}/>
+        </Entry>
+        <Entry>
+          <span>Phd Title</span>
+          <Input name="phdTitle" onChange={handleChange} type="text" placeholder="PHD Title" value={inputs.phdTitle}/>
+        </Entry>
+        <Entry>
+          <span>Status</span>
+          <MultipleSelectPlaceholder defaultLabel='Status' names={names} department={status} setDepartment={setStatus}/>
+        </Entry>
       </Form>
       <DatePicker  date={date} setDate={setDate} title="Enrolment Date"/>
       <Bottom>
