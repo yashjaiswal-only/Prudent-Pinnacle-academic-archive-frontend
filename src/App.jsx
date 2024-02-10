@@ -44,6 +44,7 @@ import Register2 from './Pages/v2/authentication/Register2';
 import Login2 from './Pages/v2/authentication/Login2';
 import Home2 from './Pages/v2/Home/Home2';
 import HomeBanner from './Components/v2/HomeBanner';
+import MyProfile from './Pages/v2/MyProfile.jsx/MyProfile';
 
 const Component=styled.div`
   top:0;
@@ -182,12 +183,16 @@ function App() {
     {
       path: "/v2/home",
       element: <Home2/>,
-      // children: [
-      //   {
-      //     path: "/",
-      //     element: <HomeBanner  />,
-      //   },
-      // ]
+      children: [
+        {
+          path: "/v2/home",
+          element: <HomeBanner  />,
+        },
+        // {
+        //   path: "/v2/home/profile",
+        //   element: <MyProfile  />,
+        // },
+      ]
     },
     {
       path: "/v2/register",

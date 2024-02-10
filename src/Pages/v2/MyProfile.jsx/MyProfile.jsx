@@ -12,11 +12,11 @@ const Container=styled.div`
     align-items: center;
     color:#EEEEEE;
 `
-const HomeBanner = () => {
-
+const MyProfile = () => {
   return (
-    <Container>HomeBanner</Container>
+    <div>d</div>
+    // <Container>Profile page</Container>
   )
 }
 
-export default HomeBanner
+export default MyProfile

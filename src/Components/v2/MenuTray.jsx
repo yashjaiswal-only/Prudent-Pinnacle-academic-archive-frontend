@@ -2,21 +2,21 @@ import React from 'react'
 import styled from 'styled-components'
 const Container=styled.div`
     position: absolute;
-    top:6rem;
+    top:3rem;
     left:0;
+    z-index:1000;
     width:100%;
-    height:100vh;
-    background-color: #113B50;
+    height:3rem;
+    background-color: #053B11;
     display: flex;
     justify-content: center;
     align-items: center;
-    color:#EEEEEE;
+    color:#E77EEE;
 `
-const HomeBanner = () => {
-
+const MenuTray = () => {
   return (
-    <Container>HomeBanner</Container>
+    <Container>Topbar</Container>
   )
 }
 
-export default HomeBanner
+export default MenuTray
