@@ -1,15 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
-// import CssBaseline from "@mui/material/CssBaseline";
-// import Box from '@mui/material/Box';
-// import Avatar from '@mui/material/Avatar';
-// import Menu from '@mui/material/Menu';
-// import MenuItem from '@mui/material/MenuItem';
-// import ListItemIcon from '@mui/material/ListItemIcon';
-// import Divider from '@mui/material/Divider';
-// import IconButton from '@mui/material/IconButton';
-// import Tooltip from '@mui/material/Tooltip';
-// import Logout from '@mui/icons-material/Logout';
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from '@mui/material/Box';
+import Avatar from '@mui/material/Avatar';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import Logout from '@mui/icons-material/Logout';
 
 const Container=styled.div`
     position: absolute;
@@ -45,7 +45,7 @@ const Topbar = () => {
     <Container>
         <Right>Prudence</Right>
        <Left>
-            {/* <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                 <Tooltip title="Account settings">
                 <IconButton
                     onClick={handleClick}
@@ -106,7 +106,7 @@ const Topbar = () => {
                     </ListItemIcon>
                     Logout
                 </MenuItem>
-            </Menu> */}
+            </Menu>
        </Left>
     </Container>
   )

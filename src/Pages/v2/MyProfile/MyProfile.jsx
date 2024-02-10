@@ -14,8 +14,7 @@ const Container=styled.div`
 `
 const MyProfile = () => {
   return (
-    <div>d</div>
-    // <Container>Profile page</Container>
+    <Container>Profile page</Container>
   )
 }
 
