@@ -40,6 +40,10 @@ import Project from './Components/Records/Project';
 import EditProject from './Components/Records/EditProject';
 import Consultancy from './Components/Records/Consultancy';
 import EditConsultancy from './Components/Records/EditConsultancy';
+import Register2 from './Pages/v2/authentication/Register2';
+import Login2 from './Pages/v2/authentication/Login2';
+import Home2 from './Pages/v2/Home/Home2';
+import HomeBanner from './Components/v2/HomeBanner';
 
 const Component=styled.div`
   top:0;
@@ -175,6 +179,24 @@ function App() {
       ],
     },
     
+    {
+      path: "/v2/home",
+      element: <Home2/>,
+      // children: [
+      //   {
+      //     path: "/",
+      //     element: <HomeBanner  />,
+      //   },
+      // ]
+    },
+    {
+      path: "/v2/register",
+      element: <Register2/>,
+    },
+    {
+      path: "/v2/login",
+      element: <Login2/>,
+    },
     {
       path: "/register",
       element: <Register/>,
