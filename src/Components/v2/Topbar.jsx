@@ -20,6 +20,8 @@ const Container=styled.div`
     justify-content: space-between;
     align-items: center;
     color:#EEEEEE;
+    background: linear-gradient(45deg, rgba(61,88,230,1) 0%, rgba(111,179,228,1) 33%);
+
 `
 const Right=styled.div`
     margin:2rem;

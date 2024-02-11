@@ -3,7 +3,6 @@ import styled from 'styled-components'
 const Container=styled.div`
     width:100%;
     height:100vh;
-    background-color: #113B50;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -11,6 +10,7 @@ const Container=styled.div`
     font-style: oblique;
     font-family: math;
     color: thistle;
+    background: linear-gradient(45deg, rgba(61,88,230,1) 0%, rgba(111,179,228,1) 33%);
 `
 const HomeBanner = () => {
 
