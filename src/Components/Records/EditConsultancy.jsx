@@ -6,7 +6,7 @@ import { CircularProgress } from '@mui/material';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import { addRecord, editRecord } from '../../api_calls/Record';
 import { removeConsultancy,  } from '../../redux/recordsRedux';
-import MultipleSelectPlaceholder from '../DepartmentSelector';
+import MultipleSelectPlaceholder from '../v1/DepartmentSelector';
 
 
 const Container=styled.div`

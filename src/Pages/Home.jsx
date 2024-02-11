@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import Navbar from '../Components/Navbar'
+import Navbar from '../Components/v1/Navbar'
 import { Outlet, useNavigate } from "react-router-dom";
-import Sidebar from '../Components/Sidebar';
+import Sidebar from '../Components/v1/Sidebar';
 
 const Wrapper=styled.div`
     width:100vw;

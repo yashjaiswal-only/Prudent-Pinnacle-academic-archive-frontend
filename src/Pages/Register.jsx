@@ -6,7 +6,7 @@ import { register, checkUser } from '../api_calls/Auth';
 import {  useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { CircularProgress } from '@mui/material';
-import MultipleSelectPlaceholder from '../Components/DepartmentSelector.jsx';
+import MultipleSelectPlaceholder from '../Components/v1/DepartmentSelector.jsx';
 import { departmentNames } from '../data.js';
 
 

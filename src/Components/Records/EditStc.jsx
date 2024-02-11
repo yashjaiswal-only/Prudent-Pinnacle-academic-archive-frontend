@@ -4,10 +4,10 @@ import {  useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { CircularProgress } from '@mui/material';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
-import AddAuthor from '../AddAuthor';
+import AddAuthor from '../v1/AddAuthor';
 import { addRecord, editRecord } from '../../api_calls/Record';
 import { removeFdp, removeMtp, removeStc } from '../../redux/recordsRedux';
-import DatePicker from '../DatePicker';
+import DatePicker from '../v1/DatePicker';
 
 
 const Container=styled.div`

@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import { Link  } from 'react-router-dom';
-import Loader from '../Loader';
+import Loader from '../v1/Loader';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import { Capitalize } from '../../services';
 import {  updateSociety } from '../../redux/recordsRedux';
 import { getAllRecord } from '../../api_calls/Record';
-import EmptyList from '../EmptyList'
+import EmptyList from '../v1/EmptyList'
 
 const Container=styled.div`
     display: flex;

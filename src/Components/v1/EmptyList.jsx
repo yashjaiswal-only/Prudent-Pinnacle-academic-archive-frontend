@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import nothing from '../images/nothing.png'
+import nothing from '../../images/nothing.png'
 
 const Container=styled.div`
     width:100%;
