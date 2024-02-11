@@ -10,6 +10,8 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Logout from '@mui/icons-material/Logout';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const Container=styled.div`
     z-index:1000;
@@ -30,6 +32,9 @@ const Right=styled.div`
 `
 const Left=styled.div`
     margin:2rem;
+    display:flex;
+    align-items:center;
+    font-size:1.5rem;
 `
 const Topbar = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -41,11 +46,20 @@ const Topbar = () => {
       setAnchorEl(null);
     };
     
+    const user=useSelector(state=>state.user.currentUser);
+    const navigate=useNavigate();
+    const handleLogout=()=>{
+        dispatch(logoutSuccess());
+        dispatch(removeAll())
+        dispatch(removeAllRecord())
+        navigate('/login')
+      }
   return (
 
     <Container>
-        <Right>Prudent Pinnacle</Right>
+        <Right onClick={()=>navigate('/v2/home')}>Prudent Pinnacle</Right>
        <Left>
+            Hi, {user?user.name:''}
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                 <Tooltip title="Account settings">
                 <IconButton
@@ -56,7 +70,7 @@ const Topbar = () => {
                     aria-haspopup="true"
                     aria-expanded={open ? 'true' : undefined}
                 >
-                    <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                    <Avatar sx={{ width: 32, height: 32 }}>{user.name.slice(0,1)}</Avatar>
                 </IconButton>
                 </Tooltip>
             </Box>
@@ -95,13 +109,13 @@ const Topbar = () => {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem onClick={handleClose}>
-                    <Avatar /> Profile
+                <MenuItem onClick={()=>navigate('/v2/home/profile')}>
+                    <Avatar src={user.avatar} /> Profile
                 </MenuItem>
                 
                 <Divider />
                
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={handleLogout}>
                     <ListItemIcon>
                         <Logout fontSize="small" />
                     </ListItemIcon>

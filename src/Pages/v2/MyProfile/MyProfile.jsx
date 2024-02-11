@@ -14,23 +14,25 @@ const MyProfile = () => {
     if(user===null) navigate('/v2/login');
   },[])
   return (
-    <div className='frame'>
+    <>
+    {user?<div className='frame'>
       <div className="details">
-            <div className="heading">
-              <h1>{user.name}</h1>
-              <h2>@{user.username}</h2>
-            </div>
-            <div className="labels">
-              <div className="obj"><EmailIcon fontSize="large"/> {user.email}</div>
-              <div className="obj"><PhoneIcon fontSize="large"/>{user.ph} </div>
-              <div className="obj"><Degree fontSize="large"/> {user.qualification}</div>
-              <div className="obj"><Department fontSize="large"/> {user.department}</div>
-            </div>
+          <div className="heading">
+            <h1>{user.name}</h1>
+            <h2>@{user.username}</h2>
+          </div>
+          <div className="labels">
+            <div className="obj"><EmailIcon fontSize="large"/> {user.email}</div>
+            <div className="obj"><PhoneIcon fontSize="large"/>{user.ph} </div>
+            <div className="obj"><Degree fontSize="large"/> {user.qualification}</div>
+            <div className="obj"><Department fontSize="large"/> {user.department}</div>
+          </div>
       </div>
       <div className="pic">
-          <img src={user.avatar}/>
+        <img src={user.avatar}/>
       </div>
-    </div>
+    </div>:''}
+    </>
   )
 }
 

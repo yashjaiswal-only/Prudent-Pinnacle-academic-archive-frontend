@@ -47,9 +47,7 @@ import HomeBanner from './Components/v2/HomeBanner';
 import MyProfile from './Pages/v2/MyProfile/MyProfile';
 
 const Component=styled.div`
-  top:0;
-  left:0;
-  position: absolute;
+  width:100vw;
 `
 function App() {
   const router = createBrowserRouter([

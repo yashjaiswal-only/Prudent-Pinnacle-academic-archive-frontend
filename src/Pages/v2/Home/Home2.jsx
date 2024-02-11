@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import Topbar from '../../../Components/v2/Topbar'
 import MenuTray from '../../../Components/v2/MenuTray'
 const Wrapper=styled.div`
-    width:100vw;
+    width:100%;
     height:100vh;
     position: relative;
     background-color: #EEEEEE;
