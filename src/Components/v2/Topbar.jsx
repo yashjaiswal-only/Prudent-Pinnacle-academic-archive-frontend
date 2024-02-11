@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import CssBaseline from "@mui/material/CssBaseline";
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
@@ -10,8 +9,11 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Logout from '@mui/icons-material/Logout';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { logoutSuccess } from '../../redux/userRedux'
+import { removeAll } from '../../redux/papersRedux'
+import { removeAllRecord } from '../../redux/recordsRedux'
 
 const Container=styled.div`
     z-index:1000;
@@ -48,11 +50,12 @@ const Topbar = () => {
     
     const user=useSelector(state=>state.user.currentUser);
     const navigate=useNavigate();
+    const dispatch=useDispatch();
     const handleLogout=()=>{
-        dispatch(logoutSuccess());
+        dispatch(logoutSuccess())
         dispatch(removeAll())
         dispatch(removeAllRecord())
-        navigate('/login')
+        navigate('/v2/login')
       }
   return (
 

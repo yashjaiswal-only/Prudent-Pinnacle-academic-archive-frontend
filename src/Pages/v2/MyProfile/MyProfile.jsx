@@ -18,8 +18,11 @@ const MyProfile = () => {
     {user?<div className='frame'>
       <div className="details">
           <div className="heading">
-            <h1>{user.name}</h1>
-            <h2>@{user.username}</h2>
+              <img className="pic" src={user.avatar}/>
+              <section>
+                <h1>{user.name}</h1>
+                <h2>@{user.username}</h2>
+              </section>
           </div>
           <div className="labels">
             <div className="obj"><EmailIcon fontSize="large"/> {user.email}</div>
@@ -28,9 +31,7 @@ const MyProfile = () => {
             <div className="obj"><Department fontSize="large"/> {user.department}</div>
           </div>
       </div>
-      <div className="pic">
-        <img src={user.avatar}/>
-      </div>
+      
     </div>:''}
     </>
   )
