@@ -6,7 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import { Tooltip } from '@mui/material';
-import { Capitalize } from '../services';
+import { Capitalize } from '../../services';
 
 const Container=styled.div`
     display: flex;

@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import {  useDispatch, useSelector } from 'react-redux'
 import ClearIcon from '@mui/icons-material/Clear';
-import { addPaper, editPaper } from '../api_calls/Papers';
+import { addPaper, editPaper } from '../../api_calls/Papers';
 import { useLocation, useNavigate } from 'react-router-dom'
-import {  removeConferences, removeJournals } from '../redux/papersRedux';
+import {  removeJournals } from '../../redux/papersRedux';
 import { CircularProgress } from '@mui/material';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import AddAuthor from './AddAuthor';
 import DatePicker from './DatePicker';
+
 
 
 const Container=styled.div`
@@ -74,7 +75,7 @@ const Error=styled.span`
   display: flex;
   align-items: center;
 `
-const EditConference = () => {
+const EditJournal = () => {
   const location=useLocation();
   const dispatch=useDispatch();
   const user=useSelector(state=>state.user.currentUser);
@@ -85,7 +86,6 @@ const EditConference = () => {
   const [sending,setSending]=useState(false);
   const [error,setError]=useState(null);
   const [date, setDate] = useState(null);
-  const [conferenceDate, setConferenceDate] = useState(null);
 
   const handleChange=e=>{
     setInputs(prev=>{
@@ -99,28 +99,27 @@ const EditConference = () => {
     setSending(true);
     const {title,...rest}=inputs;
     if(location.state === null){
-      const paper={...rest,title:title.toLowerCase(),authors,_id:user._id,publishedOn:date,conferenceDate:conferenceDate};
+      const paper={...rest,title:title.toLowerCase(),authors,_id:user._id,publishedOn:date};
       console.log(paper)
-      res=await addPaper(paper,'conference',token);
+      res=await addPaper(paper,'journal',token);
     }
     else{
-      const paper={...rest,title:title.toLowerCase(),authors,_id:user._id,pid:inputs._id,publishedOn:date,conferenceDate:conferenceDate};
+      const paper={...rest,title:title.toLowerCase(),authors,_id:user._id,pid:inputs._id,publishedOn:date};
       console.log(paper)
-      res=await editPaper(paper,'conference',token);
+      res=await editPaper(paper,'journal',token);
     }
     console.log(res)
     if(res.status===200){
-      dispatch(removeConferences());
-      navigate('/researchpaper/conference')
+      dispatch(removeJournals());
+      navigate('/researchpaper/journal')
     }
     else setError(res.response.data.message);
     setSending(false);
   }
   useEffect(()=>{
     if(location.state){
-      const {authors,uid,createdAt,updatedAt,publishedOn,conferenceDate,...others}=location.state;
+      const {authors,uid,createdAt,updatedAt,publishedOn,...others}=location.state;
       setDate(publishedOn);
-      setConferenceDate(conferenceDate);
       setInputs(others);
       setAuthors(authors);
     }
@@ -128,17 +127,17 @@ const EditConference = () => {
 
   return (
     <Container>
-      <section>{location.state?'Edit Conference Paper':'Add new Conference Paper'}</section>
+      <section>{location.state?'Edit Journal':'Add new Journal'}</section>
       <Form>
         <Input name="title" onChange={handleChange} type="text" placeholder="Title" value={inputs.title}/>
         <Input name="doi" onChange={handleChange} type="text" placeholder="DOI" value={inputs.doi}/>
-        <Input name="conferenceTitle" onChange={handleChange} type="text" placeholder="Conference Title" value={inputs.conferenceTitle}/>
-        <Input name="publisher" onChange={handleChange} type="text" placeholder="Publisher" value={inputs.publisher}/>
-        <Input name="isbn" onChange={handleChange} type="text" placeholder="ISBN" value={inputs.isbn}/>
-        <Input name="location" onChange={handleChange} type="text" placeholder="Conference Location" value={inputs.location}/>
+        <Input name="journalTitle" onChange={handleChange} type="text" placeholder="Journal Title" value={inputs.journalTitle}/>
+        <Input name="issn" onChange={handleChange} type="text" placeholder="ISSN" value={inputs.issn}/>
+        <Input name="volume" onChange={handleChange} type="text" placeholder="Volume" value={inputs.volume}/>
+        <Input name="issue" onChange={handleChange} type="text" placeholder="Issue" value={inputs.issue}/>
+        <Input name="pageRange" onChange={handleChange} type="text" placeholder="Page Range" value={inputs.pageRange}/>
       </Form>
       <DatePicker  date={date} setDate={setDate} title="Publication Date"/>
-      <DatePicker  date={conferenceDate} setDate={setConferenceDate} title="Conference Date"/>
 
       <AddAuthor authors={authors} setAuthors={setAuthors} />
 
@@ -151,4 +150,4 @@ const EditConference = () => {
   )
 }
 
-export default EditConference;
+export default EditJournal;

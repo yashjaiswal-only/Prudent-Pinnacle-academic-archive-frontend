@@ -3,15 +3,14 @@ import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
-import { getAllPaper } from '../api_calls/Papers';
+import { getAllPaper } from '../../api_calls/Papers';
 import { Link  } from 'react-router-dom';
-import { updateBooks } from '../redux/papersRedux';
+import { updateChapters } from '../../redux/papersRedux';
 import Loader from './Loader';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import PersonIcon from '@mui/icons-material/Person';
-import { Capitalize } from '../services';
+import { Capitalize } from '../../services';
 import EmptyList from './EmptyList';
-
 const Container=styled.div`
     display: flex;
     flex-direction: column;
@@ -41,7 +40,7 @@ const Bottom=styled.div`
   flex-direction: column;
   width:100%;
   padding:1rem;
-  min-height:80vh;
+  min-height:60vh;
 `
 const Entry=styled.div`
   background-color: #fff;
@@ -86,67 +85,70 @@ const Error=styled.span`
   display: flex;
   align-items: center;
 `
-const Book = () => {
-  const [booksList,setBooksList]=useState([]);
+const Chapter = () => {
+  const [chaptersList,setChaptersList]=useState([]);
   const [fetching,setFetching]=useState(false);
   const [error,setError]=useState(null);
-  const {books}=useSelector(state=>state.papers)
+  const {chapters}=useSelector(state=>state.papers)
   const user=useSelector(state=>state.user.currentUser)
   const token=useSelector(state=>state.user.token)
   const dispatch=useDispatch();
- 
   const get=async()=>{
     setError(false);
     setFetching(true);
-    const res=await getAllPaper(user._id,'book',token);
+    const res=await getAllPaper(user._id,'chapter',token);
     console.log(res)
     if(res.status===200){
-      dispatch(updateBooks(res.data));
-      setBooksList(res.data);
+      dispatch(updateChapters(res.data));
+      setChaptersList(res.data);
     }
     else setError(res.response.data.message);
     setFetching(false);
   }
   useEffect(()=>{
-    if(books)  setBooksList(books);
+    if(chapters)  setChaptersList(chapters);
     else get();
-    console.log(books)
   },[])
   return (
     <Container>
       <Top>
-        <span>Books</span>
-        <Link to='/book/edit' >
+        <span>Book Chapter</span>
+        <Link to='/chapter/edit' >
           <button><AddIcon/> Add New</button>
         </Link>
       </Top>
       <Bottom>
-        {fetching===false&&booksList.length===0?
-        <EmptyList qoute={'Nothing to show here. Please add your Books'}/>
+      {fetching===false&&chaptersList.length===0?
+        <EmptyList qoute={'Nothing to show here. Please add your Book Chapters'}/>
         :''}
-        {fetching===false?booksList.map((book)=>
-          <Entry>
+        {fetching===false?chaptersList.map((chapter)=>
+          <Entry key={chapter._id}>
             <section>
-            <Link to="/book/edit" state={book}>
+            <Link to="/chapter/edit" state={chapter}>
               <EditIcon/>
             </Link>
             </section>
-          <div><span>Title : </span>{Capitalize(book.title)}</div>
+          <div><span>Title : </span>{Capitalize(chapter.title)}</div>
           <div><span>Authors : </span>
-          <ul>
-              {book.authors.map((a)=>
+            <ul>
+              {chapter.authors.map((a)=>
               <li>
                 {`${a.first}`+" "+`${a.middle?a.middle:''}`+" "+`${a.last}`} 
                 {a.corresponding?<PersonIcon sx={{color:'#8787d8'}}/>:''}
               </li>)}
-          </ul>
+            </ul>
           </div>
-          
-          <div><span>Publisher : </span>{book.publisher}</div>
-          <div><span>Published on : </span>{book.publishedOn}</div>
-          <div><span>DOI : </span>{book.doi}</div>
-          <div><span>ISBN : </span>{book.isbn}</div>
-          <div><span>Edition : </span>{book.edition}</div>
+          <div><span>Editors : </span>
+            <ul>
+              {chapter.editors.map((a)=><li>{`${a.first}`+" "+`${a.middle?a.middle:''}`+" "+`${a.last}`}</li>)}
+            </ul>
+          </div>
+          <div><span>Book Title : </span>{chapter.bookTitle}</div>
+          <div><span>Publisher : </span>{chapter.publisher}</div>
+          <div><span>Published on : </span>{chapter.publishedOn}</div>
+          <div><span>DOI : </span>{chapter.doi}</div>
+          <div><span>ISBN : </span>{chapter.isbn}</div>
+          <div><span>Page Range : </span>{chapter.pageRange}</div>
           </Entry>
         ):
           <Loader/>
@@ -159,4 +161,4 @@ const Book = () => {
   )
 }
 
-export default Book;
+export default Chapter

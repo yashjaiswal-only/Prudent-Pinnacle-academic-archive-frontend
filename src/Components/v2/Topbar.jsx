@@ -12,23 +12,22 @@ import Tooltip from '@mui/material/Tooltip';
 import Logout from '@mui/icons-material/Logout';
 
 const Container=styled.div`
-    position: absolute;
-    top:0;
-    left:0;
     z-index:1000;
     width:100%;
     height:3rem;
     background-color: #053B50;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     color:#EEEEEE;
 `
 const Right=styled.div`
-
+    margin:2rem;
+    font-size: 2rem;
+    font-family: math;
 `
 const Left=styled.div`
-
+    margin:2rem;
 `
 const Topbar = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -43,7 +42,7 @@ const Topbar = () => {
   return (
 
     <Container>
-        <Right>Prudence</Right>
+        <Right>Prudent Pinnacle</Right>
        <Left>
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                 <Tooltip title="Account settings">

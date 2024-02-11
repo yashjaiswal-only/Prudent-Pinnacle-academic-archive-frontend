@@ -3,14 +3,15 @@ import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
-import { getAllPaper } from '../api_calls/Papers';
+import { getAllPaper } from '../../api_calls/Papers';
 import { Link  } from 'react-router-dom';
-import { updateChapters } from '../redux/papersRedux';
+import { updateConferences, updateJournals } from '../../redux/papersRedux';
 import Loader from './Loader';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import PersonIcon from '@mui/icons-material/Person';
-import { Capitalize } from '../services';
+import { Capitalize } from '../../services';
 import EmptyList from './EmptyList';
+
 const Container=styled.div`
     display: flex;
     flex-direction: column;
@@ -85,70 +86,69 @@ const Error=styled.span`
   display: flex;
   align-items: center;
 `
-const Chapter = () => {
-  const [chaptersList,setChaptersList]=useState([]);
+const Conference = () => {
+  const [conferencesList,setConferencesList]=useState([]);
   const [fetching,setFetching]=useState(false);
   const [error,setError]=useState(null);
-  const {chapters}=useSelector(state=>state.papers)
+  const {conferences}=useSelector(state=>state.papers)
   const user=useSelector(state=>state.user.currentUser)
   const token=useSelector(state=>state.user.token)
   const dispatch=useDispatch();
+
   const get=async()=>{
     setError(false);
     setFetching(true);
-    const res=await getAllPaper(user._id,'chapter',token);
+    const res=await getAllPaper(user._id,'conference',token);
     console.log(res)
     if(res.status===200){
-      dispatch(updateChapters(res.data));
-      setChaptersList(res.data);
+      dispatch(updateConferences(res.data));
+      setConferencesList(res.data);
     }
     else setError(res.response.data.message);
     setFetching(false);
   }
   useEffect(()=>{
-    if(chapters)  setChaptersList(chapters);
+    if(conferences)  setConferencesList(conferences);
     else get();
+    console.log(conferences)
   },[])
   return (
     <Container>
       <Top>
-        <span>Book Chapter</span>
-        <Link to='/chapter/edit' >
+        <span>Conferences</span>
+        <Link to='/conference/edit' >
           <button><AddIcon/> Add New</button>
         </Link>
       </Top>
       <Bottom>
-      {fetching===false&&chaptersList.length===0?
-        <EmptyList qoute={'Nothing to show here. Please add your Book Chapters'}/>
+      {fetching===false&&conferencesList.length===0?
+        <EmptyList qoute={'Nothing to show here. Please add your Conference Papers'}/>
         :''}
-        {fetching===false?chaptersList.map((chapter)=>
-          <Entry key={chapter._id}>
+        {fetching===false?conferencesList.map((conference)=>
+          <Entry>
             <section>
-            <Link to="/chapter/edit" state={chapter}>
+            <Link to="/conference/edit" state={conference}>
               <EditIcon/>
             </Link>
             </section>
-          <div><span>Title : </span>{Capitalize(chapter.title)}</div>
+          <div><span>Title : </span>{Capitalize(conference.title)}</div>
           <div><span>Authors : </span>
             <ul>
-              {chapter.authors.map((a)=>
+              {conference.authors.map((a)=>
               <li>
                 {`${a.first}`+" "+`${a.middle?a.middle:''}`+" "+`${a.last}`} 
                 {a.corresponding?<PersonIcon sx={{color:'#8787d8'}}/>:''}
               </li>)}
             </ul>
           </div>
-          <div><span>Editors : </span>
-            <ul>
-              {chapter.editors.map((a)=><li>{`${a.first}`+" "+`${a.middle?a.middle:''}`+" "+`${a.last}`}</li>)}
-            </ul>
-          </div>
-          <div><span>Book Title : </span>{chapter.bookTitle}</div>
-          <div><span>Publisher : </span>{chapter.publisher}</div>
-          <div><span>Published on : </span>{chapter.publishedOn}</div>
-          <div><span>DOI : </span>{chapter.doi}</div>
-          <div><span>ISBN : </span>{chapter.isbn}</div>
-          <div><span>Page Range : </span>{chapter.pageRange}</div>
+          
+          <div><span>Conference Title : </span>{conference.conferenceTitle}</div>
+          <div><span>Conference Date : </span>{conference.conferenceDate}</div>
+          <div><span>Published on : </span>{conference.publishedOn}</div>
+          <div><span>Publisher : </span>{conference.publisher}</div>
+          <div><span>DOI : </span>{conference.doi}</div>
+          <div><span>ISBN : </span>{conference.isbn}</div>
+          <div><span>Location : </span>{conference.location}</div>
           </Entry>
         ):
           <Loader/>
@@ -161,4 +161,4 @@ const Chapter = () => {
   )
 }
 
-export default Chapter
+export default Conference;

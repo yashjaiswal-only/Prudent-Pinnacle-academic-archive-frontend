@@ -3,13 +3,13 @@ import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
-import { getAllPaper } from '../api_calls/Papers';
+import { getAllPaper } from '../../api_calls/Papers';
 import { Link  } from 'react-router-dom';
-import { updateConferences, updateJournals } from '../redux/papersRedux';
+import { updateJournals } from '../../redux/papersRedux';
 import Loader from './Loader';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import PersonIcon from '@mui/icons-material/Person';
-import { Capitalize } from '../services';
+import { Capitalize } from '../../services';
 import EmptyList from './EmptyList';
 
 const Container=styled.div`
@@ -86,11 +86,11 @@ const Error=styled.span`
   display: flex;
   align-items: center;
 `
-const Conference = () => {
-  const [conferencesList,setConferencesList]=useState([]);
+const Journal = () => {
+  const [jounalsList,setJournalsList]=useState([]);
   const [fetching,setFetching]=useState(false);
   const [error,setError]=useState(null);
-  const {conferences}=useSelector(state=>state.papers)
+  const {journals}=useSelector(state=>state.papers)
   const user=useSelector(state=>state.user.currentUser)
   const token=useSelector(state=>state.user.token)
   const dispatch=useDispatch();
@@ -98,57 +98,57 @@ const Conference = () => {
   const get=async()=>{
     setError(false);
     setFetching(true);
-    const res=await getAllPaper(user._id,'conference',token);
+    const res=await getAllPaper(user._id,'journal',token);
     console.log(res)
     if(res.status===200){
-      dispatch(updateConferences(res.data));
-      setConferencesList(res.data);
+      dispatch(updateJournals(res.data));
+      setJournalsList(res.data);
     }
     else setError(res.response.data.message);
     setFetching(false);
   }
   useEffect(()=>{
-    if(conferences)  setConferencesList(conferences);
+    if(journals)  setJournalsList(journals);
     else get();
-    console.log(conferences)
+    console.log(journals)
   },[])
   return (
     <Container>
       <Top>
-        <span>Conferences</span>
-        <Link to='/conference/edit' >
+        <span>Journals</span>
+        <Link to='/journal/edit' >
           <button><AddIcon/> Add New</button>
         </Link>
       </Top>
       <Bottom>
-      {fetching===false&&conferencesList.length===0?
-        <EmptyList qoute={'Nothing to show here. Please add your Conference Papers'}/>
+        {fetching===false&&jounalsList.length===0?
+        <EmptyList qoute={'Nothing to show here. Please add your Journal Papers'}/>
         :''}
-        {fetching===false?conferencesList.map((conference)=>
+        {fetching===false?jounalsList.map((journal)=>
           <Entry>
             <section>
-            <Link to="/conference/edit" state={conference}>
+            <Link to="/journal/edit" state={journal}>
               <EditIcon/>
             </Link>
             </section>
-          <div><span>Title : </span>{Capitalize(conference.title)}</div>
+          <div><span>Title : </span>{Capitalize(journal.title)}</div>
           <div><span>Authors : </span>
             <ul>
-              {conference.authors.map((a)=>
+              {journal.authors.map((a)=>
               <li>
-                {`${a.first}`+" "+`${a.middle?a.middle:''}`+" "+`${a.last}`} 
-                {a.corresponding?<PersonIcon sx={{color:'#8787d8'}}/>:''}
+              {`${a.first}`+" "+`${a.middle?a.middle:''}`+" "+`${a.last}`} 
+              {a.corresponding?<PersonIcon sx={{color:'#8787d8'}}/>:''}
               </li>)}
             </ul>
           </div>
           
-          <div><span>Conference Title : </span>{conference.conferenceTitle}</div>
-          <div><span>Conference Date : </span>{conference.conferenceDate}</div>
-          <div><span>Published on : </span>{conference.publishedOn}</div>
-          <div><span>Publisher : </span>{conference.publisher}</div>
-          <div><span>DOI : </span>{conference.doi}</div>
-          <div><span>ISBN : </span>{conference.isbn}</div>
-          <div><span>Location : </span>{conference.location}</div>
+          <div><span>Journal Title : </span>{journal.journalTitle}</div>
+          <div><span>Published on : </span>{journal.publishedOn}</div>
+          <div><span>DOI : </span>{journal.doi}</div>
+          <div><span>ISSN : </span>{journal.issn}</div>
+          <div><span>Volume : </span>{journal.volume}</div>
+          <div><span>Issue : </span>{journal.issue}</div>
+          <div><span>Page Range : </span>{journal.pageRange}</div>
           </Entry>
         ):
           <Loader/>
@@ -161,4 +161,4 @@ const Conference = () => {
   )
 }
 
-export default Conference;
+export default Journal;

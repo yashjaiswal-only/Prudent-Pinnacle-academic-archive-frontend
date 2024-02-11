@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { logoutSuccess } from '../redux/userRedux'
-import { removeAll } from '../redux/papersRedux'
-import { removeAllRecord } from '../redux/recordsRedux'
+import { logoutSuccess } from '../../redux/userRedux'
+import { removeAll } from '../../redux/papersRedux'
+import { removeAllRecord } from '../../redux/recordsRedux'
 
 const Container=styled.div`
     position: absolute;

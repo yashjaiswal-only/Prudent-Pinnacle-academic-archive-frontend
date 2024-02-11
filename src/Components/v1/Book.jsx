@@ -3,13 +3,13 @@ import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
-import { getAllPaper } from '../api_calls/Papers';
+import { getAllPaper } from '../../api_calls/Papers';
 import { Link  } from 'react-router-dom';
-import { updateJournals } from '../redux/papersRedux';
+import { updateBooks } from '../../redux/papersRedux';
 import Loader from './Loader';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import PersonIcon from '@mui/icons-material/Person';
-import { Capitalize } from '../services';
+import { Capitalize } from '../../services';
 import EmptyList from './EmptyList';
 
 const Container=styled.div`
@@ -41,7 +41,7 @@ const Bottom=styled.div`
   flex-direction: column;
   width:100%;
   padding:1rem;
-  min-height:60vh;
+  min-height:80vh;
 `
 const Entry=styled.div`
   background-color: #fff;
@@ -86,69 +86,67 @@ const Error=styled.span`
   display: flex;
   align-items: center;
 `
-const Journal = () => {
-  const [jounalsList,setJournalsList]=useState([]);
+const Book = () => {
+  const [booksList,setBooksList]=useState([]);
   const [fetching,setFetching]=useState(false);
   const [error,setError]=useState(null);
-  const {journals}=useSelector(state=>state.papers)
+  const {books}=useSelector(state=>state.papers)
   const user=useSelector(state=>state.user.currentUser)
   const token=useSelector(state=>state.user.token)
   const dispatch=useDispatch();
-
+ 
   const get=async()=>{
     setError(false);
     setFetching(true);
-    const res=await getAllPaper(user._id,'journal',token);
+    const res=await getAllPaper(user._id,'book',token);
     console.log(res)
     if(res.status===200){
-      dispatch(updateJournals(res.data));
-      setJournalsList(res.data);
+      dispatch(updateBooks(res.data));
+      setBooksList(res.data);
     }
     else setError(res.response.data.message);
     setFetching(false);
   }
   useEffect(()=>{
-    if(journals)  setJournalsList(journals);
+    if(books)  setBooksList(books);
     else get();
-    console.log(journals)
+    console.log(books)
   },[])
   return (
     <Container>
       <Top>
-        <span>Journals</span>
-        <Link to='/journal/edit' >
+        <span>Books</span>
+        <Link to='/book/edit' >
           <button><AddIcon/> Add New</button>
         </Link>
       </Top>
       <Bottom>
-        {fetching===false&&jounalsList.length===0?
-        <EmptyList qoute={'Nothing to show here. Please add your Journal Papers'}/>
+        {fetching===false&&booksList.length===0?
+        <EmptyList qoute={'Nothing to show here. Please add your Books'}/>
         :''}
-        {fetching===false?jounalsList.map((journal)=>
+        {fetching===false?booksList.map((book)=>
           <Entry>
             <section>
-            <Link to="/journal/edit" state={journal}>
+            <Link to="/book/edit" state={book}>
               <EditIcon/>
             </Link>
             </section>
-          <div><span>Title : </span>{Capitalize(journal.title)}</div>
+          <div><span>Title : </span>{Capitalize(book.title)}</div>
           <div><span>Authors : </span>
-            <ul>
-              {journal.authors.map((a)=>
+          <ul>
+              {book.authors.map((a)=>
               <li>
-              {`${a.first}`+" "+`${a.middle?a.middle:''}`+" "+`${a.last}`} 
-              {a.corresponding?<PersonIcon sx={{color:'#8787d8'}}/>:''}
+                {`${a.first}`+" "+`${a.middle?a.middle:''}`+" "+`${a.last}`} 
+                {a.corresponding?<PersonIcon sx={{color:'#8787d8'}}/>:''}
               </li>)}
-            </ul>
+          </ul>
           </div>
           
-          <div><span>Journal Title : </span>{journal.journalTitle}</div>
-          <div><span>Published on : </span>{journal.publishedOn}</div>
-          <div><span>DOI : </span>{journal.doi}</div>
-          <div><span>ISSN : </span>{journal.issn}</div>
-          <div><span>Volume : </span>{journal.volume}</div>
-          <div><span>Issue : </span>{journal.issue}</div>
-          <div><span>Page Range : </span>{journal.pageRange}</div>
+          <div><span>Publisher : </span>{book.publisher}</div>
+          <div><span>Published on : </span>{book.publishedOn}</div>
+          <div><span>DOI : </span>{book.doi}</div>
+          <div><span>ISBN : </span>{book.isbn}</div>
+          <div><span>Edition : </span>{book.edition}</div>
           </Entry>
         ):
           <Loader/>
@@ -161,4 +159,4 @@ const Journal = () => {
   )
 }
 
-export default Journal;
+export default Book;

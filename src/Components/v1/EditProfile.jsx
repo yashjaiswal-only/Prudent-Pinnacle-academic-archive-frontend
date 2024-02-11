@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { checkUser, updateUser } from '../api_calls/Auth'
-import { updateCurrentUser } from '../redux/userRedux'
+import { checkUser, updateUser } from '../../api_calls/Auth'
+import { updateCurrentUser } from '../../redux/userRedux'
 import MultipleSelectPlaceholder from './DepartmentSelector'
-import { departmentNames } from '../data'
+import { departmentNames } from '../../data'
 import { CircularProgress } from '@mui/material'
 const Container=styled.div`
   display: flex;

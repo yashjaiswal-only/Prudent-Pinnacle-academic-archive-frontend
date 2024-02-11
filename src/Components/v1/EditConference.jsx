@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import {  useDispatch, useSelector } from 'react-redux'
-import { addPaper, editPaper } from '../api_calls/Papers';
+import ClearIcon from '@mui/icons-material/Clear';
+import { addPaper, editPaper } from '../../api_calls/Papers';
 import { useLocation, useNavigate } from 'react-router-dom'
-import { removeBooks } from '../redux/papersRedux';
+import {  removeConferences, removeJournals } from '../../redux/papersRedux';
 import { CircularProgress } from '@mui/material';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import AddAuthor from './AddAuthor';
@@ -73,7 +74,7 @@ const Error=styled.span`
   display: flex;
   align-items: center;
 `
-const EditBook = () => {
+const EditConference = () => {
   const location=useLocation();
   const dispatch=useDispatch();
   const user=useSelector(state=>state.user.currentUser);
@@ -84,8 +85,8 @@ const EditBook = () => {
   const [sending,setSending]=useState(false);
   const [error,setError]=useState(null);
   const [date, setDate] = useState(null);
+  const [conferenceDate, setConferenceDate] = useState(null);
 
-  
   const handleChange=e=>{
     setInputs(prev=>{
       return {...prev,[e.target.name]:e.target.value}
@@ -94,31 +95,32 @@ const EditBook = () => {
   const handleSubmit=async()=>{
     //need to implement checks here
     var res={};
-    setSending(true);
     setError(null);
+    setSending(true);
     const {title,...rest}=inputs;
     if(location.state === null){
-      const paper={...rest,title:title.toLowerCase(),authors,_id:user._id,publishedOn:date};
+      const paper={...rest,title:title.toLowerCase(),authors,_id:user._id,publishedOn:date,conferenceDate:conferenceDate};
       console.log(paper)
-      res=await addPaper(paper,'book',token);
+      res=await addPaper(paper,'conference',token);
     }
     else{
-      const paper={...rest,title:title.toLowerCase(),authors,_id:user._id,pid:inputs._id,publishedOn:date};
+      const paper={...rest,title:title.toLowerCase(),authors,_id:user._id,pid:inputs._id,publishedOn:date,conferenceDate:conferenceDate};
       console.log(paper)
-      res=await editPaper(paper,'book',token);
+      res=await editPaper(paper,'conference',token);
     }
     console.log(res)
     if(res.status===200){
-      dispatch(removeBooks());
-      navigate('/researchpaper/book')
+      dispatch(removeConferences());
+      navigate('/researchpaper/conference')
     }
     else setError(res.response.data.message);
     setSending(false);
   }
   useEffect(()=>{
     if(location.state){
-      const {authors,uid,createdAt,updatedAt,publishedOn,...others}=location.state;
+      const {authors,uid,createdAt,updatedAt,publishedOn,conferenceDate,...others}=location.state;
       setDate(publishedOn);
+      setConferenceDate(conferenceDate);
       setInputs(others);
       setAuthors(authors);
     }
@@ -126,15 +128,17 @@ const EditBook = () => {
 
   return (
     <Container>
-      <section>{location.state?'Edit Book':'Add new book'}</section>
+      <section>{location.state?'Edit Conference Paper':'Add new Conference Paper'}</section>
       <Form>
         <Input name="title" onChange={handleChange} type="text" placeholder="Title" value={inputs.title}/>
-        <Input name="doi" onChange={handleChange} type="text" placeholder="DOI" value={inputs.doi} />
+        <Input name="doi" onChange={handleChange} type="text" placeholder="DOI" value={inputs.doi}/>
+        <Input name="conferenceTitle" onChange={handleChange} type="text" placeholder="Conference Title" value={inputs.conferenceTitle}/>
         <Input name="publisher" onChange={handleChange} type="text" placeholder="Publisher" value={inputs.publisher}/>
         <Input name="isbn" onChange={handleChange} type="text" placeholder="ISBN" value={inputs.isbn}/>
-        <Input name="edition" onChange={handleChange} type="text" placeholder="Edition" value={inputs.edition}/>
+        <Input name="location" onChange={handleChange} type="text" placeholder="Conference Location" value={inputs.location}/>
       </Form>
       <DatePicker  date={date} setDate={setDate} title="Publication Date"/>
+      <DatePicker  date={conferenceDate} setDate={setConferenceDate} title="Conference Date"/>
 
       <AddAuthor authors={authors} setAuthors={setAuthors} />
 
@@ -142,9 +146,9 @@ const EditBook = () => {
         <Button onClick={handleSubmit} disabled={sending}>Save</Button> 
         {sending?<CircularProgress/>:''}
       </Bottom>
-      {error?<Bottom><Error><ReportProblemIcon/>Unable to save data: {error}</Error></Bottom>:''}
+      {error?<Bottom><Error><ReportProblemIcon/>Unable to save data :{error}</Error></Bottom>:''}
     </Container>
   )
 }
 
-export default EditBook;
+export default EditConference;
