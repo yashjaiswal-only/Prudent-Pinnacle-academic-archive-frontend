@@ -25,10 +25,10 @@ export default  function MultipleSelectPlaceholder({department,setDepartment,nam
   };
   return (
     <div>
-      <FormControl sx={{ width: 200, mt: 1 ,background:'white'}}>
+      <FormControl sx={{ width: 400, height:50,mt: 3,background:'white'}}>
         <Select
           displayEmpty
-          sx={{height:40}}
+          sx={{height:50}}
           value={department}
           onChange={handleChange}
           input={<OutlinedInput />}

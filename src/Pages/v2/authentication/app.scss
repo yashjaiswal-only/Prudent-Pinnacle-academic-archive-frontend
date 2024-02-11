@@ -125,15 +125,13 @@
     width: 100vw;
     .registration{
         background: rgba(255, 255, 255, 0.10);
-        flex-shrink: 0;
-        height: 88vh;
-        
-        width: 70vw;
+        height: 88%;
+        width: 70%;
         backdrop-filter: blur(10px);
-        margin-right: 3%;
-        padding-top: 5%;
-        
-
+        display:flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
         span{
             color:rgb(11, 33, 120);
             text-align: center;
@@ -144,55 +142,80 @@
             line-height: normal;
         }
         form{
-            padding-top: 2.5%;
-            padding-bottom: 2%;
             display: flex;
             flex-wrap:wrap;
-            margin-left: 3%;
-            margin-right: 3%;
-            gap: 13px;
+            justify-content: space-around;
+            height:50%;
+            width:90%;
             input{
-                flex:1;
-                min-width:40%;
-                margin-top: 3%;
-                height: 48px;
+                width:45%;
+                margin:0.5rem;
+                padding:0.8rem 1.5rem;
+                height:fit-content;
                 border-radius: 5px;
                 border: 1px solid #E9E9E9;
                 background: #F9F9F9;
-                font-size: 20px;
+                font-size:1.5rem;
                 text-align: center;
+            }
+            .imagebox{
+                // margin: 20px 0px;    
+                display: flex;
+                flex-wrap: wrap;
+                flex-direction: column;
+                align-items: center;
+                width:45%;
+                justify-content: space-around;  
+                align-items: flex-start;
+                label{
+                    font-weight: 600;
+                    font-size: 1rem;
+                }
+                input{
+                    margin: 0;
+                    width: 80%;
+                }
+                
             }
         }
         button{
-            margin-top: 10%;
             width: 70%;
-            height: 48px;
+            padding:1rem;
             border: none;
             border-radius: 5px;
             background: #297BCA;
             cursor: pointer;
+            width: 70%;
+            padding:2%;
+            border: none;
+            border-radius: 5px;
+            background: #297BCA;
+            cursor: pointer;
+            align-items: center;
+            display: inline-flex;
+            justify-content: center;
             span{
                 color: var(--Pure-White, #FFF);
                 font-family: Poppins;
-                font-size: 20px;
+                font-size: 1.5rem;
                 font-style: normal;
                 font-weight: 900;
                 line-height: 35px; /* 175% */
-                letter-spacing: 1.6px;
+                letter-spacing: 2px;
+                margin:0 1rem;
             }
         }
+
         p{
             color:rgb(5, 19, 78);
             font-family:'Times New Roman', Times, serif;
             font-size: 21px;
             font-weight: 800;
-            padding-top: 4%;
         }
         .warn{
-            font-size: 25px;
-            margin-top: 20px;
-            font-weight: 900;
-            margin-bottom: -28px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color:red;
         }
         .span{
             color: #297BCA;
