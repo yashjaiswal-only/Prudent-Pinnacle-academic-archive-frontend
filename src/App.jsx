@@ -45,6 +45,7 @@ import Login2 from './Pages/v2/authentication/Login2';
 import Home2 from './Pages/v2/Home/Home2';
 import HomeBanner from './Components/v2/HomeBanner';
 import MyProfile from './Pages/v2/MyProfile/MyProfile';
+import ResearchPaper from './Components/v2/ResearchPaper';
 
 const Component=styled.div`
   width:100vw;
@@ -189,6 +190,10 @@ function App() {
         {
           path: "/v2/home/profile",
           element: <MyProfile  />,
+        },
+        {
+          path: "/v2/home/research/",
+          element: <ResearchPaper  />,
         },
       ]
     },
