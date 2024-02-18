@@ -5,6 +5,8 @@ import styled from 'styled-components'
 const Container=styled.span`
     height:100%;    
     position:relative;
+    display:flex;
+    flex-direction:column;
     button{
         border:none;
         padding: 0.5rem;
@@ -16,10 +18,11 @@ const Container=styled.span`
     }
     ul{
         list-style: none;
+        width: max-content;
         padding: unset;
         margin: unset;
         background:white;
-        position:absolute;
+        /* position:absolute; */
         border-radius:0 0 5% 5%;
     }
       

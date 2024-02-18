@@ -46,6 +46,32 @@ const Edit=({setEditProfile})=>{
     <div className='edit'>
         <div className="wrapper">
           <CancelOutlined sx={{fontSize:'2rem',cursor:'pointer'}} onClick={()=>setEditProfile(false)}/>
+          <div className="frame">
+            <div className="heading">
+              <h1>Edit Profile</h1>
+            </div>
+            <div className="field">
+              <div className="obj">
+              <span>Name: </span>
+              <input name="name"  type="text" placeholder="Full name" />
+              </div>
+              <div className="obj">
+              <span>Email: </span>
+              <input name="email" type="email" placeholder="Email"/>
+        
+              </div>
+              <div className="obj">
+              <span>Qualification: </span>
+              <input name="qualification"  type="text" placeholder="Qualification"/>
+        
+              </div>
+              <div className="obj">
+              <span>Department: </span>
+              {/* <MultipleSelectPlaceholder  defaultLabel='Department' /> */}
+              </div>
+            </div>
+            <button>Save</button>
+          </div>
         </div>
     </div>
   )
