@@ -69,10 +69,8 @@ const Edit=({setEditProfile})=>{
               <span>Department: </span>
               {/* <MultipleSelectPlaceholder  defaultLabel='Department' /> */}
               </div>
-              <div className="obj">
-                <button>Save</button>
-              </div>
             </div>
+            <button>Save</button>
           </div>
         </div>
     </div>
