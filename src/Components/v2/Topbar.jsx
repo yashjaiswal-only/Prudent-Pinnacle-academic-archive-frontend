@@ -16,7 +16,7 @@ import { removeAll } from '../../redux/papersRedux'
 import { removeAllRecord } from '../../redux/recordsRedux'
 
 const Container=styled.div`
-    z-index:1000;
+    z-index:800;
     width:100%;
     height:3rem;
     background-color: #053B50;

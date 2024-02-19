@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Dropdown from './Dropdown'
 const Container=styled.div`
-    z-index:5000;
+    z-index:1000;
     width:100%;
     height:2.5rem;
     background-color: #e0e8fd;
@@ -19,7 +19,7 @@ const Container=styled.div`
 const MenuTray = () => {
   return (
     <Container>
-      <Dropdown buttonHeader={"Research Papers"} dropdownList={['Books', 'Book Chapter','Jounals','Conference Papers']}/>
+      <Dropdown buttonHeader={"Research Papers"} dropdownList={['Books', 'Book Chapter','Journals','Conference Papers']}/>
       <Dropdown buttonHeader={"Student Projects"} dropdownList={['M.Tech. Projects','B.Tech. Projects']}/>
       <Dropdown buttonHeader={"Phd. Scholars"} dropdownList={[]}/>
       <Dropdown buttonHeader={"Programs/Courses"} dropdownList={['Faculty Development Program','Short Term Courses']}/>

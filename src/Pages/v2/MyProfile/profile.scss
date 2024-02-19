@@ -73,7 +73,7 @@
         border-radius:1%;
         background-color:rgba(0,0,0,0.4);
         position: absolute;
-        z-index: 10000;
+        z-index: 1000;
         display:flex;
         justify-content: center;
         align-items: center;
@@ -112,6 +112,10 @@
                     flex-direction: column;
                     .obj{
                         // gap: 1rem;
+                        display:flex;
+                        justify-content:space-between;
+                        align-items: center;
+                        width:100%;
                         span{
                             font-size: 2rem;
                             font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
@@ -119,7 +123,7 @@
                         input{
                             background-color: honeydew;
                             width: 50%;
-                            height: 2rem;
+                            // height: 2rem;
                             margin-left: 1rem;
                             border: none;
                             border-bottom: 2px solid black;
@@ -136,6 +140,11 @@
                             font-size: 2rem;
                             padding: 0.4rem 2rem;
                             border-radius: 20px;
+                        }
+                        .error{
+                            font-size: 1.2rem;
+                            font-weight: 600;
+                            color: red;
                         }
                     }
                 }
