@@ -1,0 +1,85 @@
+.edit{
+    width:100vw;
+    height:100%;
+    top:0;
+    left:0;
+    background-color:rgba(0,0,0,0.4);
+    position: absolute;
+    z-index: 1000;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    .wrapper{
+        color: rgb(2, 4, 55);
+        background-color: rgb(181, 202, 227);
+        position:relative;
+        width:80%;
+        height:90%;
+        svg{
+            position:absolute;
+            top:5px;
+            right:5px;
+            font-size:3rem;
+        }
+        .frame{
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            align-items:center;
+            padding: 2rem;
+            width:100%;
+            height:100%;
+            .heading{
+                h1{
+                    font-size: 3rem;
+                    font-family:'Times New Roman', Times, serif;
+                }
+            }
+            .field{
+                display: flex;
+                width: 100%;
+                height:80%;
+                // gap: 2rem;
+                justify-content: space-evenly;
+                flex-direction: column;
+                .obj{
+                    // gap: 1rem;
+                    display:flex;
+                    justify-content:space-between;
+                    align-items: center;
+                    width:100%;
+                    span{
+                        font-size: 2rem;
+                        font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+                    }
+                    input{
+                        background-color: honeydew;
+                        width: 50%;
+                        // height: 2rem;
+                        margin-left: 1rem;
+                        border: none;
+                        border-bottom: 2px solid black;
+                        padding: 1rem;
+                        font-size: 1.5rem;
+                        font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+                        border-radius: 3rem;
+                        color: black;
+                    }
+                    button{
+                        background-color: rgb(78, 133, 222);
+                        font-weight: 700;
+                        font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+                        font-size: 2rem;
+                        padding: 0.4rem 2rem;
+                        border-radius: 20px;
+                    }
+                    .error{
+                        font-size: 1.2rem;
+                        font-weight: 600;
+                        color: red;
+                    }
+                }
+            }
+        }
+    }
+}
