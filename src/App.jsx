@@ -46,6 +46,10 @@ import Home2 from './Pages/v2/Home/Home2';
 import HomeBanner from './Components/v2/HomeBanner';
 import MyProfile from './Pages/v2/MyProfile/MyProfile';
 import ResearchPaper from './Components/v2/ResearchPaper';
+import Programs from './Components/v2/Programs';
+import Projects from './Components/v2/Projects';
+import Activities from './Components/v2/Activities';
+import Students from './Components/v2/Students';
 
 const Component=styled.div`
   width:100vw;
@@ -195,6 +199,23 @@ function App() {
           path: "/v2/home/research/",
           element: <ResearchPaper  />,
         },
+        {
+          path: "/v2/home/programs",
+          element: <Programs/>,
+        },
+        {
+          path: "/v2/home/projects",
+          element: <Projects/>,
+        },
+        {
+          path: "/v2/home/activities",
+          element: <Activities/>,
+        },
+        {
+          path: "/v2/home/students",
+          element: <Students/>,
+        },
+
       ]
     },
     {

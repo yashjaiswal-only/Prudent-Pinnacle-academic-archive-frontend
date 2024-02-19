@@ -44,7 +44,7 @@ const Dropdown = ({buttonHeader,dropdownList}) => {
     const [dropdownShow,setDropdownShow]=useState(false);
     const navigate=useNavigate();
     const handleClick=(ele)=>{
-        navigate('/v2/home/research',{state:{type:ele}})
+        navigate('/v2/home/students',{state:{type:ele}})
         setDropdownShow(false);
     }
   return (
