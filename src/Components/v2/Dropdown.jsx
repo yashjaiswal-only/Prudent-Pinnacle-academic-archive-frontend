@@ -40,11 +40,11 @@ const Container=styled.span`
         color: #000;
     }
 `
-const Dropdown = ({buttonHeader,dropdownList}) => {
+const Dropdown = ({buttonHeader,dropdownList,baseUrl}) => {
     const [dropdownShow,setDropdownShow]=useState(false);
     const navigate=useNavigate();
     const handleClick=(ele)=>{
-        navigate('/v2/home/students',{state:{type:ele}})
+        navigate(baseUrl,{state:{type:ele}})
         setDropdownShow(false);
     }
   return (
