@@ -1,216 +1,323 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import './style.scss'
 import { AddCircleOutline } from '@mui/icons-material';
 import EditResearchPaper from './EditRecords/EditResearchPaper';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllPaper } from '../../api_calls/Papers';
+import { updateBooks, updateChapters, updateConferences, updateJournals } from '../../redux/papersRedux';
+import { Capitalize } from '../../services';
+import PersonIcon from '@mui/icons-material/Person';
+
 
 const ResearchPaper = () => {
-    const location=useLocation();
-    const [openEditor,setOpenEditor]=useState(true);
-  return (
-    <div className="page">
-        <div className="icon">
-            <AddCircleOutline sx={{fontSize:'3rem',cursor:'pointer'}} onClick={()=>setOpenEditor(true)}/>
+    const location = useLocation();
+    const [openEditor, setOpenEditor] = useState(false);
+    return (
+        <div className="page">
+            <div className="icon">
+                <AddCircleOutline sx={{ fontSize: '3rem', cursor: 'pointer' }} onClick={() => setOpenEditor(true)} />
+            </div>
+            {openEditor && <EditResearchPaper setOpenEditor={setOpenEditor} type={location.state.type} />}
+            {location.state.type == 'Journals' && <Journals />}
+            {location.state.type == 'Book Chapter' && <Chapter />}
+            {location.state.type == 'Books' && <Book />}
+            {location.state.type == 'Conference Papers' && <Conference />}
         </div>
-        {openEditor&&<EditResearchPaper setOpenEditor={setOpenEditor} type={location.state.type}/>}
-      {location.state.type=='Journals'&&<Journals/>}
-      {location.state.type=='Book Chapter'&&<Chapter/>}
-      {location.state.type=='Books'&&<Book/>}
-      {location.state.type=='Conference Papers'&&<Conference/>}
-    </div>
-  )
+    )
 }
 
 const Book = () => {
-  return (
-    <div className="slide">
-        <div className="heading">
-            Books
-        </div>
-        <div className="card">
-            <div className="obj">
-                <span>Title: </span>
-                Artificial prey-predator (app): an efficient approach for numerical function optimization
-            </div>
-            <div className="obj">
-            <span>Authors : </span>
-            <ul>
-              <li>Nishant</li>
-              <li>Yash</li>
-            </ul>
-            </div>
-            <div className="obj">
-                <span>Publisher : </span>
-                Expert Systems with Applications Eng
-            </div>
-            <div className="obj">
-                <span>Published on : </span>
-                2006-12-02
-            </div>
+    const [booksList, setBooksList] = useState([]);
+    const [fetching, setFetching] = useState(false);
+    const [error, setError] = useState(null);
+    const { books } = useSelector(state => state.papers)
+    const user = useSelector(state => state.user.currentUser)
+    const token = useSelector(state => state.user.token)
+    const dispatch = useDispatch();
 
-            <div className="obj">
-                <span>DOI : </span>
-                https://doi.org/10.1057/9874330369955_14
+    const get = async () => {
+        setError(false);
+        setFetching(true);
+        const res = await getAllPaper(user._id, 'book', token);
+        console.log(res)
+        if (res.status === 200) {
+            dispatch(updateBooks(res.data));
+            setBooksList(res.data);
+        }
+        else setError(res.response.data.message);
+        setFetching(false);
+    }
+    useEffect(() => {
+        if (books) setBooksList(books);
+        else get();
+        console.log(books)
+    }, [])
+    return (
+        <div className="slide">
+            <div className="heading">
+                Books
             </div>
-            <div className="obj">
-                <span>ISBN : </span>
-                841265521
-            </div>
+            {
+                booksList.map((book) => (
+                    <div className="card">
+                        <div className="obj">
+                            <span>Title: </span>{Capitalize(book.title)}
+                        </div>
+                        <div className="obj">
+                            <span>Authors : </span>
+                            <ul>
+                                {book.authors.map((a) =>
+                                    <li>
+                                        {`${a.first}` + " " + `${a.middle ? a.middle : ''}` + " " + `${a.last}`}
+                                        {a.corresponding ? <PersonIcon sx={{ color: '#8787d8' }} /> : ''}
+                                    </li>)}
+                            </ul>
+                        </div>
+                        <div className="obj">
+                            <span>Publisher : </span>{book.publisher}
+                        </div>
+                        <div className="obj">
+                            <span>Published on : </span>{book.publishedOn}
+                        </div>
+
+                        <div className="obj">
+                            <span>DOI : </span>{book.doi}
+                        </div>
+                        <div className="obj">
+                            <span>ISBN : </span>{book.isbn}
+                        </div>
+                        <div className='obj'><span>Edition : </span>{book.edition}</div>
+
+                    </div>
+                ))
+            }
         </div>
-    </div>
-  )
+    )
 }
 const Chapter = () => {
-  return (
-    <div className="slide">
-        <div className="heading">
-            Book Chapter
-        </div>
-        <div className="card">
-            <div className="obj">
-                <span>Title: </span>
-                Artificial prey-predator (app): an efficient approach for numerical function optimization
+    const [chaptersList, setChaptersList] = useState([]);
+    const [fetching, setFetching] = useState(false);
+    const [error, setError] = useState(null);
+    const { chapters } = useSelector(state => state.papers)
+    const user = useSelector(state => state.user.currentUser)
+    const token = useSelector(state => state.user.token)
+    const dispatch = useDispatch();
+    const get = async () => {
+        setError(false);
+        setFetching(true);
+        const res = await getAllPaper(user._id, 'chapter', token);
+        console.log(res)
+        if (res.status === 200) {
+            dispatch(updateChapters(res.data));
+            setChaptersList(res.data);
+        }
+        else setError(res.response.data.message);
+        setFetching(false);
+    }
+    useEffect(() => {
+        if (chapters) setChaptersList(chapters);
+        else get();
+    }, [])
+    return (
+        <div className="slide">
+            <div className="heading">
+                Book Chapter
             </div>
-            <div className="obj">
-            <span>Authors : </span>
-            <ul>
-              <li>Nishant</li>
-              <li>Yash</li>
-            </ul>
-            </div>
-            <div className="obj">
-            <span>Editors : </span>
-            <ul>
-              <li>Jan</li>
-              <li>Chan</li>
-            </ul>
-            </div>
-            <div className="obj">
-                <span>Book Title : </span>
-                Expert Systems with Applications Eng
-            </div>
-            <div className="obj">
-                <span>Publisher : </span>
-                RD Sharma
-            </div>
-            <div className="obj">
-                <span>Published on : </span>
-                2006-12-02
-            </div>
+            {
+                chaptersList.map(chapter =>
+                    <div className="card" key={chapter._id}>
+                        <div className="obj">
+                            <span>Title: </span>{Capitalize(chapter.title)}
+                        </div>
+                        <div className="obj">
+                            <span>Authors : </span>
+                            <ul>
+                                {chapter.authors.map((a) =>
+                                    <li>
+                                        {`${a.first}` + " " + `${a.middle ? a.middle : ''}` + " " + `${a.last}`}
+                                        {a.corresponding ? <PersonIcon sx={{ color: '#8787d8' }} /> : ''}
+                                    </li>)}
+                            </ul>
+                        </div>
+                        <div className="obj">
+                            <span>Editors : </span>
+                            <ul>
+                                {chapter.editors.map((a) => <li>{`${a.first}` + " " + `${a.middle ? a.middle : ''}` + " " + `${a.last}`}</li>)}
+                            </ul>
+                        </div>
+                        <div className="obj">
+                            <span>Book Title : </span>{chapter.bookTitle}
+                        </div>
+                        <div className="obj">
+                            <span>Publisher : </span>{chapter.publisher}
+                        </div>
+                        <div className="obj">
+                            <span>Published on : </span>{chapter.publishedOn}
+                        </div>
 
-            <div className="obj">
-                <span>DOI : </span>
-                https://doi.org/10.1057/9874330369955_14
-            </div>
-            <div className="obj">
-                <span>ISBN : </span>
-                841-265-521
-            </div>
-            <div className="obj">
-                <span>Page Range : </span>
-                1-30
-            </div>
+                        <div className="obj">
+                            <span>DOI : </span>{chapter.doi}
+                        </div>
+                        <div className="obj">
+                            <span>ISBN : </span>{chapter.isbn}
+                        </div>
+                        <div className="obj">
+                            <span>Page Range : </span>{chapter.pageRange}
+                        </div>
+                    </div>)
+            }
         </div>
-    </div>
-  )
+    )
 }
 const Conference = () => {
-  return (
-    <div className="slide">
-        <div className="heading">
-            Conferences
-        </div>
-        <div className="card">
-            <div className="obj">
-                <span>Title: </span>
-                Artificial prey-predator (app): an efficient approach for numerical function optimization
-            </div>
-            <div className="obj">
-            <span>Authors : </span>
-            <ul>
-              <li>Nishant</li>
-              <li>Yash</li>
-            </ul>
-            </div>
-            <div className="obj">
-                <span>Conference Title : </span>
-                Expert Systems with Applications Eng
-            </div>
-            <div className="obj">
-                <span>Conference Date : </span>
-                2006-12-02
-            </div>
-            <div className="obj">
-                <span>Published on: </span>
-                2006-12-02
-                
-            </div>
-            <div className="obj">
-                <span>Publisher : </span>
-                Spring
-            </div>
+    const [conferencesList, setConferencesList] = useState([]);
+    const [fetching, setFetching] = useState(false);
+    const [error, setError] = useState(null);
+    const { conferences } = useSelector(state => state.papers)
+    const user = useSelector(state => state.user.currentUser)
+    const token = useSelector(state => state.user.token)
+    const dispatch = useDispatch();
 
-            <div className="obj">
-                <span>DOI : </span>
-                https://doi.org/10.1057/9874330369955_14
+    const get = async () => {
+        setError(false);
+        setFetching(true);
+        const res = await getAllPaper(user._id, 'conference', token);
+        console.log(res)
+        if (res.status === 200) {
+            dispatch(updateConferences(res.data));
+            setConferencesList(res.data);
+        }
+        else setError(res.response.data.message);
+        setFetching(false);
+    }
+    useEffect(() => {
+        if (conferences) setConferencesList(conferences);
+        else get();
+        console.log(conferences)
+    }, [])
+    return (
+        <div className="slide">
+            <div className="heading">
+                Conferences
             </div>
+            {
+                conferencesList.map(conference =>
+                    <div className="card">
+                        <div className="obj">
+                            <span>Title: </span>{Capitalize(conference.title)}
+                        </div>
+                        <div className="obj">
+                            <span>Authors : </span>
+                            <ul>
+                                {conference.authors.map((a) =>
+                                    <li>
+                                        {`${a.first}` + " " + `${a.middle ? a.middle : ''}` + " " + `${a.last}`}
+                                        {a.corresponding ? <PersonIcon sx={{ color: '#8787d8' }} /> : ''}
+                                    </li>)}
+                            </ul>
+                        </div>
+                        <div className="obj">
+                            <span>Conference Title : </span>{conference.conferenceTitle}
+                        </div>
+                        <div className="obj">
+                            <span>Conference Date : </span>{conference.conferenceDate}
+                        </div>
+                        <div className="obj">
+                            <span>Published on: </span>{conference.publishedOn}
+
+                        </div>
+                        <div className="obj">
+                            <span>Publisher : </span>{conference.publisher}
+                        </div>
+
+                        <div className="obj">
+                            <span>DOI : </span>{conference.doi}
+                        </div>
+                        <div className="obj">
+                            <span>ISBN : </span>{conference.isbn}
+                        </div>
+                        <div className="obj">
+                            <span>Location : </span>{conference.location}
+                        </div>
+                    </div>
+                )
+            }
         </div>
-    </div>
-  )
+    )
 }
 const Journals = () => {
-  return (
-    <div className="slide">
-        <div className="heading">
-            Journals
-        </div>
-        <div className="card">
-            <div className="obj">
-                <span>Title: </span>
-                Artificial prey-predator (app): an efficient approach for numerical function optimization
-            </div>
-            <div className="obj">
-            <span>Authors : </span>
-            <ul>
-              <li>Nishant</li>
-              <li>Yash</li>
-            </ul>
-            </div>
-            <div className="obj">
-                <span>Journal Title : </span>
-                Expert Systems with Applications Eng
-            </div>
-            <div className="obj">
-                <span>Published on : </span>
-                2006-12-02
-            </div>
+    const [journalsList, setJournalsList] = useState([]);
+    const [fetching, setFetching] = useState(false);
+    const [error, setError] = useState(null);
+    const { journals } = useSelector(state => state.papers)
+    const user = useSelector(state => state.user.currentUser)
+    const token = useSelector(state => state.user.token)
+    const dispatch = useDispatch();
 
-            <div className="obj">
-                <span>DOI : </span>
-                https://doi.org/10.1057/9874330369955_14
+    const get = async () => {
+        setError(false);
+        setFetching(true);
+        const res = await getAllPaper(user._id, 'journal', token);
+        console.log(res)
+        if (res.status === 200) {
+            dispatch(updateJournals(res.data));
+            setJournalsList(res.data);
+        }
+        else setError(res.response.data.message);
+        setFetching(false);
+    }
+    useEffect(() => {
+        if (journals) setJournalsList(journals);
+        else get();
+        console.log(journals)
+    }, [])
+    return (
+        <div className="slide">
+            <div className="heading">
+                Journals
             </div>
-            <div className="obj">
-                <span>ISSN : </span>
-                841265521
-            </div>
-            <div className="obj">
-                <span>ISSN : </span>
-                841265521
-            </div>
-            <div className="obj">
-                <span>Volume : </span>
-                3
-            </div>
-            <div className="obj">
-                <span>Issue : </span>
-                1
-            </div>
-            <div className="obj">
-                <span>Page Range : </span>
-                1-30
-            </div>
+            {
+                journalsList.map(journal=>
+                    <div className="card">
+                <div className="obj">
+                    <span>Title: </span>{Capitalize(journal.title)}
+                </div>
+                <div className="obj">
+                    <span>Authors : </span>
+                    <ul>
+              {journal.authors.map((a)=>
+              <li>
+              {`${a.first}`+" "+`${a.middle?a.middle:''}`+" "+`${a.last}`} 
+              {a.corresponding?<PersonIcon sx={{color:'#8787d8'}}/>:''}
+              </li>)}
+            </ul>
+                </div>
+                <div className="obj">
+                    <span>Journal Title : </span>{journal.journalTitle}
+                </div>
+                <div className="obj">
+                    <span>Published on : </span>{journal.publishedOn}
+                </div>
+
+                <div className="obj">
+                    <span>DOI : </span>{journal.doi}
+                </div>
+                <div className="obj">
+                    <span>ISSN : </span>{journal.issn}
+                </div>
+                <div className="obj">
+                    <span>Volume : </span>{journal.volume}
+                </div>
+                <div className="obj">
+                    <span>Issue : </span>{journal.issue}
+                </div>
+                <div className="obj">
+                    <span>Page Range : </span>{journal.pageRange}
+                </div>
+            </div>)
+            }
         </div>
-    </div>
-  )
+    )
 }
 export default ResearchPaper
