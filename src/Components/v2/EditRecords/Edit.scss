@@ -4,6 +4,7 @@
     top:0;
     left:0;
     background-color:rgba(0,0,0,0.4);
+    backdrop-filter: blur(2rem);
     position: absolute;
     z-index: 1000;
     display:flex;
@@ -65,20 +66,21 @@
                         border-radius: 3rem;
                         color: black;
                     }
-                    button{
-                        background-color: rgb(78, 133, 222);
-                        font-weight: 700;
-                        font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-                        font-size: 2rem;
-                        padding: 0.4rem 2rem;
-                        border-radius: 20px;
-                    }
-                    .error{
-                        font-size: 1.2rem;
-                        font-weight: 600;
-                        color: red;
-                    }
                 }
+            }
+            button{
+                background-color: rgb(78, 133, 222);
+                font-weight: 700;
+                font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+                font-size: 2rem;
+                width: 12rem;
+                padding: 0.4rem 2rem;
+                border-radius: 20px;
+            }
+            .error{
+                font-size: 1.2rem;
+                font-weight: 600;
+                color: red;
             }
         }
     }

@@ -1,20 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import './style.scss'
+import { AddCircleOutline } from '@mui/icons-material';
+import EditProjects from './EditRecords/EditProjects';
 
 
 const Projects = () => {
     const location=useLocation();
+    const [openEditor,setOpenEditor]=useState(true);
   return (
-    <>
-    {location.state?
-      <div className='page'>
-          {location.state.type=='Project Grants'&&<Grants/>}
-          {location.state.type=='Consultancy Projects'&&<Consultancy/>}
-          {location.state.type=='Patents'&&<Patents/>}
-      </div>
-    :''}
-    </>
+    <div className="page">
+        <div className="icon">
+            <AddCircleOutline sx={{fontSize:'3rem',cursor:'pointer'}} onClick={()=>setOpenEditor(true)}/>
+        </div>
+        {openEditor&&<EditProjects setOpenEditor={setOpenEditor} type={location.state.type}/>}
+      {location.state.type=='Project Grants'&&<Grants/>}
+      {location.state.type=='Consultancy Projects'&&<Consultancy/>}
+      {location.state.type=='Patents'&&<Patents/>}
+    </div>
   )
 }
 const Grants = () => {

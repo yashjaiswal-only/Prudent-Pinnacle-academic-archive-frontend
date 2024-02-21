@@ -1,19 +1,22 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { useLocation } from 'react-router-dom'
+import { AddCircleOutline } from '@mui/icons-material';
 import './style.scss'
+import EditActivities from './EditRecords/EditActivities';
 
 const Activities = () => {
-    const location=useLocation();
-  return (
-    <>
-    {location.state?
-      <div className='page'>
-          {location.state.type=='Invited Talk'&&<Invitedtalk/>}
-          {location.state.type=='Society Membership'&&<Society/>}
+  const location=useLocation();
+  const [openEditor,setOpenEditor]=useState(true);
+return (
+  <div className="page">
+      <div className="icon">
+          <AddCircleOutline sx={{fontSize:'3rem',cursor:'pointer'}} onClick={()=>setOpenEditor(true)}/>
       </div>
-    :''}
-    </>
-  )
+      {openEditor&&<EditActivities setOpenEditor={setOpenEditor} type={location.state.type}/>}
+    {location.state.type=='Invited Talk'&&<Invitedtalk/>}
+    {location.state.type=='Society Membership'&&<Society/>}
+  </div>
+)
 }
 
 const Invitedtalk = () => {
