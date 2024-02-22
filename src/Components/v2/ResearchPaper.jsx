@@ -8,26 +8,32 @@ import { getAllPaper } from '../../api_calls/Papers';
 import { updateBooks, updateChapters, updateConferences, updateJournals } from '../../redux/papersRedux';
 import { Capitalize } from '../../services';
 import PersonIcon from '@mui/icons-material/Person';
+import EditIcon from '@mui/icons-material/Edit';
 
 
 const ResearchPaper = () => {
     const location = useLocation();
     const [openEditor, setOpenEditor] = useState(false);
+    const [paper, setPaper] = useState(null);
+    const handleEditClick = (s) => {
+        setPaper(s);
+        setOpenEditor(true);
+    }
     return (
         <div className="page">
             <div className="icon">
                 <AddCircleOutline sx={{ fontSize: '3rem', cursor: 'pointer' }} onClick={() => setOpenEditor(true)} />
             </div>
-            {openEditor && <EditResearchPaper setOpenEditor={setOpenEditor} type={location.state.type} />}
-            {location.state.type == 'Journals' && <Journals />}
-            {location.state.type == 'Book Chapter' && <Chapter />}
-            {location.state.type == 'Books' && <Book />}
-            {location.state.type == 'Conference Papers' && <Conference />}
+            {openEditor && <EditResearchPaper setOpenEditor={setOpenEditor} type={location.state.type} paper={paper} setPaper={setPaper}/>}
+            {location.state.type == 'Journals' && <Journals handleEditClick={handleEditClick} />}
+            {location.state.type == 'Book Chapter' && <Chapter handleEditClick={handleEditClick} />}
+            {location.state.type == 'Books' && <Book handleEditClick={handleEditClick} />}
+            {location.state.type == 'Conference Papers' && <Conference handleEditClick={handleEditClick} />}
         </div>
     )
 }
 
-const Book = () => {
+const Book = ({ handleEditClick }) => {
     const [booksList, setBooksList] = useState([]);
     const [fetching, setFetching] = useState(false);
     const [error, setError] = useState(null);
@@ -61,6 +67,7 @@ const Book = () => {
             {
                 booksList.map((book) => (
                     <div className="card">
+                        <EditIcon onClick={() => handleEditClick(book)} />
                         <div className="obj">
                             <span>Title: </span>{Capitalize(book.title)}
                         </div>
@@ -95,7 +102,7 @@ const Book = () => {
         </div>
     )
 }
-const Chapter = () => {
+const Chapter = ({ handleEditClick }) => {
     const [chaptersList, setChaptersList] = useState([]);
     const [fetching, setFetching] = useState(false);
     const [error, setError] = useState(null);
@@ -127,6 +134,7 @@ const Chapter = () => {
             {
                 chaptersList.map(chapter =>
                     <div className="card" key={chapter._id}>
+                        <EditIcon onClick={()=>handleEditClick(chapter)}/>
                         <div className="obj">
                             <span>Title: </span>{Capitalize(chapter.title)}
                         </div>
@@ -170,7 +178,7 @@ const Chapter = () => {
         </div>
     )
 }
-const Conference = () => {
+const Conference = ({ handleEditClick }) => {
     const [conferencesList, setConferencesList] = useState([]);
     const [fetching, setFetching] = useState(false);
     const [error, setError] = useState(null);
@@ -204,6 +212,7 @@ const Conference = () => {
             {
                 conferencesList.map(conference =>
                     <div className="card">
+                        <EditIcon onClick={()=>handleEditClick(conference)}/>
                         <div className="obj">
                             <span>Title: </span>{Capitalize(conference.title)}
                         </div>
@@ -246,7 +255,7 @@ const Conference = () => {
         </div>
     )
 }
-const Journals = () => {
+const Journals = ({ handleEditClick }) => {
     const [journalsList, setJournalsList] = useState([]);
     const [fetching, setFetching] = useState(false);
     const [error, setError] = useState(null);
@@ -278,44 +287,45 @@ const Journals = () => {
                 Journals
             </div>
             {
-                journalsList.map(journal=>
+                journalsList.map(journal =>
                     <div className="card">
-                <div className="obj">
-                    <span>Title: </span>{Capitalize(journal.title)}
-                </div>
-                <div className="obj">
-                    <span>Authors : </span>
-                    <ul>
-              {journal.authors.map((a)=>
-              <li>
-              {`${a.first}`+" "+`${a.middle?a.middle:''}`+" "+`${a.last}`} 
-              {a.corresponding?<PersonIcon sx={{color:'#8787d8'}}/>:''}
-              </li>)}
-            </ul>
-                </div>
-                <div className="obj">
-                    <span>Journal Title : </span>{journal.journalTitle}
-                </div>
-                <div className="obj">
-                    <span>Published on : </span>{journal.publishedOn}
-                </div>
+                        <EditIcon onClick={() => handleEditClick(journal)} />
+                        <div className="obj">
+                            <span>Title: </span>{Capitalize(journal.title)}
+                        </div>
+                        <div className="obj">
+                            <span>Authors : </span>
+                            <ul>
+                                {journal.authors.map((a) =>
+                                    <li>
+                                        {`${a.first}` + " " + `${a.middle ? a.middle : ''}` + " " + `${a.last}`}
+                                        {a.corresponding ? <PersonIcon sx={{ color: '#8787d8' }} /> : ''}
+                                    </li>)}
+                            </ul>
+                        </div>
+                        <div className="obj">
+                            <span>Journal Title : </span>{journal.journalTitle}
+                        </div>
+                        <div className="obj">
+                            <span>Published on : </span>{journal.publishedOn}
+                        </div>
 
-                <div className="obj">
-                    <span>DOI : </span>{journal.doi}
-                </div>
-                <div className="obj">
-                    <span>ISSN : </span>{journal.issn}
-                </div>
-                <div className="obj">
-                    <span>Volume : </span>{journal.volume}
-                </div>
-                <div className="obj">
-                    <span>Issue : </span>{journal.issue}
-                </div>
-                <div className="obj">
-                    <span>Page Range : </span>{journal.pageRange}
-                </div>
-            </div>)
+                        <div className="obj">
+                            <span>DOI : </span>{journal.doi}
+                        </div>
+                        <div className="obj">
+                            <span>ISSN : </span>{journal.issn}
+                        </div>
+                        <div className="obj">
+                            <span>Volume : </span>{journal.volume}
+                        </div>
+                        <div className="obj">
+                            <span>Issue : </span>{journal.issue}
+                        </div>
+                        <div className="obj">
+                            <span>Page Range : </span>{journal.pageRange}
+                        </div>
+                    </div>)
             }
         </div>
     )

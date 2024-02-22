@@ -40,6 +40,13 @@
             color: rgb(46, 7, 7);
             gap: 0.7rem;
             font-weight: 500;
+            position: relative;
+            >svg{
+                position: absolute;
+                top:1rem;
+                right:1rem;
+                cursor: pointer;
+            }
             .obj{
                 display: flex;
                 span{
