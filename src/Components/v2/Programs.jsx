@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import './style.scss'
 import { AddCircleOutline } from '@mui/icons-material';
-import EditCourses from './EditRecords/EditCourses'
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllRecord } from '../../api_calls/Record';
 import { updateFdp, updateStc } from '../../redux/recordsRedux';
@@ -11,6 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import EmptyList from '../v1/EmptyList';
 import Loader from '../v1/Loader';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
+import EditPrograms from './EditRecords/EditPrograms';
 
 const Programs = () => {
     const location = useLocation();
@@ -25,7 +25,7 @@ const Programs = () => {
             <div className="icon">
                 <AddCircleOutline sx={{ fontSize: '3rem', cursor: 'pointer' }} onClick={() => setOpenEditor(true)} />
             </div>
-            {openEditor && <EditCourses setOpenEditor={setOpenEditor} type={location.state.type} record={record} setRecord={setRecord} />}
+            {openEditor && <EditPrograms setOpenEditor={setOpenEditor} type={location.state.type} record={record} setRecord={setRecord} />}
             {location.state.type == 'Faculty Development Program' && <Fdp handleEditClick={handleEditClick} />}
             {location.state.type == 'Short Term Courses' && <Stc handleEditClick={handleEditClick} />}
         </div>
@@ -63,7 +63,7 @@ const Fdp = ({ handleEditClick }) => {
             <div className="heading">
                 Faculty Development Programs
             </div>
-            {fetching === false && booksList.length === 0 ?
+            {fetching === false && fdpList.length === 0 ?
                 <EmptyList qoute={'Nothing to show here. Please add your Books'} />
                 : ''}
             {fetching === false ?
@@ -116,7 +116,7 @@ const Stc = ({ handleEditClick }) => {
             <div className="heading">
                 Short Term Courses
             </div>
-            {fetching === false && booksList.length === 0 ?
+            {fetching === false && stcList.length === 0 ?
                 <EmptyList qoute={'Nothing to show here. Please add your Books'} />
                 : ''}
             {fetching === false ?

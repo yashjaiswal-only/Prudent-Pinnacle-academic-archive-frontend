@@ -2,7 +2,6 @@ import { CancelOutlined } from '@mui/icons-material'
 import React, { useEffect, useState } from 'react'
 import './Edit.scss'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import AddAuthor from './AddAuthors'
 import DatePicker from './DatePicker'
 import { addPaper, editPaper } from '../../../api_calls/Papers'
@@ -13,16 +12,16 @@ const EditResearchPaper = ({ setOpenEditor, type, paper, setPaper }) => {
     <div className="edit">
       <div className="wrapper">
         <CancelOutlined sx={{ fontSize: '2rem', cursor: 'pointer' }} onClick={() => setOpenEditor(false)} />
-        {type == 'Journals' && <EditJournal setPaper={setPaper} paper={paper} setOpenEditor={setOpenEditor} />}
-        {type == 'Book Chapter' && <EditChapter setPaper={setPaper} paper={paper} setOpenEditor={setOpenEditor} />}
-        {type == 'Books' && <EditBook setPaper={setPaper} paper={paper} setOpenEditor={setOpenEditor} />}
-        {type == 'Conference Papers' && <EditConference setPaper={setPaper} paper={paper} setOpenEditor={setOpenEditor} />}
+        {type == 'Journals' && <EditJournal setRecord={setPaper} record={paper} setOpenEditor={setOpenEditor} />}
+        {type == 'Book Chapter' && <EditChapter setRecord={setPaper} record={paper} setOpenEditor={setOpenEditor} />}
+        {type == 'Books' && <EditBook setRecord={setPaper} record={paper} setOpenEditor={setOpenEditor} />}
+        {type == 'Conference Papers' && <EditConference setRecord={setPaper} record={paper} setOpenEditor={setOpenEditor} />}
       </div>
     </div>
   )
 }
 
-const EditBook = ({ paper, setPaper, setOpenEditor }) => {
+const EditBook = ({ record, setRecord, setOpenEditor }) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.currentUser);
   const token = useSelector(state => state.user.token);
@@ -42,7 +41,7 @@ const EditBook = ({ paper, setPaper, setOpenEditor }) => {
     setSending(true);
     setError(null);
     const { title, ...rest } = inputs;
-    if (location.state === null) {
+    if (record === null) {
       const paper = { ...rest, title: title.toLowerCase(), authors, _id: user._id, publishedOn: date };
       console.log(paper)
       res = await addPaper(paper, 'book', token);
@@ -55,15 +54,15 @@ const EditBook = ({ paper, setPaper, setOpenEditor }) => {
     console.log(res)
     if (res.status === 200) {
       dispatch(removeBooks());
-      setPaper(null);
+      setRecord(null);
       setOpenEditor(false);
     }
     else setError(res.response.data.message);
     setSending(false);
   }
   useEffect(() => {
-    if (paper) {
-      const { authors, uid, createdAt, updatedAt, publishedOn, ...others } = paper;
+    if (record) {
+      const { authors, uid, createdAt, updatedAt, publishedOn, ...others } = record;
       setDate(publishedOn);
       setInputs(others);
       setAuthors(authors);
@@ -72,7 +71,7 @@ const EditBook = ({ paper, setPaper, setOpenEditor }) => {
   return (
     <div className="frame">
       <div className="heading">
-        <h1>{paper ? 'Edit Book' : 'Add new book'}</h1>
+        <h1>{record? 'Edit Book' : 'Add new book'}</h1>
       </div>
       <div className="field">
         <div className="obj">
@@ -103,7 +102,7 @@ const EditBook = ({ paper, setPaper, setOpenEditor }) => {
     </div>
   )
 }
-const EditChapter = ({ paper, setPaper, setOpenEditor }) => {
+const EditChapter = ({ record, setRecord, setOpenEditor }) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.currentUser);
   const token = useSelector(state => state.user.token);
@@ -127,7 +126,7 @@ const EditChapter = ({ paper, setPaper, setOpenEditor }) => {
     setSending(true);
     const { title, ...rest } = inputs;
     //title lowercase me to enhance search
-    if (location.state === null) {
+    if (record === null) {
       const paper = { ...rest, title: title.toLowerCase(), authors, editors, _id: user._id, publishedOn: date };
       console.log(paper)
       res = await addPaper(paper, 'chapter', token);
@@ -140,15 +139,15 @@ const EditChapter = ({ paper, setPaper, setOpenEditor }) => {
     console.log(res)
     if (res.status === 200) {
       dispatch(removeChapters());
-      setPaper(null);
+      setRecord(null);
       setOpenEditor(false);
     }
     else setError(res.response.data.message);
     setSending(false);
   }
   useEffect(() => {
-    if (paper) {
-      const { authors, editors, uid, createdAt, updatedAt, publishedOn, ...others } = paper;
+    if (record) {
+      const { authors, editors, uid, createdAt, updatedAt, publishedOn, ...others } = record;
       setDate(publishedOn);
       setInputs(others);
       setAuthors(authors);
@@ -158,7 +157,7 @@ const EditChapter = ({ paper, setPaper, setOpenEditor }) => {
   return (
     <div className="frame">
       <div className="heading">
-        <h1>Edit Book Chapter</h1>
+        <h1>{record? 'Edit Journal' : 'Add new Journal'}</h1>
       </div>
       <div className="field">
         <div className="obj">
@@ -196,7 +195,7 @@ const EditChapter = ({ paper, setPaper, setOpenEditor }) => {
     </div>
   )
 }
-const EditJournal = ({ paper, setPaper, setOpenEditor }) => {
+const EditJournal = ({ record, setRecord, setOpenEditor }) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.currentUser);
   const token = useSelector(state => state.user.token);
@@ -217,7 +216,7 @@ const EditJournal = ({ paper, setPaper, setOpenEditor }) => {
     setError(null);
     setSending(true);
     const { title, ...rest } = inputs;
-    if (location.state === null) {
+    if (record=== null) {
       const paper = { ...rest, title: title.toLowerCase(), authors, _id: user._id, publishedOn: date };
       console.log(paper)
       res = await addPaper(paper, 'journal', token);
@@ -230,15 +229,15 @@ const EditJournal = ({ paper, setPaper, setOpenEditor }) => {
     console.log(res)
     if (res.status === 200) {
       dispatch(removeJournals());
-      setPaper(null);
+      setRecord(null);
       setOpenEditor(false);
     }
     else setError(res.response.data.message);
     setSending(false);
   }
   useEffect(() => {
-    if (paper) {
-      const { authors, uid, createdAt, updatedAt, publishedOn, ...others } = paper;
+    if (record) {
+      const { authors, uid, createdAt, updatedAt, publishedOn, ...others } = record;
       setDate(publishedOn);
       setInputs(others);
       setAuthors(authors);
@@ -248,7 +247,7 @@ const EditJournal = ({ paper, setPaper, setOpenEditor }) => {
   return (
     <div className="frame">
       <div className="heading">
-        <h1>{paper ? 'Edit Journal' : 'Add new Journal'}</h1>
+        <h1>{record? 'Edit Journal' : 'Add new Journal'}</h1>
       </div>
       <div className="field">
 
@@ -290,7 +289,7 @@ const EditJournal = ({ paper, setPaper, setOpenEditor }) => {
     </div>
   )
 }
-const EditConference = ({ paper, setPaper, setOpenEditor }) => {
+const EditConference = ({ record, setRecord, setOpenEditor }) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.currentUser);
   const token = useSelector(state => state.user.token);
@@ -312,7 +311,7 @@ const EditConference = ({ paper, setPaper, setOpenEditor }) => {
     setError(null);
     setSending(true);
     const { title, ...rest } = inputs;
-    if (location.state === null) {
+    if (record=== null) {
       const paper = { ...rest, title: title.toLowerCase(), authors, _id: user._id, publishedOn: date, conferenceDate: conferenceDate };
       console.log(paper)
       res = await addPaper(paper, 'conference', token);
@@ -325,15 +324,15 @@ const EditConference = ({ paper, setPaper, setOpenEditor }) => {
     console.log(res)
     if (res.status === 200) {
       dispatch(removeConferences());
-      setPaper(null);
+      setRecord(null);
       setOpenEditor(false);
     }
     else setError(res.response.data.message);
     setSending(false);
   }
   useEffect(() => {
-    if (paper) {
-      const { authors, uid, createdAt, updatedAt, publishedOn, conferenceDate, ...others } = paper;
+    if (record) {
+      const { authors, uid, createdAt, updatedAt, publishedOn, conferenceDate, ...others } = record;
       setDate(publishedOn);
       setConferenceDate(conferenceDate);
       setInputs(others);
@@ -343,7 +342,7 @@ const EditConference = ({ paper, setPaper, setOpenEditor }) => {
   return (
     <div className="frame">
       <div className="heading">
-        <h1>{paper ? 'Edit Conference Paper' : 'Add new Conference Paper'}</h1>
+        <h1>{record? 'Edit Conference Paper' : 'Add new Conference Paper'}</h1>
       </div>
       <div className="field">
         <div className="obj">

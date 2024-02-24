@@ -63,13 +63,13 @@ const Invitedtalk = ({ handleEditClick }) => {
       <div className="heading">
         Invited Talks
       </div>
-      {fetching === false && booksList.length === 0 ?
+      {fetching === false && talkList.length === 0 ?
         <EmptyList qoute={'Nothing to show here. Please add your Books'} />
         : ''}
       {fetching === false ?
         talkList.map((talk) =>
           <div className="card">
-            <EditIcon onClick={() => handleEditClick(book)} />
+            <EditIcon onClick={() => handleEditClick(talk)} />
             <div className="obj"><span>Title : </span>{Capitalize(talk.title)}</div>
             <div className="obj"><span>Venue : </span>{Capitalize(talk.venue)}</div>
             <div className="obj"><span>Date : </span>{Capitalize(talk.date)}</div>
@@ -115,13 +115,13 @@ const Society = ({ handleEditClick }) => {
       <div className="heading">
         Society Memberships
       </div>
-      {fetching === false && booksList.length === 0 ?
+      {fetching === false && societyList.length === 0 ?
         <EmptyList qoute={'Nothing to show here. Please add your Books'} />
         : ''}
       {fetching === false ?
         societyList.map((society) =>
           <div className="card">
-            <EditIcon onClick={() => handleEditClick(book)} />
+            <EditIcon onClick={() => handleEditClick(society)} />
             <div className="obj"><span>Name : </span>{Capitalize(society.societyName)}</div>
             <div className="obj"><span>Duration : </span>{Capitalize(society.duration)}</div>
           </div>
