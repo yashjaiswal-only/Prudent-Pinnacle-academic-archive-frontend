@@ -7,23 +7,32 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllRecord } from '../../api_calls/Record';
 import { updateSociety, updateTalks } from '../../redux/recordsRedux';
 import { Capitalize } from '../../services';
+import EditIcon from '@mui/icons-material/Edit';
+import EmptyList from '../v1/EmptyList';
+import Loader from '../v1/Loader';
+import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 
 const Activities = () => {
   const location = useLocation();
   const [openEditor, setOpenEditor] = useState(false);
+  const [record, setRecord] = useState(null)
+  const handleEditClick = (s) => {
+    setRecord(s);
+    setOpenEditor(true);
+  }
   return (
     <div className="page">
       <div className="icon">
         <AddCircleOutline sx={{ fontSize: '3rem', cursor: 'pointer' }} onClick={() => setOpenEditor(true)} />
       </div>
-      {openEditor && <EditActivities setOpenEditor={setOpenEditor} type={location.state.type} />}
-      {location.state.type == 'Invited Talk' && <Invitedtalk />}
-      {location.state.type == 'Society Membership' && <Society />}
+      {openEditor && <EditActivities setOpenEditor={setOpenEditor} type={location.state.type} record={record} setRecord={setRecord} />}
+      {location.state.type == 'Invited Talk' && <Invitedtalk handleEditClick={handleEditClick} />}
+      {location.state.type == 'Society Membership' && <Society handleEditClick={handleEditClick} />}
     </div>
   )
 }
 
-const Invitedtalk = () => {
+const Invitedtalk = ({ handleEditClick }) => {
   const [talkList, setTalkList] = useState([]);
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState(null);
@@ -54,18 +63,26 @@ const Invitedtalk = () => {
       <div className="heading">
         Invited Talks
       </div>
-      {
+
+      {fetching === false ?
         talkList.map((talk) =>
           <div className="card">
+            <EditIcon onClick={() => handleEditClick(book)} />
             <div className="obj"><span>Title : </span>{Capitalize(talk.title)}</div>
             <div className="obj"><span>Venue : </span>{Capitalize(talk.venue)}</div>
             <div className="obj"><span>Date : </span>{Capitalize(talk.date)}</div>
           </div>
-        )}
+        )
+        :
+        <Loader />
+      }
+      {error ?
+        <div className='error'><ReportProblemIcon />Unable to fetch data:{error}</div>
+        : ''}
     </div>
   )
 }
-const Society = () => {
+const Society = ({ handleEditClick }) => {
   const [societyList, setSocietyList] = useState([]);
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState(null);
@@ -96,13 +113,20 @@ const Society = () => {
       <div className="heading">
         Society Memberships
       </div>
-      {
+      {fetching === false ?
         societyList.map((society) =>
           <div className="card">
+            <EditIcon onClick={() => handleEditClick(book)} />
             <div className="obj"><span>Name : </span>{Capitalize(society.societyName)}</div>
             <div className="obj"><span>Duration : </span>{Capitalize(society.duration)}</div>
           </div>
-        )}
+        )
+        :
+        <Loader />
+      }
+      {error ?
+        <div className='error'><ReportProblemIcon />Unable to fetch data:{error}</div>
+        : ''}
     </div>
   )
 }

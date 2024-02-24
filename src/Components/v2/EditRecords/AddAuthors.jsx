@@ -32,11 +32,12 @@ const Entry=styled.div`
     display: flex;
     align-items: center;
     position: relative;
+    width: 100%;
     >svg{
         cursor:pointer;
     }
     label{
-        fontSize:'0.8rem'
+        font-size:'0.8rem';
     }
     #corresponding{
         margin:0 0.5rem 0 2rem;

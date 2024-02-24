@@ -7,23 +7,32 @@ import { getAllRecord } from '../../api_calls/Record';
 import { updateConsultancy, updatePatents, updateProjectgrands } from '../../redux/recordsRedux';
 import { useDispatch, useSelector } from 'react-redux';
 import { Capitalize } from '../../services';
+import EditIcon from '@mui/icons-material/Edit';
+import EmptyList from '../v1/EmptyList';
+import Loader from '../v1/Loader';
+import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 
 const Projects = () => {
     const location = useLocation();
     const [openEditor, setOpenEditor] = useState(false);
+    const [record, setRecord] = useState(null)
+    const handleEditClick = (s) => {
+        setRecord(s);
+        setOpenEditor(true);
+    }
     return (
         <div className="page">
             <div className="icon">
                 <AddCircleOutline sx={{ fontSize: '3rem', cursor: 'pointer' }} onClick={() => setOpenEditor(true)} />
             </div>
-            {openEditor && <EditProjects setOpenEditor={setOpenEditor} type={location.state.type} />}
-            {location.state.type == 'Project Grants' && <Grants />}
-            {location.state.type == 'Consultancy Projects' && <Consultancy />}
-            {location.state.type == 'Patents' && <Patents />}
+            {openEditor && <EditProjects setOpenEditor={setOpenEditor} type={location.state.type} record={record} setRecord={setRecord} />}
+            {location.state.type == 'Project Grants' && <Grants handleEditClick={handleEditClick} />}
+            {location.state.type == 'Consultancy Projects' && <Consultancy handleEditClick={handleEditClick} />}
+            {location.state.type == 'Patents' && <Patents handleEditClick={handleEditClick} />}
         </div>
     )
 }
-const Grants = () => {
+const Grants = ({ handleEditClick }) => {
     const [projectList, setProjectList] = useState([]);
     const [fetching, setFetching] = useState(false);
     const [error, setError] = useState(null);
@@ -54,19 +63,27 @@ const Grants = () => {
             <div className="heading">
                 Project Grants
             </div>
-            {
-                projectList.map((scholars) =>
-                    <div className="card">          <div><span>Project Title : </span>{Capitalize(scholars.title)}</div>
-                        <div><span>Awarding Agency : </span>{Capitalize(scholars.awardingAgency)}</div>
-                        <div><span>Project Cost : </span>{Capitalize(scholars.cost)}</div>
-                        <div><span>Status : </span>{Capitalize(scholars.status)}</div>
+            {fetching === false ?
+                projectList.map((record) =>
+                    <div className="card">
+                        <EditIcon onClick={() => handleEditClick(record)} />
+                        <div><span>Project Title : </span>{Capitalize(record.title)}</div>
+                        <div><span>Awarding Agency : </span>{Capitalize(record.awardingAgency)}</div>
+                        <div><span>Project Cost : </span>{Capitalize(record.cost)}</div>
+                        <div><span>Status : </span>{Capitalize(record.status)}</div>
 
                     </div>
-                )}
+                )
+                :
+                <Loader />
+            }
+            {error ?
+                <div className='error'><ReportProblemIcon />Unable to fetch data:{error}</div>
+                : ''}
         </div>
     )
 }
-const Consultancy = () => {
+const Consultancy = ({ handleEditClick }) => {
     const [projectList, setProjectList] = useState([]);
     const [fetching, setFetching] = useState(false);
     const [error, setError] = useState(null);
@@ -98,21 +115,27 @@ const Consultancy = () => {
                 Consultancy Projects
             </div>
 
-            {
-                projectList.map((scholars) =>
+            {fetching === false ?
+                projectList.map((record) =>
                     <div className="card">
-                        <div className='obj'><span>Project Title : </span>{Capitalize(scholars.title)}</div>
-                        <div className='obj'><span>Awarding Agency : </span>{Capitalize(scholars.awardingAgency)}</div>
-                        <div className='obj'><span>Project Cost : </span>{Capitalize(scholars.cost)}</div>
-                        <div className='obj'><span>Status : </span>{Capitalize(scholars.status)}</div>
+                        <EditIcon onClick={() => handleEditClick(record)} />
+                        <div className='obj'><span>Project Title : </span>{Capitalize(record.title)}</div>
+                        <div className='obj'><span>Awarding Agency : </span>{Capitalize(record.awardingAgency)}</div>
+                        <div className='obj'><span>Project Cost : </span>{Capitalize(record.cost)}</div>
+                        <div className='obj'><span>Status : </span>{Capitalize(record.status)}</div>
 
                     </div>
                 )
+                :
+                <Loader />
             }
+            {error ?
+                <div className='error'><ReportProblemIcon />Unable to fetch data:{error}</div>
+                : ''}
         </div>
     )
 }
-const Patents = () => {
+const Patents = ({ handleEditClick }) => {
     const [patentsList, setPatentsList] = useState([]);
     const [fetching, setFetching] = useState(false);
     const [error, setError] = useState(null);
@@ -143,17 +166,23 @@ const Patents = () => {
             <div className="heading">
                 Patents
             </div>
-            {
+
+            {fetching === false ?
                 patentsList.map((patent) =>
                     <div className='card'>
+                        <EditIcon onClick={() => handleEditClick(patent)} />
                         <div className="obj"><span>Name : </span>{Capitalize(patent.name)}</div>
                         <div className="obj"><span>Country : </span>{Capitalize(patent.country)}</div>
                         <div className="obj"><span>Year : </span>{Capitalize(patent.year)}</div>
                         <div className="obj"><span>Award Number : </span>{Capitalize(patent.awardNo)}</div>
                         <div className="obj"><span>Status : </span>{Capitalize(patent.status)}</div>
                     </div>)
+                :
+                <Loader />
             }
-
+            {error ?
+                <div className='error'><ReportProblemIcon />Unable to fetch data:{error}</div>
+                : ''}
         </div>
     )
 }

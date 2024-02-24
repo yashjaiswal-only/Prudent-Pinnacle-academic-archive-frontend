@@ -9,6 +9,9 @@ import { updateBooks, updateChapters, updateConferences, updateJournals } from '
 import { Capitalize } from '../../services';
 import PersonIcon from '@mui/icons-material/Person';
 import EditIcon from '@mui/icons-material/Edit';
+import EmptyList from '../v1/EmptyList';
+import Loader from '../v1/Loader';
+import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 
 
 const ResearchPaper = () => {
@@ -24,7 +27,7 @@ const ResearchPaper = () => {
             <div className="icon">
                 <AddCircleOutline sx={{ fontSize: '3rem', cursor: 'pointer' }} onClick={() => setOpenEditor(true)} />
             </div>
-            {openEditor && <EditResearchPaper setOpenEditor={setOpenEditor} type={location.state.type} paper={paper} setPaper={setPaper}/>}
+            {openEditor && <EditResearchPaper setOpenEditor={setOpenEditor} type={location.state.type} paper={paper} setPaper={setPaper} />}
             {location.state.type == 'Journals' && <Journals handleEditClick={handleEditClick} />}
             {location.state.type == 'Book Chapter' && <Chapter handleEditClick={handleEditClick} />}
             {location.state.type == 'Books' && <Book handleEditClick={handleEditClick} />}
@@ -64,7 +67,10 @@ const Book = ({ handleEditClick }) => {
             <div className="heading">
                 Books
             </div>
-            {
+            {fetching === false && booksList.length === 0 ?
+                <EmptyList qoute={'Nothing to show here. Please add your Books'} />
+                : ''}
+            {fetching === false ?
                 booksList.map((book) => (
                     <div className="card">
                         <EditIcon onClick={() => handleEditClick(book)} />
@@ -98,7 +104,12 @@ const Book = ({ handleEditClick }) => {
 
                     </div>
                 ))
+                :
+                <Loader />
             }
+            {error ?
+                <div className='error'><ReportProblemIcon />Unable to fetch data:{error}</div>
+                : ''}
         </div>
     )
 }
@@ -131,10 +142,13 @@ const Chapter = ({ handleEditClick }) => {
             <div className="heading">
                 Book Chapter
             </div>
-            {
+            {fetching === false && booksList.length === 0 ?
+                <EmptyList qoute={'Nothing to show here. Please add your Books'} />
+                : ''}
+            {fetching === false ?
                 chaptersList.map(chapter =>
                     <div className="card" key={chapter._id}>
-                        <EditIcon onClick={()=>handleEditClick(chapter)}/>
+                        <EditIcon onClick={() => handleEditClick(chapter)} />
                         <div className="obj">
                             <span>Title: </span>{Capitalize(chapter.title)}
                         </div>
@@ -174,7 +188,12 @@ const Chapter = ({ handleEditClick }) => {
                             <span>Page Range : </span>{chapter.pageRange}
                         </div>
                     </div>)
+                :
+                <Loader />
             }
+            {error ?
+                <div className='error'><ReportProblemIcon />Unable to fetch data:{error}</div>
+                : ''}
         </div>
     )
 }
@@ -209,10 +228,13 @@ const Conference = ({ handleEditClick }) => {
             <div className="heading">
                 Conferences
             </div>
-            {
+            {fetching === false && booksList.length === 0 ?
+                <EmptyList qoute={'Nothing to show here. Please add your Books'} />
+                : ''}
+            {fetching === false ?
                 conferencesList.map(conference =>
                     <div className="card">
-                        <EditIcon onClick={()=>handleEditClick(conference)}/>
+                        <EditIcon onClick={() => handleEditClick(conference)} />
                         <div className="obj">
                             <span>Title: </span>{Capitalize(conference.title)}
                         </div>
@@ -251,7 +273,12 @@ const Conference = ({ handleEditClick }) => {
                         </div>
                     </div>
                 )
+                :
+                <Loader />
             }
+            {error ?
+                <div className='error'><ReportProblemIcon />Unable to fetch data:{error}</div>
+                : ''}
         </div>
     )
 }
@@ -286,7 +313,10 @@ const Journals = ({ handleEditClick }) => {
             <div className="heading">
                 Journals
             </div>
-            {
+            {fetching === false && booksList.length === 0 ?
+                <EmptyList qoute={'Nothing to show here. Please add your Books'} />
+                : ''}
+            {fetching === false ?
                 journalsList.map(journal =>
                     <div className="card">
                         <EditIcon onClick={() => handleEditClick(journal)} />
@@ -326,7 +356,12 @@ const Journals = ({ handleEditClick }) => {
                             <span>Page Range : </span>{journal.pageRange}
                         </div>
                     </div>)
+                :
+                <Loader />
             }
+            {error ?
+                <div className='error'><ReportProblemIcon />Unable to fetch data:{error}</div>
+                : ''}
         </div>
     )
 }

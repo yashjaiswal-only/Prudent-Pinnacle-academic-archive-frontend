@@ -7,23 +7,32 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllRecord } from '../../api_calls/Record';
 import { updateFdp, updateStc } from '../../redux/recordsRedux';
 import { Capitalize } from '../../services';
+import EditIcon from '@mui/icons-material/Edit';
+import EmptyList from '../v1/EmptyList';
+import Loader from '../v1/Loader';
+import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 
 const Programs = () => {
     const location = useLocation();
     const [openEditor, setOpenEditor] = useState(false);
+    const [record, setRecord] = useState(null)
+    const handleEditClick = (s) => {
+        setRecord(s);
+        setOpenEditor(true);
+    }
     return (
         <div className="page">
             <div className="icon">
                 <AddCircleOutline sx={{ fontSize: '3rem', cursor: 'pointer' }} onClick={() => setOpenEditor(true)} />
             </div>
-            {openEditor && <EditCourses setOpenEditor={setOpenEditor} type={location.state.type} />}
-            {location.state.type == 'Faculty Development Program' && <Fdp />}
-            {location.state.type == 'Short Term Courses' && <Stc />}
+            {openEditor && <EditCourses setOpenEditor={setOpenEditor} type={location.state.type} record={record} setRecord={setRecord} />}
+            {location.state.type == 'Faculty Development Program' && <Fdp handleEditClick={handleEditClick} />}
+            {location.state.type == 'Short Term Courses' && <Stc handleEditClick={handleEditClick} />}
         </div>
     )
 }
 
-const Fdp = () => {
+const Fdp = ({ handleEditClick }) => {
     const [fdpList, setFdpList] = useState([]);
     const [fetching, setFetching] = useState(false);
     const [error, setError] = useState(null);
@@ -54,20 +63,27 @@ const Fdp = () => {
             <div className="heading">
                 Faculty Development Programs
             </div>
-            {
+
+            {fetching === false ?
                 fdpList.map(program => <div className="card">
+                    <EditIcon onClick={() => handleEditClick(program)} />
                     <div className="obj"><span>Name : </span>{Capitalize(program.name)}</div>
                     <div className="obj"><span>Duration : </span>{Capitalize(program.duration)}</div>
                     <div className="obj"><span>Organiser : </span>{Capitalize(program.organiser)}</div>
                     <div className="obj"><span>Start Date : </span>{Capitalize(program.startDate)}</div>
                     <div className="obj"><span>End Date : </span>{Capitalize(program.endDate)}</div>
                 </div>)
+                :
+                <Loader />
             }
+            {error ?
+                <div className='error'><ReportProblemIcon />Unable to fetch data:{error}</div>
+                : ''}
         </div>
     )
 }
 
-const Stc = () => {
+const Stc = ({ handleEditClick }) => {
     const [stcList, setStcList] = useState([]);
     const [fetching, setFetching] = useState(false);
     const [error, setError] = useState(null);
@@ -98,16 +114,23 @@ const Stc = () => {
             <div className="heading">
                 Short Term Courses
             </div>
-            {
+
+            {fetching === false ?
                 stcList.map((program) =>
                     <div className='card'>
+                        <EditIcon onClick={() => handleEditClick(program)} />
                         <div className="obj"><span>Name : </span>{Capitalize(program.name)}</div>
                         <div className="obj"><span>Duration : </span>{Capitalize(program.duration)}</div>
                         <div className="obj"><span>Organiser : </span>{Capitalize(program.organiser)}</div>
                         <div className="obj"><span>Start Date : </span>{Capitalize(program.startDate)}</div>
                         <div className="obj"><span>End Date : </span>{Capitalize(program.endDate)}</div>
                     </div>)
+                :
+                <Loader />
             }
+            {error ?
+                <div className='error'><ReportProblemIcon />Unable to fetch data:{error}</div>
+                : ''}
         </div>
     )
 }
