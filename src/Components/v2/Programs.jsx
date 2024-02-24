@@ -70,7 +70,7 @@ const Fdp = ({ handleEditClick }) => {
                 fdpList.map(program => <div className="card">
                     <EditIcon onClick={() => handleEditClick(program)} />
                     <div className="obj"><span>Name : </span>{Capitalize(program.name)}</div>
-                    <div className="obj"><span>Duration : </span>{Capitalize(program.duration)}</div>
+                    <div className="obj"><span>Duration : </span>{Capitalize(program.duration)+" Weeks"}</div>
                     <div className="obj"><span>Organiser : </span>{Capitalize(program.organiser)}</div>
                     <div className="obj"><span>Start Date : </span>{Capitalize(program.startDate)}</div>
                     <div className="obj"><span>End Date : </span>{Capitalize(program.endDate)}</div>
@@ -124,7 +124,7 @@ const Stc = ({ handleEditClick }) => {
                     <div className='card'>
                         <EditIcon onClick={() => handleEditClick(program)} />
                         <div className="obj"><span>Name : </span>{Capitalize(program.name)}</div>
-                        <div className="obj"><span>Duration : </span>{Capitalize(program.duration)}</div>
+                        <div className="obj"><span>Duration : </span>{Capitalize(program.duration)+" Weeks"}</div>
                         <div className="obj"><span>Organiser : </span>{Capitalize(program.organiser)}</div>
                         <div className="obj"><span>Start Date : </span>{Capitalize(program.startDate)}</div>
                         <div className="obj"><span>End Date : </span>{Capitalize(program.endDate)}</div>

@@ -5,3 +5,18 @@ export const departmentNames = [
     'Electrical',
     'Mechanical',
   ];
+
+ export const nationalityOptions = [
+    'International',
+    'National'
+  ];
+ export const refTypeOptions = [
+    'Refered',
+    'Non-Refered'
+  ];
+ export const bookTypeOptions = [
+    'a',
+    'b'
+  ];
+export const projectStatusOptions=['Ongoing','Completed'];
+export const patentGrantedOptions=['Yes','No'];

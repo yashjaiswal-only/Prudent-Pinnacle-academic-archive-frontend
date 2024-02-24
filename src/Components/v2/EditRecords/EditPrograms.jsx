@@ -78,6 +78,10 @@ const EditFdp = ({ record, setRecord, setOpenEditor }) => {
         </div>
         <div className="obj">
           <span>Duration of Program: </span>
+          <input name="duration" onChange={handleChange} type="text" placeholder="Duration in weeks" value={inputs.duration} />
+        </div>
+        <div className="obj">
+          <span>Organiser of Program: </span>
           <input name="organiser" onChange={handleChange} type="text" placeholder="Organiser" value={inputs.organiser} />
         </div>
         <DatePicker date={startDate} setDate={setStartDate} title="Start Date" />
@@ -149,7 +153,7 @@ const EditStc = ({ record, setRecord, setOpenEditor }) => {
         </div>
         <div className="obj">
           <span>Duration of Course</span>
-          <input name="duration" onChange={handleChange} type="text" placeholder="Duration" value={inputs.duration}/>
+          <input name="duration" onChange={handleChange} type="text" placeholder="Duration in weeks" value={inputs.duration}/>
         </div>
         <div className="obj">
           <span>Organiser of Course</span>

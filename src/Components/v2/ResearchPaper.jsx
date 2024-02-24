@@ -100,8 +100,16 @@ const Book = ({ handleEditClick }) => {
                         <div className="obj">
                             <span>ISBN : </span>{book.isbn}
                         </div>
+                        <div className="obj">
+                            <span>Refered/Non-Refered : </span>{book.refType}
+                        </div>
+                        <div className="obj">
+                            <span>Nationality : </span>{book.nationality}
+                        </div>
+                        <div className="obj">
+                            <span>Book Type : </span>{book.bookType}
+                        </div>
                         <div className='obj'><span>Edition : </span>{book.edition}</div>
-
                     </div>
                 ))
                 :
@@ -187,6 +195,12 @@ const Chapter = ({ handleEditClick }) => {
                         <div className="obj">
                             <span>Page Range : </span>{chapter.pageRange}
                         </div>
+                        <div className="obj">
+                            <span>Nationality : </span>{chapter.nationality}
+                        </div>
+                        <div className="obj">
+                            <span>Refered/Non-Refered : </span>{chapter.refType}
+                        </div>
                     </div>)
                 :
                 <Loader />
@@ -271,6 +285,9 @@ const Conference = ({ handleEditClick }) => {
                         <div className="obj">
                             <span>Location : </span>{conference.location}
                         </div>
+                        <div className="obj">
+                            <span>Nationality : </span>{conference.nationality}
+                        </div>
                     </div>
                 )
                 :
@@ -354,6 +371,9 @@ const Journals = ({ handleEditClick }) => {
                         </div>
                         <div className="obj">
                             <span>Page Range : </span>{journal.pageRange}
+                        </div>
+                        <div className="obj">
+                            <span>Refered/Non-Refered : </span>{journal.refType}
                         </div>
                     </div>)
                 :

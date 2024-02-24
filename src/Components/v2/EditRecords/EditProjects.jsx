@@ -6,6 +6,7 @@ import { addRecord, editRecord } from '../../../api_calls/Record'
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import { removeConsultancy, removePatents, removeProjectgrands } from '../../../redux/recordsRedux'
 import MultipleSelectPlaceholder from '../../v1/DepartmentSelector'
+import { patentGrantedOptions, projectStatusOptions } from '../../../data'
 
 const EditProjects = ({ setOpenEditor, type, record, setRecord }) => {
   return (
@@ -25,11 +26,11 @@ const EditGrants = ({ record, setRecord, setOpenEditor }) => {
   const user = useSelector(state => state.user.currentUser);
   const token = useSelector(state => state.user.token);
   const [inputs, setInputs] = useState({});
+  const [patent, setPatent] = useState([]);
   const [status, setStatus] = useState([]);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState(null);
 
-  const names = ['Ongoing', 'Submitted']
   const handleChange = e => {
     setInputs(prev => {
       return { ...prev, [e.target.name]: e.target.value }
@@ -42,12 +43,12 @@ const EditGrants = ({ record, setRecord, setOpenEditor }) => {
     setError(null);
 
     if (record === null) {
-      const record = { ...inputs, status, _id: user._id };
+      const record = { ...inputs, status,patent, _id: user._id };
       console.log(record)
       res = await addRecord(record, 'project', token);
     }
     else {
-      const record = { ...inputs, status, _id: user._id, id: inputs._id };
+      const record = { ...inputs, status,patent, _id: user._id, id: inputs._id };
       console.log(record)
       res = await editRecord(record, 'project', token);
     }
@@ -62,9 +63,10 @@ const EditGrants = ({ record, setRecord, setOpenEditor }) => {
   }
   useEffect(() => {
     if (record) {
-      const { uid, status, createdAt, updatedAt, ...others } = record;
+      const { uid, status, createdAt, updatedAt,patent, ...others } = record;
       setInputs(others);
-      setStatus(status)
+      setStatus(status?status:"Not Choosen")
+      setPatent(patent?patent:'Not Choosen')
     }
   }, [])
   return (
@@ -86,8 +88,16 @@ const EditGrants = ({ record, setRecord, setOpenEditor }) => {
           <input name="cost" onChange={handleChange} type="text" placeholder="Project Cost" value={inputs.cost} />
         </div>
         <div className="obj">
+          <span>Project Duration: </span>
+          <input name="duration" onChange={handleChange} type="text" placeholder="Project duration" value={inputs.duration} />
+        </div>
+        <div className="obj">
           <span>Project Status: </span>
-          <MultipleSelectPlaceholder defaultLabel='Status' names={names} department={status} setDepartment={setStatus} />
+          <MultipleSelectPlaceholder defaultLabel='Status' names={projectStatusOptions} department={status} setDepartment={setStatus} />
+        </div>
+        <div className="obj">
+          <span>Patent Granted: </span>
+          <MultipleSelectPlaceholder defaultLabel='Status' names={patentGrantedOptions} department={patent} setDepartment={setPatent} />
         </div>
       </div>
       <button onClick={handleSubmit} disabled={sending}>Save</button>
@@ -101,11 +111,11 @@ const EditConsultancy = ({ record, setRecord, setOpenEditor }) => {
   const user=useSelector(state=>state.user.currentUser);
   const token=useSelector(state=>state.user.token);
   const [inputs,setInputs]=useState({});
-  const [status,setStatus]=useState([]);
+  const [patent, setPatent] = useState([]);
+  const [status, setStatus] = useState([]);
   const [sending,setSending]=useState(false);
   const [error,setError]=useState(null);
 
-  const names=['Ongoing','Submitted']
   const handleChange=e=>{
     setInputs(prev=>{
       return {...prev,[e.target.name]:e.target.value}
@@ -118,12 +128,12 @@ const EditConsultancy = ({ record, setRecord, setOpenEditor }) => {
     setError(null);
 
     if(record === null){
-      const record={...inputs,status,_id:user._id};
+      const record={...inputs,status,patent,_id:user._id};
       console.log(record)
       res=await addRecord(record,'consultancy',token);
     }
     else{
-      const record={...inputs,status,_id:user._id,id:inputs._id};
+      const record={...inputs,status,patent,_id:user._id,id:inputs._id};
       console.log(record)
       res=await editRecord(record,'consultancy',token);
     }
@@ -138,9 +148,11 @@ const EditConsultancy = ({ record, setRecord, setOpenEditor }) => {
   }
   useEffect(()=>{
     if(record){
-      const {uid,status,createdAt,updatedAt,...others}=record;
+      const {uid,status,createdAt,updatedAt,patent,...others}=record;
       setInputs(others);
       setStatus(status)
+      setStatus(status?status:"Not Choosen")
+      setPatent(patent?patent:'Not Choosen')
     }
   },[])
   return (
@@ -162,8 +174,16 @@ const EditConsultancy = ({ record, setRecord, setOpenEditor }) => {
           <input name="cost" onChange={handleChange} type="text" placeholder="Project Cost" value={inputs.cost}/>
         </div>
         <div className="obj">
+          <span>Project Duration: </span>
+          <input name="duration" onChange={handleChange} type="text" placeholder="Project duration" value={inputs.duration} />
+        </div>
+        <div className="obj">
           <span>Project Status: </span>
-          <MultipleSelectPlaceholder defaultLabel='Status' names={names} department={status} setDepartment={setStatus}/>
+          <MultipleSelectPlaceholder defaultLabel='Status' names={projectStatusOptions} department={status} setDepartment={setStatus} />
+        </div>
+        <div className="obj">
+          <span>Patent Granted: </span>
+          <MultipleSelectPlaceholder defaultLabel='Status' names={patentGrantedOptions} department={patent} setDepartment={setPatent} />
         </div>
       </div>
       <button onClick={handleSubmit} disabled={sending}>Save</button>

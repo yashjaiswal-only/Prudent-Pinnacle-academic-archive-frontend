@@ -7,6 +7,8 @@ import DatePicker from './DatePicker'
 import { addPaper, editPaper } from '../../../api_calls/Papers'
 import { removeBooks, removeChapters, removeConferences, removeJournals } from '../../../redux/papersRedux'
 import AddEditor from './AddEditor'
+import MultipleSelectPlaceholder from '../../v1/DepartmentSelector'
+import { bookTypeOptions, nationalityOptions, refTypeOptions } from '../../../data'
 const EditResearchPaper = ({ setOpenEditor, type, paper, setPaper }) => {
   return (
     <div className="edit">
@@ -30,6 +32,10 @@ const EditBook = ({ record, setRecord, setOpenEditor }) => {
   const [sending, setSending] = useState(false);
   const [error, setError] = useState(null);
   const [date, setDate] = useState(null);
+  const [nationality, setNationality] = useState([])
+  const [refType, setRefType] = useState([])
+  const [bookType, setBookType] = useState([])
+
   const handleChange = e => {
     setInputs(prev => {
       return { ...prev, [e.target.name]: e.target.value }
@@ -42,12 +48,12 @@ const EditBook = ({ record, setRecord, setOpenEditor }) => {
     setError(null);
     const { title, ...rest } = inputs;
     if (record === null) {
-      const paper = { ...rest, title: title.toLowerCase(), authors, _id: user._id, publishedOn: date };
+      const paper = { ...rest, title: title.toLowerCase(), nationality, bookType, refType, authors, _id: user._id, publishedOn: date };
       console.log(paper)
       res = await addPaper(paper, 'book', token);
     }
     else {
-      const paper = { ...rest, title: title.toLowerCase(), authors, _id: user._id, pid: inputs._id, publishedOn: date };
+      const paper = { ...rest, title: title.toLowerCase(), nationality, bookType, refType, authors, _id: user._id, pid: inputs._id, publishedOn: date };
       console.log(paper)
       res = await editPaper(paper, 'book', token);
     }
@@ -62,16 +68,20 @@ const EditBook = ({ record, setRecord, setOpenEditor }) => {
   }
   useEffect(() => {
     if (record) {
-      const { authors, uid, createdAt, updatedAt, publishedOn, ...others } = record;
+      const { authors, uid, createdAt, updatedAt, nationality, refType, bookType, publishedOn, ...others } = record;
       setDate(publishedOn);
       setInputs(others);
       setAuthors(authors);
+      setNationality(nationality ? nationality : 'Not Choosen')
+      setBookType(bookType ? bookType : 'Not Choosen')
+      setRefType(refType ? refType : 'Not Choosen ')
     }
   }, [])
+
   return (
     <div className="frame">
       <div className="heading">
-        <h1>{record? 'Edit Book' : 'Add new book'}</h1>
+        <h1>{record ? 'Edit Book' : 'Add new book'}</h1>
       </div>
       <div className="field">
         <div className="obj">
@@ -94,6 +104,19 @@ const EditBook = ({ record, setRecord, setOpenEditor }) => {
           <span>Edition: </span>
           <input onChange={handleChange} type="text" placeholder="Edition" value={inputs.edition} />
         </div>
+        <div className="obj">
+          <span>Nationality: </span>
+          <MultipleSelectPlaceholder defaultLabel='Nationality' names={nationalityOptions} department={nationality} setDepartment={setNationality} />
+        </div>
+        <div className="obj">
+          <span>Refered/Non-Refered: </span>
+          <MultipleSelectPlaceholder defaultLabel='Refered/Non-Refered' names={refTypeOptions} department={refType} setDepartment={setRefType} />
+        </div>
+        <div className="obj">
+          <span>Book Type: </span>
+          <MultipleSelectPlaceholder defaultLabel='Book Type' names={bookTypeOptions} department={bookType} setDepartment={setBookType} />
+        </div>
+
         <DatePicker date={date} setDate={setDate} title="Publication Date" />
         <AddAuthor authors={authors} setAuthors={setAuthors} students={false} />
       </div>
@@ -112,7 +135,8 @@ const EditChapter = ({ record, setRecord, setOpenEditor }) => {
   const [sending, setSending] = useState(false);
   const [error, setError] = useState(null);
   const [date, setDate] = useState(null);
-
+  const [nationality, setNationality] = useState([])
+  const [refType, setRefType] = useState([])
 
   const handleChange = e => {
     setInputs(prev => {
@@ -127,12 +151,12 @@ const EditChapter = ({ record, setRecord, setOpenEditor }) => {
     const { title, ...rest } = inputs;
     //title lowercase me to enhance search
     if (record === null) {
-      const paper = { ...rest, title: title.toLowerCase(), authors, editors, _id: user._id, publishedOn: date };
+      const paper = { ...rest, title: title.toLowerCase(), authors, editors, nationality, refType, _id: user._id, publishedOn: date };
       console.log(paper)
       res = await addPaper(paper, 'chapter', token);
     }
     else {
-      const paper = { ...rest, title: title.toLowerCase(), authors, editors, _id: user._id, pid: inputs._id, publishedOn: date };
+      const paper = { ...rest, title: title.toLowerCase(), authors, editors, nationality, refType, _id: user._id, pid: inputs._id, publishedOn: date };
       console.log(paper)
       res = await editPaper(paper, 'chapter', token);
     }
@@ -147,17 +171,19 @@ const EditChapter = ({ record, setRecord, setOpenEditor }) => {
   }
   useEffect(() => {
     if (record) {
-      const { authors, editors, uid, createdAt, updatedAt, publishedOn, ...others } = record;
+      const { authors, editors, uid, createdAt, updatedAt, nationality, refType, publishedOn, ...others } = record;
       setDate(publishedOn);
       setInputs(others);
       setAuthors(authors);
+      setNationality(nationality ? nationality : 'Not Choosen ')
+      setRefType(refType ? refType : 'Not Choosen ')
       setEditors(editors);
     }
   }, [])
   return (
     <div className="frame">
       <div className="heading">
-        <h1>{record? 'Edit Journal' : 'Add new Journal'}</h1>
+        <h1>{record ? 'Edit Journal' : 'Add new Journal'}</h1>
       </div>
       <div className="field">
         <div className="obj">
@@ -184,6 +210,14 @@ const EditChapter = ({ record, setRecord, setOpenEditor }) => {
           <span>Page Range: </span>
           <input name="pageRange" onChange={handleChange} type="text" placeholder="Page Range" value={inputs.pageRange} />
         </div>
+        <div className="obj">
+          <span>Nationality: </span>
+          <MultipleSelectPlaceholder defaultLabel='Nationality' names={nationalityOptions} department={nationality} setDepartment={setNationality} />
+        </div>
+        <div className="obj">
+          <span>Refered/Non-Refered: </span>
+          <MultipleSelectPlaceholder defaultLabel='Refered/Non-Refered' names={refTypeOptions} department={refType} setDepartment={setRefType} />
+        </div>
         <DatePicker date={date} setDate={setDate} title="Publication Date" />
 
         <AddAuthor authors={authors} setAuthors={setAuthors} />
@@ -204,6 +238,7 @@ const EditJournal = ({ record, setRecord, setOpenEditor }) => {
   const [sending, setSending] = useState(false);
   const [error, setError] = useState(null);
   const [date, setDate] = useState(null);
+  const [refType, setRefType] = useState([])
 
   const handleChange = e => {
     setInputs(prev => {
@@ -216,13 +251,15 @@ const EditJournal = ({ record, setRecord, setOpenEditor }) => {
     setError(null);
     setSending(true);
     const { title, ...rest } = inputs;
-    if (record=== null) {
-      const paper = { ...rest, title: title.toLowerCase(), authors, _id: user._id, publishedOn: date };
+    if (record === null) {
+      console.log('creating')
+      const paper = { ...rest, title: title.toLowerCase(), refType, authors, _id: user._id, publishedOn: date };
       console.log(paper)
       res = await addPaper(paper, 'journal', token);
     }
     else {
-      const paper = { ...rest, title: title.toLowerCase(), authors, _id: user._id, pid: inputs._id, publishedOn: date };
+      const paper = { ...rest, title: title.toLowerCase(), refType, authors, _id: user._id, pid: inputs._id, publishedOn: date };
+      console.log('updating')
       console.log(paper)
       res = await editPaper(paper, 'journal', token);
     }
@@ -237,17 +274,18 @@ const EditJournal = ({ record, setRecord, setOpenEditor }) => {
   }
   useEffect(() => {
     if (record) {
-      const { authors, uid, createdAt, updatedAt, publishedOn, ...others } = record;
+      const { authors, uid, createdAt, updatedAt, publishedOn, refType, ...others } = record;
       setDate(publishedOn);
       setInputs(others);
       setAuthors(authors);
+      setRefType(refType ? refType : 'Not choosen')
     }
   }, [])
 
   return (
     <div className="frame">
       <div className="heading">
-        <h1>{record? 'Edit Journal' : 'Add new Journal'}</h1>
+        <h1>{record ? 'Edit Journal' : 'Add new Journal'}</h1>
       </div>
       <div className="field">
 
@@ -279,6 +317,11 @@ const EditJournal = ({ record, setRecord, setOpenEditor }) => {
           <span>Page Range: </span>
           <input name="pageRange" onChange={handleChange} type="text" placeholder="Page Range" value={inputs.pageRange} />
         </div>
+        <div className="obj">
+          <span>Refered/Non-Refered: </span>
+          <MultipleSelectPlaceholder defaultLabel='Refered/Non-Refered' names={refTypeOptions} department={refType} setDepartment={setRefType} />
+        </div>
+
         <DatePicker date={date} setDate={setDate} title="Publication Date" />
 
         <AddAuthor authors={authors} setAuthors={setAuthors} />
@@ -299,6 +342,7 @@ const EditConference = ({ record, setRecord, setOpenEditor }) => {
   const [error, setError] = useState(null);
   const [date, setDate] = useState(null);
   const [conferenceDate, setConferenceDate] = useState(null);
+  const [nationality, setNationality] = useState([])
 
   const handleChange = e => {
     setInputs(prev => {
@@ -311,13 +355,13 @@ const EditConference = ({ record, setRecord, setOpenEditor }) => {
     setError(null);
     setSending(true);
     const { title, ...rest } = inputs;
-    if (record=== null) {
-      const paper = { ...rest, title: title.toLowerCase(), authors, _id: user._id, publishedOn: date, conferenceDate: conferenceDate };
+    if (record === null) {
+      const paper = { ...rest, title: title.toLowerCase(), authors, _id: user._id, nationality, publishedOn: date, conferenceDate: conferenceDate };
       console.log(paper)
       res = await addPaper(paper, 'conference', token);
     }
     else {
-      const paper = { ...rest, title: title.toLowerCase(), authors, _id: user._id, pid: inputs._id, publishedOn: date, conferenceDate: conferenceDate };
+      const paper = { ...rest, title: title.toLowerCase(), authors, _id: user._id, nationality, pid: inputs._id, publishedOn: date, conferenceDate: conferenceDate };
       console.log(paper)
       res = await editPaper(paper, 'conference', token);
     }
@@ -332,17 +376,19 @@ const EditConference = ({ record, setRecord, setOpenEditor }) => {
   }
   useEffect(() => {
     if (record) {
-      const { authors, uid, createdAt, updatedAt, publishedOn, conferenceDate, ...others } = record;
+      const { authors, uid, createdAt, updatedAt, nationality, publishedOn, conferenceDate, ...others } = record;
       setDate(publishedOn);
       setConferenceDate(conferenceDate);
       setInputs(others);
       setAuthors(authors);
+      setNationality(nationality ? nationality : 'Not Choosen')
     }
   }, [])
+
   return (
     <div className="frame">
       <div className="heading">
-        <h1>{record? 'Edit Conference Paper' : 'Add new Conference Paper'}</h1>
+        <h1>{record ? 'Edit Conference Paper' : 'Add new Conference Paper'}</h1>
       </div>
       <div className="field">
         <div className="obj">
@@ -369,6 +415,11 @@ const EditConference = ({ record, setRecord, setOpenEditor }) => {
           <span>Conference Location: </span>
           <input name="location" onChange={handleChange} type="text" placeholder="Conference Location" value={inputs.location} />
         </div>
+        <div className="obj">
+          <span>Nationality: </span>
+          <MultipleSelectPlaceholder defaultLabel='Nationality' names={nationalityOptions} department={nationality} setDepartment={setNationality} />
+        </div>
+
         <DatePicker date={date} setDate={setDate} title="Publication Date" />
         <DatePicker date={conferenceDate} setDate={setConferenceDate} title="Conference Date" />
         <AddAuthor authors={authors} setAuthors={setAuthors} />

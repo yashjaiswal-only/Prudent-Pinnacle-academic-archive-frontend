@@ -70,11 +70,12 @@ const Grants = ({ handleEditClick }) => {
                 projectList.map((record) =>
                     <div className="card">
                         <EditIcon onClick={() => handleEditClick(record)} />
-                        <div><span>Project Title : </span>{Capitalize(record.title)}</div>
-                        <div><span>Awarding Agency : </span>{Capitalize(record.awardingAgency)}</div>
-                        <div><span>Project Cost : </span>{Capitalize(record.cost)}</div>
-                        <div><span>Status : </span>{Capitalize(record.status)}</div>
-
+                        <div className='obj'><span>Project Title : </span>{Capitalize(record.title)}</div>
+                        <div className='obj'><span>Awarding Agency : </span>{Capitalize(record.awardingAgency)}</div>
+                        <div className='obj'><span>Project Cost : </span>{Capitalize(record.cost)}</div>
+                        <div className='obj'><span>Project Duration : </span>{Capitalize(record.duration)}</div>
+                        <div className='obj'><span>Patent Granted(Yes/No) : </span>{Capitalize(record.patent)}</div>
+                        <div className='obj'><span>Status : </span>{Capitalize(record.status)}</div>
                     </div>
                 )
                 :
@@ -127,8 +128,9 @@ const Consultancy = ({ handleEditClick }) => {
                         <div className='obj'><span>Project Title : </span>{Capitalize(record.title)}</div>
                         <div className='obj'><span>Awarding Agency : </span>{Capitalize(record.awardingAgency)}</div>
                         <div className='obj'><span>Project Cost : </span>{Capitalize(record.cost)}</div>
+                        <div className='obj'><span>Project Duration : </span>{Capitalize(record.duration)}</div>
+                        <div className='obj'><span>Patent Granted(Yes/No) : </span>{Capitalize(record.patent)}</div>
                         <div className='obj'><span>Status : </span>{Capitalize(record.status)}</div>
-
                     </div>
                 )
                 :
