@@ -63,7 +63,9 @@ const Fdp = ({ handleEditClick }) => {
             <div className="heading">
                 Faculty Development Programs
             </div>
-
+            {fetching === false && booksList.length === 0 ?
+                <EmptyList qoute={'Nothing to show here. Please add your Books'} />
+                : ''}
             {fetching === false ?
                 fdpList.map(program => <div className="card">
                     <EditIcon onClick={() => handleEditClick(program)} />
@@ -114,7 +116,9 @@ const Stc = ({ handleEditClick }) => {
             <div className="heading">
                 Short Term Courses
             </div>
-
+            {fetching === false && booksList.length === 0 ?
+                <EmptyList qoute={'Nothing to show here. Please add your Books'} />
+                : ''}
             {fetching === false ?
                 stcList.map((program) =>
                     <div className='card'>

@@ -114,7 +114,9 @@ const Consultancy = ({ handleEditClick }) => {
             <div className="heading">
                 Consultancy Projects
             </div>
-
+            {fetching === false && booksList.length === 0 ?
+                <EmptyList qoute={'Nothing to show here. Please add your Books'} />
+                : ''}
             {fetching === false ?
                 projectList.map((record) =>
                     <div className="card">
@@ -166,7 +168,9 @@ const Patents = ({ handleEditClick }) => {
             <div className="heading">
                 Patents
             </div>
-
+            {fetching === false && booksList.length === 0 ?
+                <EmptyList qoute={'Nothing to show here. Please add your Books'} />
+                : ''}
             {fetching === false ?
                 patentsList.map((patent) =>
                     <div className='card'>

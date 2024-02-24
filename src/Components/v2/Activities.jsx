@@ -63,7 +63,9 @@ const Invitedtalk = ({ handleEditClick }) => {
       <div className="heading">
         Invited Talks
       </div>
-
+      {fetching === false && booksList.length === 0 ?
+        <EmptyList qoute={'Nothing to show here. Please add your Books'} />
+        : ''}
       {fetching === false ?
         talkList.map((talk) =>
           <div className="card">
@@ -113,6 +115,9 @@ const Society = ({ handleEditClick }) => {
       <div className="heading">
         Society Memberships
       </div>
+      {fetching === false && booksList.length === 0 ?
+        <EmptyList qoute={'Nothing to show here. Please add your Books'} />
+        : ''}
       {fetching === false ?
         societyList.map((society) =>
           <div className="card">

@@ -65,7 +65,9 @@ const Btp = ({ handleEditClick }) => {
       <div className="heading">
         B.Tech Projects
       </div>
-
+      {fetching === false && booksList.length === 0 ?
+        <EmptyList qoute={'Nothing to show here. Please add your Books'} />
+        : ''}
       {fetching === false && booksList.length === 0 ?
         <EmptyList qoute={'Nothing to show here. Please add your Books'} />
         : ''}
@@ -132,7 +134,9 @@ const Mtp = ({ handleEditClick }) => {
       <div className="heading">
         M.Tech Projects
       </div>
-
+      {fetching === false && booksList.length === 0 ?
+        <EmptyList qoute={'Nothing to show here. Please add your Books'} />
+        : ''}
       {fetching === false ?
         mtpList.map(project =>
           <div className="card">
@@ -193,7 +197,9 @@ const Phd = ({ handleEditClick }) => {
       <div className="heading">
         Phd. Scholars
       </div>
-
+      {fetching === false && booksList.length === 0 ?
+        <EmptyList qoute={'Nothing to show here. Please add your Books'} />
+        : ''}
       {fetching === false ?
         phdList.map(scholars =>
           <div className="card">
