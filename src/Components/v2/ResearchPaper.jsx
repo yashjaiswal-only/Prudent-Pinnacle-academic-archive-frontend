@@ -142,7 +142,7 @@ const Chapter = ({ handleEditClick }) => {
             <div className="heading">
                 Book Chapter
             </div>
-            {fetching === false && booksList.length === 0 ?
+            {fetching === false && chaptersList.length === 0 ?
                 <EmptyList qoute={'Nothing to show here. Please add your Books'} />
                 : ''}
             {fetching === false ?
@@ -228,7 +228,7 @@ const Conference = ({ handleEditClick }) => {
             <div className="heading">
                 Conferences
             </div>
-            {fetching === false && booksList.length === 0 ?
+            {fetching === false && conferencesList.length === 0 ?
                 <EmptyList qoute={'Nothing to show here. Please add your Books'} />
                 : ''}
             {fetching === false ?
@@ -313,7 +313,7 @@ const Journals = ({ handleEditClick }) => {
             <div className="heading">
                 Journals
             </div>
-            {fetching === false && booksList.length === 0 ?
+            {fetching === false && Journals.length === 0 ?
                 <EmptyList qoute={'Nothing to show here. Please add your Books'} />
                 : ''}
             {fetching === false ?
