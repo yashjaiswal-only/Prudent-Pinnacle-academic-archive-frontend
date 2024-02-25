@@ -55,12 +55,12 @@ const Topbar = () => {
         dispatch(logoutSuccess())
         dispatch(removeAll())
         dispatch(removeAllRecord())
-        navigate('/v2/login')
+        navigate('/login')
       }
   return (
 
     <Container>
-        <Right onClick={()=>navigate('/v2/home')}>Prudent Pinnacle</Right>
+        <Right onClick={()=>navigate('/')}>Prudent Pinnacle</Right>
        <Left>
             Hi, {user?user.name:''}
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -112,7 +112,7 @@ const Topbar = () => {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem onClick={()=>navigate('/v2/home/profile')}>
+                <MenuItem onClick={()=>navigate('/profile')}>
                     <Avatar src={user.avatar} /> Profile
                 </MenuItem>
                 

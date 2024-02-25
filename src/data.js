@@ -20,3 +20,5 @@ export const departmentNames = [
   ];
 export const projectStatusOptions=['Ongoing','Completed'];
 export const patentGrantedOptions=['Yes','No'];
+export const studentProjectStatusOptions=['Ongoing','Submitted','Awarded'];
+export const btpProjectType=['Major','Minor'];

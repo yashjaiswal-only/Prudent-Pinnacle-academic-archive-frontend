@@ -45,7 +45,7 @@ const EditFdp = ({ record, setRecord, setOpenEditor }) => {
       res = await addRecord(record, 'fdp', token);
     }
     else {
-      const record = { ...inputs, _id: user._id, id: inputs._id };
+      const record = { ...inputs,startDate,endDate, _id: user._id, id: inputs._id };
       console.log(record)
       res = await editRecord(record, 'fdp', token);
     }

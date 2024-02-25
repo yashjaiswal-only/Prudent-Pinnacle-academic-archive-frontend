@@ -9,6 +9,7 @@ import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import { removeBtp, removeMtp, removePhd } from '../../../redux/recordsRedux'
 import MultipleSelectPlaceholder from '../../v1/DepartmentSelector'
 import DatePicker from './DatePicker'
+import { btpProjectType, studentProjectStatusOptions } from '../../../data'
 
 
 const EditStudentProject = ({setOpenEditor,type,record,setRecord}) => {
@@ -73,10 +74,6 @@ const EditBtp=({record,setRecord,setOpenEditor})=>{
     }
   },[])
 
-  const names = [
-    'Major',
-    'Minor',
-  ];
     return (
         <div className="frame">
           <div className="heading">
@@ -93,7 +90,7 @@ const EditBtp=({record,setRecord,setOpenEditor})=>{
             </div>
             <div className="obj">
               <span>Project Type: </span>
-              <MultipleSelectPlaceholder defaultLabel='Major/Minor' names={names} department={type} setDepartment={setType}/>
+              <MultipleSelectPlaceholder defaultLabel='Major/Minor' names={btpProjectType} department={type} setDepartment={setType}/>
             </div>
             <AddAuthor authors={students} setAuthors={setStudents} students={true}/>
           </div>
@@ -179,10 +176,6 @@ const EditPhd=({record,setRecord,setOpenEditor})=>{
   const [sending,setSending]=useState(false);
   const [error,setError]=useState(null);
 
-  const names=[
-    'Awarded','Ongoing','Submitted'
-  ]
-  
   const handleChange=e=>{
     setInputs(prev=>{
       return {...prev,[e.target.name]:e.target.value}
@@ -238,7 +231,7 @@ const EditPhd=({record,setRecord,setOpenEditor})=>{
         </div>
         <div className="obj">
           <span>Status: </span>
-          <MultipleSelectPlaceholder defaultLabel='Status' names={names} department={status} setDepartment={setStatus}/>
+          <MultipleSelectPlaceholder defaultLabel='Status' names={studentProjectStatusOptions} department={status} setDepartment={setStatus}/>
         </div>
         <DatePicker  date={date} setDate={setDate} title="Enrolment Date"/>
       </div>

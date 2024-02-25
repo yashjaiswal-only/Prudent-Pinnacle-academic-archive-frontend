@@ -13,7 +13,6 @@ const Container=styled.div`
     background: linear-gradient(45deg, rgba(61,88,230,1) 0%, rgba(111,179,228,1) 33%);
 `
 const HomeBanner = () => {
-
   return (
     <Container>
       Welcome to Prudent Pinnacle

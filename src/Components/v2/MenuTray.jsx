@@ -11,17 +11,15 @@ const Container=styled.div`
     color:#E77EEE;
     flex-direction:row;
     justify-content:space-around;
-    
-    
 `
 const MenuTray = () => {
   return (
     <Container>
-      <Dropdown baseUrl="/v2/home/research/" buttonHeader={"Research Papers"} dropdownList={['Books', 'Book Chapter','Journals','Conference Papers']}/>
-      <Dropdown baseUrl="/v2/home/students" buttonHeader={"Student Projects/Scholars"} dropdownList={['M.Tech. Projects','B.Tech. Projects','Phd.Scholars']}/>
-      <Dropdown baseUrl="/v2/home/programs" buttonHeader={"Programs/Courses"} dropdownList={['Faculty Development Program','Short Term Courses']}/>
-      <Dropdown baseUrl="/v2/home/projects" buttonHeader={"Projects"} dropdownList={['Project Grants','Consultancy Projects','Patents']}/>
-      <Dropdown baseUrl="/v2/home/activities" buttonHeader={"Activities"} dropdownList={['Invited Talk','Society Membership']}/>
+      <Dropdown baseUrl="/research" buttonHeader={"Research Papers"} dropdownList={['Books', 'Book Chapter','Journals','Conference Papers']}/>
+      <Dropdown baseUrl="/students" buttonHeader={"Student Projects/Scholars"} dropdownList={['M.Tech. Projects','B.Tech. Projects','Phd.Scholars']}/>
+      <Dropdown baseUrl="/programs" buttonHeader={"Programs/Courses"} dropdownList={['Faculty Development Program','Short Term Courses']}/>
+      <Dropdown baseUrl="/projects" buttonHeader={"Projects"} dropdownList={['Project Grants','Consultancy Projects','Patents']}/>
+      <Dropdown baseUrl="/activities" buttonHeader={"Activities"} dropdownList={['Invited Talk','Society Membership']}/>
     </Container>
   )
 }

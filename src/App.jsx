@@ -57,182 +57,186 @@ const Component=styled.div`
 function App() {
   const router = createBrowserRouter([
     {
-      path: "/",
+      path: "/v1",
       element: <Home/>,
       children: [
         {
-          path: "/",
+          path: "/v1",
           element: <Profie  />,
         },
         {
-          path: "/profile/edit",
+          path: "/v1/profile/edit",
           element: <EditProfile />,
         },
         {
-          path: "/researchpaper/chapter",
+          path: "/v1/researchpaper/chapter",
           element: <Chapter/>,
         },
         {
-          path: "/chapter/edit",
+          path: "/v1/chapter/edit",
           element: <EditChapter />,
         },
         {
-          path: "/researchpaper/book",
+          path: "/v1/researchpaper/book",
           element: <Book/>,
         },
         {
-          path: "/book/edit",
+          path: "/v1/book/edit",
           element: <EditBook />,
         },
         {
-          path: "/researchpaper/journal",
+          path: "/v1/researchpaper/journal",
           element: <Journal/>,
         },
         {
-          path: "/journal/edit",
+          path: "/v1/journal/edit",
           element: <EditJournal />,
         },
         {
-          path: "/researchpaper/conference",
+          path: "/v1/researchpaper/conference",
           element: <Conference/>,
         },
         {
-          path: "/conference/edit",
+          path: "/v1/conference/edit",
           element: <EditConference />,
         },
         {
-          path: "/phdscholar",
+          path: "/v1/phdscholar",
           element: <Phd/>,
         },
         {
-          path: "/phdscholar/edit",
+          path: "/v1/phdscholar/edit",
           element: <EditPhd />,
         },
         {
-          path: "/btechproject",
+          path: "/v1/btechproject",
           element: <Btp/>,
         },
         {
-          path: "/btechproject/edit",
+          path: "/v1/btechproject/edit",
           element: <EditBtp />,
         },
         {
-          path: "/mtechproject",
+          path: "/v1/mtechproject",
           element: <Mtp/>,
         },
         {
-          path: "/mtechproject/edit",
+          path: "/v1/mtechproject/edit",
           element: <EditMtp />,
         },
         {
-          path: "/facultydevelopmentprogram",
+          path: "/v1/facultydevelopmentprogram",
           element: <Fdp/>,
         },
         {
-          path: "/facultydevelopmentprogram/edit",
+          path: "/v1/facultydevelopmentprogram/edit",
           element: <EditFdp />,
         },
         {
-          path: "/shorttermcourses",
+          path: "/v1/shorttermcourses",
           element: <Stc/>,
         },
         {
-          path: "/shorttermcourses/edit",
+          path: "/v1/shorttermcourses/edit",
           element: <EditStc />,
         },
         {
-          path: "/patents",
+          path: "/v1/patents",
           element: <Patents/>,
         },
         {
-          path: "/patents/edit",
+          path: "/v1/patents/edit",
           element: <EditPatents />,
         },
         {
-          path: "/projectgrands",
+          path: "/v1/projectgrands",
           element: <Project/>,
         },
         {
-          path: "/projectgrands/edit",
+          path: "/v1/projectgrands/edit",
           element: <EditProject />,
         },
         {
-          path: "/consultancy",
+          path: "/v1/consultancy",
           element: <Consultancy/>,
         },
         {
-          path: "/consultancy/edit",
+          path: "/v1/consultancy/edit",
           element: <EditConsultancy />,
         },
         {
-          path: "/invitedtalk",
+          path: "/v1/invitedtalk",
           element: <Talk/>,
         },
         {
-          path: "/invitedtalk/edit",
+          path: "/v1/invitedtalk/edit",
           element: <EditTalk />,
         },
         {
-          path: "/societymembership",
+          path: "/v1/societymembership",
           element: <Society/>,
         },
         {
-          path: "/societymembership/edit",
+          path: "/v1/societymembership/edit",
           element: <EditSociety />,
         },
       ],
     },
     
     {
-      path: "/v2/home",
+      path: "/",
       element: <Home2/>,
       children: [
         {
-          path: "/v2/home",
+          path: "/",
           element: <HomeBanner  />,
         },
         {
-          path: "/v2/home/profile",
+          path: "//profile",
           element: <MyProfile  />,
         },
         {
-          path: "/v2/home/research/",
+          path: "/research/",
           element: <ResearchPaper  />,
         },
         {
-          path: "/v2/home/programs",
+          path: "/programs",
           element: <Programs/>,
         },
         {
-          path: "/v2/home/projects",
+          path: "/projects",
           element: <Projects/>,
         },
         {
-          path: "/v2/home/activities",
+          path: "/activities",
           element: <Activities/>,
         },
         {
-          path: "/v2/home/students",
+          path: "/students",
           element: <Students/>,
         },
 
       ]
     },
     {
-      path: "/v2/register",
+      path: "/register",
       element: <Register2/>,
     },
     {
-      path: "/v2/login",
+      path: "/login",
       element: <Login2/>,
     },
     {
-      path: "/register",
+      path: "/v1/register",
       element: <Register/>,
     },
     {
-      path: "/login",
+      path: "/v1/login",
       element: <Login/>,
+    },
+    {
+      path: "*",
+      element: <div>Error! no such page present</div>,
     },
   ]);
   return (

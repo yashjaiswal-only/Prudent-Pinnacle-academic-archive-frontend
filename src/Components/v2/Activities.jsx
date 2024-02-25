@@ -11,6 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import EmptyList from '../v1/EmptyList';
 import Loader from '../v1/Loader';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
+import AddIcon from '@mui/icons-material/Add';
 
 const Activities = () => {
   const location = useLocation();
@@ -70,9 +71,11 @@ const Invitedtalk = ({ handleEditClick }) => {
         talkList.map((talk) =>
           <div className="card">
             <EditIcon onClick={() => handleEditClick(talk)} />
+            {/* <button><AddIcon/> Add New</button> */}
             <div className="obj"><span>Title : </span>{Capitalize(talk.title)}</div>
             <div className="obj"><span>Venue : </span>{Capitalize(talk.venue)}</div>
             <div className="obj"><span>Date : </span>{Capitalize(talk.date)}</div>
+            <div className="obj"><span>Nationality : </span>{Capitalize(talk.nationality)}</div>
           </div>
         )
         :

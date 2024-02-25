@@ -9,6 +9,7 @@ import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import { removeBtp, removeConsultancy, removeMtp, removePatents, removePhd, removeProjectgrands, removeSociety, removeTalks } from '../../../redux/recordsRedux'
 import MultipleSelectPlaceholder from '../../v1/DepartmentSelector'
 import DatePicker from './DatePicker'
+import { nationalityOptions } from '../../../data'
 
 
 const EditActivities = ({ setOpenEditor, type, record, setRecord }) => {
@@ -31,6 +32,7 @@ const EditInvitedtalk = ({ record, setRecord, setOpenEditor }) => {
   const [date, setDate] = useState(null);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState(null);
+  const [nationality, setNationality] = useState([])
 
   const handleChange = e => {
     setInputs(prev => {
@@ -43,12 +45,12 @@ const EditInvitedtalk = ({ record, setRecord, setOpenEditor }) => {
     setSending(true);
     setError(null);
     if (record === null) {
-      const record = { ...inputs, date, _id: user._id };
+      const record = { ...inputs, date,nationality, _id: user._id };
       console.log(record)
       res = await addRecord(record, 'talk', token);
     }
     else {
-      const record = { ...inputs, date, _id: user._id, id: inputs._id };
+      const record = { ...inputs, date,nationality, _id: user._id, id: inputs._id };
       console.log(record)
       res = await editRecord(record, 'talk', token);
     }
@@ -63,9 +65,10 @@ const EditInvitedtalk = ({ record, setRecord, setOpenEditor }) => {
   }
   useEffect(() => {
     if (record) {
-      const { uid, date, createdAt, updatedAt, ...others } = record;
+      const { uid, date, createdAt, updatedAt,nationality, ...others } = record;
       setInputs(others);
       setDate(date);
+      setNationality(nationality?nationality:'not choosen')
     }
   }, [])
   return (
@@ -81,6 +84,10 @@ const EditInvitedtalk = ({ record, setRecord, setOpenEditor }) => {
         <div className="obj">
           <span>Talk Venue </span>
           <input name="venue" onChange={handleChange} type="text" placeholder="Venue" value={inputs.venue} />
+        </div>
+        <div className="obj">
+          <span>Nationality: </span>
+          <MultipleSelectPlaceholder defaultLabel='Nationality' names={nationalityOptions} department={nationality} setDepartment={setNationality} />
         </div>
         <DatePicker date={date} setDate={setDate} title="Talk Date" />
       </div>

@@ -77,7 +77,6 @@ const Register2 = () => {
             console.log(res)
             if(res.status==200) navigate('/login',{state:{newlyRegister:true}});
             else setError('Something went wrong, unable to register..')
-
           });
         }
       );
@@ -87,7 +86,7 @@ const Register2 = () => {
       console.log(user)
       const res=await register(dispatch,user);
       console.log(res)
-      if(res.status==200) navigate('/v2/login',{state:{newlyRegister:true}});
+      if(res.status==200) navigate('/login',{state:{newlyRegister:true}});
       else setError('Something went wrong, Unable to register..')
     }
     setLoading(false)

@@ -23,7 +23,7 @@ const Login2 = () => {
         setError(false)
         const res=await login(dispatch,{username,password});
         console.log(res);
-        if(res.status===200)  navigate('/v2/home');
+        if(res.status===200)  navigate('/');
         else if(res.response && res.response.status===401) setError(res.response.data) 
         else setError('Something went wrong. Unable to login..')
         setLoading(false)
