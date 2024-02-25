@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import { logoutSuccess } from '../../redux/userRedux'
 import { removeAll } from '../../redux/papersRedux'
 import { removeAllRecord } from '../../redux/recordsRedux'
+import SummarizeIcon from '@mui/icons-material/Summarize';
 
 const Container=styled.div`
     z-index:800;
@@ -115,9 +116,10 @@ const Topbar = () => {
                 <MenuItem onClick={()=>navigate('/profile')}>
                     <Avatar src={user.avatar} /> Profile
                 </MenuItem>
-                
+                <MenuItem onClick={()=>navigate('/acr-report')}>
+                    <SummarizeIcon sx={{color:'blue'}}/> ACR Report
+                </MenuItem>
                 <Divider />
-               
                 <MenuItem onClick={handleLogout}>
                     <ListItemIcon>
                         <Logout fontSize="small" />

@@ -50,6 +50,7 @@ import Programs from './Components/v2/Programs';
 import Projects from './Components/v2/Projects';
 import Activities from './Components/v2/Activities';
 import Students from './Components/v2/Students';
+import Report from './Pages/v2/Report';
 
 const Component=styled.div`
   width:100vw;
@@ -215,7 +216,10 @@ function App() {
           path: "/students",
           element: <Students/>,
         },
-
+        {
+          path: "/acr-report",
+          element: <Report/>,
+        },
       ]
     },
     {
