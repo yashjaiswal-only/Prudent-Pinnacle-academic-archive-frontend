@@ -27,6 +27,7 @@ const Container = styled.div`
         font-size:1.5rem;
       }
       .table{
+        width:100%;
         font-size:1rem;
         border:1px solid black;
         border-collapse: collapse;

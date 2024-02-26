@@ -97,7 +97,7 @@ export const category3={
         'API Score' 
       ],
       prop:['a','b','c','d','e'],
-      values:"c1"
+      values:"c12"
     },
     {
       name:'C (iii & iv) Completed Projects / Consultancies',
@@ -111,7 +111,7 @@ export const category3={
         'API Score' 
       ],
       prop:['a','b','c','d','e','f'],
-      values:"c2"
+      values:"c34"
     },
     {
       name:'(D) Research Guidance',
@@ -123,7 +123,7 @@ export const category3={
         'API Score' 
       ],
       prop:['a','b','c','d'],
-      values:"e1"
+      values:"d"
     },
     {
       name:'E(i) Training Courses, Teaching-Learning-Evaluation Technology Programs, Faculty development Programmes (not less than one week duration) (Max.30 Points)',
@@ -149,7 +149,7 @@ export const category3={
         'API Score' 
       ],
       prop:['a','b','c','d'],
-      values:"e1"
+      values:"e2"
     },
     {
       name:'E(iii) Invited Lectures and Chairmanships at National or International Conference/ Seminars',
@@ -162,7 +162,7 @@ export const category3={
         'API Score' 
       ],
       prop:['a','b','c','d'],
-      values:"e1"
+      values:"e3"
     }
   ]
 }
