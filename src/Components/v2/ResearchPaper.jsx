@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import './style.scss'
 import { AddCircleOutline } from '@mui/icons-material';
 import EditResearchPaper from './EditRecords/EditResearchPaper';
@@ -18,11 +18,18 @@ const ResearchPaper = () => {
     const location = useLocation();
     const [openEditor, setOpenEditor] = useState(false);
     const [paper, setPaper] = useState(null);
+    const navigate=useNavigate();
     const handleEditClick = (s) => {
         setPaper(s);
         setOpenEditor(true);
     }
+    useEffect(()=>{
+
+        if(location.state==null || location.state.type==null) navigate('/');
+    },[])
     return (
+        <>
+        {location.state && location.state.type?
         <div className="page">
             <div className="icon">
                 <AddCircleOutline sx={{ fontSize: '3rem', cursor: 'pointer' }} onClick={() => setOpenEditor(true)} />
@@ -33,6 +40,8 @@ const ResearchPaper = () => {
             {location.state.type == 'Books' && <Book handleEditClick={handleEditClick} />}
             {location.state.type == 'Conference Papers' && <Conference handleEditClick={handleEditClick} />}
         </div>
+        :''}
+        </>
     )
 }
 

@@ -53,3 +53,19 @@ export const editPaper= async (paper,type,token)=>{
         return err;
     }
 }
+
+export const acrReport= async (category,table,uid,token)=>{
+    const config={
+        headers:{
+            'token': `Bearer ${token}`
+        }
+    }
+    try{
+        const res=await publicRequest.post('/papers/acr/'+`${category}`+"/"+table,{_id:uid},config)
+        return res;
+    }
+    catch(err){
+        console.log(err)
+        return err;
+    }
+}

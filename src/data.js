@@ -38,7 +38,9 @@ export const category3={
         'No. of Co-authors',
         'Whether you are the main author or Guide/mentor',
         'API Score' 
-      ]
+      ],
+      prop:['a','b','c','d','e','f','g'],
+      values:"a1"
     },
     {
       name:'A(ii) Full papers in Conference Proceedings',
@@ -50,7 +52,9 @@ export const category3={
         'No. of Co-authors and',
         'Whether you are the main author',	
         'API Score' 
-      ]
+      ],
+      prop:['a','b','c','d','e','f'],
+      values:"a2"
     },
     {
       name:'B (i) Books published as single author or as editor',
@@ -63,7 +67,9 @@ export const category3={
         'No. of Co-author & Date of Publication',	
         'Whether Published by National/ International',
         'API Score' 
-      ]
+      ],
+      prop:['a','b','c','d','e','f','g'],
+      values:"b1"
     },
     {
       name:'B (ii) Articles/ Chapters published in Books (other than referred journals / conference proceedings)',
@@ -76,7 +82,9 @@ export const category3={
         'No. of Co-author & Date of Publication',	
         'Whether Published by National/ International',
         'API Score' 
-      ]
+      ],
+      prop:['a','b','c','d','e','f','g'],
+      values:"b2"
     },
     {
       name:'C (i & ii). Ongoing Research Projects / Consultancies',
@@ -87,7 +95,9 @@ export const category3={
         'Period',
         'Grant/ Amount Mobilized (Rs Lakhs)',
         'API Score' 
-      ]
+      ],
+      prop:['a','b','c','d','e'],
+      values:"c1"
     },
     {
       name:'C (iii & iv) Completed Projects / Consultancies',
@@ -99,7 +109,9 @@ export const category3={
         'Grant/ Amount Mobilized (Rs Lakhs)',
         'Whether Policy Documents/Patent as outcome',
         'API Score' 
-      ]
+      ],
+      prop:['a','b','c','d','e','f'],
+      values:"c2"
     },
     {
       name:'(D) Research Guidance',
@@ -109,7 +121,9 @@ export const category3={
         'Thesis Submitted',
         'Degree Awarded',
         'API Score' 
-      ]
+      ],
+      prop:['a','b','c','d'],
+      values:"e1"
     },
     {
       name:'E(i) Training Courses, Teaching-Learning-Evaluation Technology Programs, Faculty development Programmes (not less than one week duration) (Max.30 Points)',
@@ -119,7 +133,9 @@ export const category3={
         'Duration',
         'Organised by',
         'API Score' 
-      ]
+      ],
+      prop:['a','b','c','d'],
+      values:"e1"
     },
     {
       name:'E (ii) Papers presented in Conferences, Seminars, Workshops, Symposia',
@@ -131,7 +147,9 @@ export const category3={
         'Organised by',
         'Whether International/ National/State/Region al/University or College Level',
         'API Score' 
-      ]
+      ],
+      prop:['a','b','c','d'],
+      values:"e1"
     },
     {
       name:'E(iii) Invited Lectures and Chairmanships at National or International Conference/ Seminars',
@@ -142,7 +160,9 @@ export const category3={
         'Organised by',
         'Whether International/ National/State',
         'API Score' 
-      ]
+      ],
+      prop:['a','b','c','d'],
+      values:"e1"
     }
   ]
 }
