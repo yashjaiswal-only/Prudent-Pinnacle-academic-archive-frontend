@@ -44,7 +44,7 @@ const Login2 = () => {
                         <p>Password</p>
                         <input placeholder="password" onChange={e=>setPassword(e.target.value)} type='password' />
                     </form>
-                    <p>New User? <Link to="/v2/register">SignUp</Link></p>
+                    <p>New User? <Link to="/register">SignUp</Link></p>
                     <div className='warn'>{error}</div>
                     <button onClick={handleClick} disabled={loading}><span>Login</span>{loading && <CircularProgress />}</button> 
                 </div>

@@ -14,7 +14,7 @@ import { updateCurrentUser } from '../../../redux/userRedux';
 
 const MyProfile = () => {
   const user = useSelector(state => state.user.currentUser)
-  const [editProfile, setEditProfile] = useState(true);
+  const [editProfile, setEditProfile] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     if (user === null) navigate('/v2/login');
