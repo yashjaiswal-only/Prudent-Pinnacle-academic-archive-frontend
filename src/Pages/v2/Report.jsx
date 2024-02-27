@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { category3 } from '../../data'
 import { acrReport } from '../../api_calls/Papers'
 import { useSelector } from 'react-redux'
+import Loader from '../../Components/v1/Loader';
 
 const Container = styled.div`
     width:100%;
@@ -70,7 +71,6 @@ const Report = () => {
     await fetch("3","e1")
     setFetching(false);
   }
-  console.log(myMap.get("a1"))
   useEffect(()=>{ 
     fetchAcrData();
   },[])
@@ -102,6 +102,7 @@ const Report = () => {
           </table>
         </section>
       ))}
+      {fetching && <Loader/>}
     </Container>
   )
 }

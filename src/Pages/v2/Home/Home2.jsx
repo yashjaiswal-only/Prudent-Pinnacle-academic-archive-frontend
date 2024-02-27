@@ -19,11 +19,16 @@ const Home2 = () => {
     if(user===null) navigate('/login');
   },[])
   return (
+    <>
+    {user?
     <Wrapper>
       <Topbar/>
       <MenuTray/>
       <Outlet/>
     </Wrapper>
+    :''
+    }
+    </>
   )
 }
 
