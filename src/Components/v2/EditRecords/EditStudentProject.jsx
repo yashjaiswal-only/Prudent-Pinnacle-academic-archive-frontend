@@ -16,7 +16,7 @@ const EditStudentProject = ({setOpenEditor,type,record,setRecord}) => {
   return (
     <div className="edit">
         <div className="wrapper">
-            <CancelOutlined sx={{ fontSize: '2rem', cursor: 'pointer' }} onClick={() => setOpenEditor(false)} />
+            <CancelOutlined sx={{ fontSize: '2rem', cursor: 'pointer' }} onClick={() => {setOpenEditor(false); setRecord(null)}} />
             { type=='B.Tech. Projects'&&<EditBtp  setRecord={setRecord} record={record} setOpenEditor={setOpenEditor}/>}
             { type=='M.Tech. Projects'&&<EditMtp setRecord={setRecord} record={record} setOpenEditor={setOpenEditor}/>}
             { type=='Phd.Scholars'&&<EditPhd setRecord={setRecord} record={record} setOpenEditor={setOpenEditor}/>}

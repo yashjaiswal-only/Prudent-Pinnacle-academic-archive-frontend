@@ -13,7 +13,7 @@ const EditResearchPaper = ({ setOpenEditor, type, paper, setPaper }) => {
   return (
     <div className="edit">
       <div className="wrapper">
-        <CancelOutlined sx={{ fontSize: '2rem', cursor: 'pointer' }} onClick={() => setOpenEditor(false)} />
+        <CancelOutlined sx={{ fontSize: '2rem', cursor: 'pointer' }} onClick={() => {setOpenEditor(false); setPaper(null)}} />
         {type == 'Journals' && <EditJournal setRecord={setPaper} record={paper} setOpenEditor={setOpenEditor} />}
         {type == 'Book Chapter' && <EditChapter setRecord={setPaper} record={paper} setOpenEditor={setOpenEditor} />}
         {type == 'Books' && <EditBook setRecord={setPaper} record={paper} setOpenEditor={setOpenEditor} />}

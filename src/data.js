@@ -15,8 +15,8 @@ export const departmentNames = [
     'Non-Refered'
   ];
  export const bookTypeOptions = [
-    'a',
-    'b'
+    'Authored',
+    'Edited'
   ];
 export const projectStatusOptions=['Ongoing','Completed'];
 export const patentGrantedOptions=['Yes','No'];

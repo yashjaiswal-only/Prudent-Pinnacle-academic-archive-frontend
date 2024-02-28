@@ -16,7 +16,7 @@ const EditActivities = ({ setOpenEditor, type, record, setRecord }) => {
   return (
     <div className="edit">
       <div className="wrapper">
-        <CancelOutlined sx={{ fontSize: '2rem', cursor: 'pointer' }} onClick={() => setOpenEditor(false)} />
+        <CancelOutlined sx={{ fontSize: '2rem', cursor: 'pointer' }} onClick={() => {setOpenEditor(false); setRecord(null)}} />
         {type == 'Invited Talk' && <EditInvitedtalk setRecord={setRecord} record={record} setOpenEditor={setOpenEditor} />}
         {type == 'Society Membership' && <EditSociety setRecord={setRecord} record={record} setOpenEditor={setOpenEditor} />}
       </div>
