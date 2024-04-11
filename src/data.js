@@ -22,7 +22,7 @@ export const projectStatusOptions=['Ongoing','Completed'];
 export const patentGrantedOptions=['Yes','No'];
 export const studentProjectStatusOptions=['Ongoing','Submitted','Awarded'];
 export const btpProjectType=['Major','Minor'];
-
+export const classesType=['BE, B.Tech.']
 export const category3={
   heading:'RESEARCH, PUBLICATIONS AND ACADEMIC CONTRIBUTIONS',
   name:'CATEGORY III',

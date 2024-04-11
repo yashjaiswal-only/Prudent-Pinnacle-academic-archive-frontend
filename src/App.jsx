@@ -51,6 +51,7 @@ import Projects from './Components/v2/Projects';
 import Activities from './Components/v2/Activities';
 import Students from './Components/v2/Students';
 import Report from './Pages/v2/Report';
+import Teaching from './Components/v2/Teaching';
 
 const Component=styled.div`
   width:100vw;
@@ -193,11 +194,11 @@ function App() {
           element: <HomeBanner  />,
         },
         {
-          path: "//profile",
+          path: "/profile",
           element: <MyProfile  />,
         },
         {
-          path: "/research/",
+          path: "/research",
           element: <ResearchPaper  />,
         },
         {
@@ -219,6 +220,10 @@ function App() {
         {
           path: "/acr-report",
           element: <Report/>,
+        },
+        {
+          path: "/teaching",
+          element: <Teaching/>,
         },
       ]
     },
