@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { category3 } from '../../data'
+import { category1, category2, category3 } from '../../data'
 import { acrReport } from '../../api_calls/Papers'
 import { useSelector } from 'react-redux'
 import Loader from '../../Components/v1/Loader';
@@ -45,16 +45,17 @@ const Container = styled.div`
     min-height: 100vh;
     color:black;  
     background-color: #fff;
+    padding:1rem 2rem;
     /* background: linear-gradient(45deg, rgba(61,88,230,1) 0%, rgba(111,179,228,1) 33%); */
     >h6{
       font-size: 1.2rem;
     }
     >h5{
-      font-size: 2rem;
+      font-size: 1.5rem;
       text-decoration:underline;
     }
     >section{
-      width:90%;
+      width:100%;
       >h5{
         font-size:1.5rem;
       }
@@ -66,11 +67,17 @@ const Container = styled.div`
         overflow:hidden;
         max-width:100%;
         margin-bottom:2rem;
-        >th,td,tr{
+        th,td,tr{
           border:1px solid black;
           overflow:auto;
           max-width:20%;
           padding:0.5rem;
+        }
+        td{
+          font-weight: 400;
+        }
+        th{
+          font-weight: 700;
         }
         /* >thead{
           background-color:black;
@@ -107,20 +114,209 @@ const Report = () => {
   }, [])
   return (
     <Container id='report-export'>
+      {fetching == false &&
+        <>
+          <Category1 />
+          <Category2/>
+          <Category3 myMap={myMap} />
+        </>
+      }
+      {fetching && <Loader />}
+    </Container>
+  )
+}
+
+const Category1 = ({ myMap }) => {
+  return (
+    <>
+      <h5>ACADEMIC PERFORMANCE INDICATORS (API) (CATEGORY: I)</h5>
+      <h6>(Please see detailed instructions of this PBAS Proforma before filling out this section)</h6>
+      <h6>Also refer AICTE regulation 2012 dated 8th November 2012</h6>
+      <h5>TEACHING, LEARNING AND EVALUATION RELATED ACTIVITIES</h5>
+      <section>
+        <table className="table">
+          <thead >
+            <tr>
+              {category1.table1.fields.map(heading => {
+                return <th key={heading}>{heading}</th>
+              })}
+            </tr>
+          </thead>
+          <tbody >
+            {category1.table1.rows.map((r, index) => {
+              return <tr key={index}>
+                {r.text.map((key, index) => {
+                  return <td key={index}>{key}</td>
+                })}
+              </tr>;
+            })}
+          </tbody>
+        </table>
+      </section>
+
+      <h5>Details of the above given Table </h5>
+      <h6>Details of Part 1 and 2:    Lectures, Seminars, Tutorials, Practical, Contact Hours and duties in excess of the AICTE norms </h6>
+      <section>
+        <table className="table">
+          <thead>
+            <tr>
+              <th rowSpan={2}>{category1.table2.fields.a}</th>
+              <th rowSpan={2}>{category1.table2.fields.b}</th>
+              <th rowSpan={2}>{category1.table2.fields.c}</th>
+              <th colSpan={2}>{category1.table2.fields.d}</th>
+              <th rowSpan={2}>{category1.table2.fields.e}</th>
+              <th colSpan={2}>{category1.table2.fields.h}</th>
+              <th rowSpan={2}>{category1.table2.fields.k}</th>
+              <th rowSpan={2}>{category1.table2.fields.l}</th>
+            </tr>
+            <tr>
+              <th>{category1.table2.fields.f}</th>
+              <th>{category1.table2.fields.g}</th>
+              <th>{category1.table2.fields.i}</th>
+              <th>{category1.table2.fields.j}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colSpan={10}>Total Points Acquired (Max. 50 per Year for Part 1 & 10 per year for Part 2): 50
+                <br/>*Lecture (L), Seminar (S), Tutorial (T), Practical (P), Contact Hours (C)
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <h6>Details of Part 3:	Reading/Instructional material consulted and additional knowledge resources provided to students</h6>
+      <section>
+      <table className="table">
+        <thead>
+          <tr>
+            {category1.table3.fields.map(r=>(
+              <th>{r}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td colSpan={6}>Total Points acquired (Max. 20): 20</td></tr>
+        </tbody>
+      </table>
+      </section> 
+      
+      <h6>Details of Part 4:	Use of Participatory and innovative Teaching-Learning (T-L) Methodologies, Updating of subject content, Course Improvement etc.</h6>
+      <section>
+      <table className="table">
+          <thead >
+            <tr>
+              {category1.table4.fields.map(heading => {
+                return <th key={heading}>{heading}</th>
+              })}
+            </tr>
+          </thead>
+          <tbody >
+            {category1.table4.rows.map((r, index) => {
+              return <tr key={index}>
+                {r.text.map((key, index) => {
+                  return <td key={index}>{key}</td>
+                })}
+              </tr>;
+            })}
+          </tbody>
+        </table>
+      </section>
+
+      <h6>Details of Part 5 : Examination Duties Assigned and Performed</h6>
+      <section>
+      <table className="table">
+          <thead >
+            <tr>
+              {category1.table5.fields.map(heading => {
+                return <th key={heading}>{heading}</th>
+              })}
+            </tr>
+          </thead>
+          <tbody >
+            {category1.table5.rows.map((r, index) => {
+              return <tr key={index}>
+                {r.text.map((key, index) => {
+                  return <td key={index}>{key}</td>
+                })}
+              </tr>;
+            })}
+          </tbody>
+        </table>
+      </section>
+    </>
+  )
+}
+
+const Category2 =()=>{
+  return (
+    <>
+    <h5>ACADEMIC PERFORMANCE INDICATORS (API) – CATEGORY- II</h5>
+    <h6>Co-Curricular, Extension, Professional Development Related Activities</h6>
+    <h6>(Provide details of activities in separate sheet(s) as enclosure)</h6>
+    <section>
+      <table className="table">
+        <thead>
+          <tr>
+            {/* <th>S No.</th> */}
+            <th colSpan={2} >Type of Activity</th>
+            <th>API Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th colSpan={2} style={{textAlign:'left'}}>(i) Extension, Co-curricular & Field based activities.</th></tr>
+          {category2.rows1.map(r=>(
+            <tr>
+                {r.text.map(t=>(
+                  <td>{t}</td>
+                ))}
+            </tr>
+          ))}
+          <tr><th colSpan={2} style={{textAlign:'left'}}>(ii) Contribution to Corporate Life and Management of the Institution</th></tr>
+          {category2.rows2.map(r=>(
+            <tr>
+                {r.text.map(t=>(
+                  <td>{t}</td>
+                ))}
+            </tr>
+          ))}
+          <tr><th colSpan={2} style={{textAlign:'left'}}>(iii) Professional Development Activitie.</th></tr>
+          {category2.rows3.map(r=>(
+            <tr>
+                {r.text.map(t=>(
+                  <td>{t}</td>
+                ))}
+            </tr>
+          ))}
+          <tr>
+            <td colSpan={2}>Total Score Acquired of  ( i to iii ) <br/>(Min. Score needed is 15)</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    </>
+  )
+
+}
+const Category3 = ({ myMap }) => {
+  return (
+    <>
       <h6>CATEGORY III</h6>
       <h5>RESEARCH, PUBLICATIONS AND ACADEMIC CONTRIBUTIONS</h5>
-      {fetching == false && category3.table.map(row => (
+      {category3.table.map(row => (
         <section>
           <h5>{row.name}</h5>
           <table className="table">
-            <thead className='tablehead'>
+            <thead >
               <tr>
                 {row.fields.map(heading => {
                   return <th key={heading}>{heading}</th>
                 })}
               </tr>
             </thead>
-            <tbody className='tablehead'>
+            <tbody >
               {myMap.has(row.values) && myMap.get(row.values).map((d, index) => {
                 return <tr key={index}>
                   <td>{index + 1}</td>
@@ -133,8 +329,7 @@ const Report = () => {
           </table>
         </section>
       ))}
-      {fetching && <Loader />}
-    </Container>
+    </>
   )
 }
 
