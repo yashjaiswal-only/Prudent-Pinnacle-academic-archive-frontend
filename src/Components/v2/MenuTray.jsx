@@ -20,7 +20,7 @@ const MenuTray = () => {
       <Dropdown baseUrl="/programs" buttonHeader={"Programs/Courses"} dropdownList={['Faculty Development Program','Short Term Courses']}/>
       <Dropdown baseUrl="/projects" buttonHeader={"Projects"} dropdownList={['Project Grants','Consultancy Projects','Patents']}/>
       <Dropdown baseUrl="/activities" buttonHeader={"Activities"} dropdownList={['Invited Talk','Society Membership']}/>
-      <Dropdown baseUrl="/teaching" buttonHeader={"Name decide karo"} dropdownList={['Teaching Duty','Material Consulted']}/>
+      <Dropdown baseUrl="/teaching" buttonHeader={"Name decide karo"} dropdownList={['Teaching Duty','Material Consulted','Academic Excellence']}/>
     </Container>
   )
 }

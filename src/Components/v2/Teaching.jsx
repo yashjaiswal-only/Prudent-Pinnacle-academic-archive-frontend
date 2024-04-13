@@ -27,6 +27,7 @@ const Teaching = () => {
             {openEditor && <EditTeaching setOpenEditor={setOpenEditor} type={location.state.type} record={record} setRecord={setRecord} />}
             {location.state.type == 'Teaching Duty' && <TeachingDuty handleEditClick={handleEditClick} />}
             {location.state.type == 'Material Consulted' && <Material handleEditClick={handleEditClick} />}
+            {location.state.type == 'Academic Excellence' && <Excellence handleEditClick={handleEditClick} />}
         </div>
     )
 }
@@ -139,6 +140,69 @@ const Material = ({ handleEditClick }) => {
         <div className="slide">
             <div className="heading">
                 Material Consulted
+            </div>
+            {fetching === false && materialList.length === 0 ?
+                <EmptyList qoute={'Nothing to show here. Please add your duties'} />
+                : ''}
+            {fetching === false ?
+                materialList.map(project => <div className="card">
+                    <EditIcon onClick={() => handleEditClick(project)} />
+                    <div className="obj">
+                        <span>Class : </span>{project.classes}
+                    </div>
+                    <div className="obj">
+                        <span>Course/Paper: </span>{Capitalize(project.course)}
+                    </div>
+                    <div className="obj">
+                        <span>Consulted Material: </span>{Capitalize(project.consulted)}
+                    </div>
+                    <div className="obj">
+                        <span>Prescribed Material: </span>{Capitalize(project.prescribed)}
+                    </div>
+                    <div className="obj">
+                        <span>Additional Resource provided: </span>{Capitalize(project.additional)}
+                    </div>
+                </div>)
+                :
+                <Loader />
+            }
+            {error ?
+                <div className='error'><ReportProblemIcon />Unable to fetch data:{error}</div>
+                : ''}
+        </div>
+    )
+}
+
+const Excellence = ({ handleEditClick }) => {
+    const [materialList, setMaterialList] = useState([]);
+    const [fetching, setFetching] = useState(false);
+    const [error, setError] = useState(null);
+    const { material } = useSelector(state => state.records)
+    const user = useSelector(state => state.user.currentUser)
+    const token = useSelector(state => state.user.token)
+    const dispatch = useDispatch();
+
+    const get = async () => {
+        setError(false);
+        setFetching(true);
+        const res = await getAllRecord(user._id, 'material', token);
+        console.log(res)
+        if (res.status === 200) {
+            dispatch(updateMaterial(res.data));
+            setMaterialList(res.data);
+        }
+        else setError(res.response.data.message);
+        setFetching(false);
+    }
+    useEffect(() => {
+        // if (material) setMaterialList(material);
+        // else get();
+        // console.log(material)
+    }, [material])
+    return (
+        <div className="slide">
+            <div className="heading">
+                Academic Excellence.
             </div>
             {fetching === false && materialList.length === 0 ?
                 <EmptyList qoute={'Nothing to show here. Please add your duties'} />
