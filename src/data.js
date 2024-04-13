@@ -203,9 +203,9 @@ export const category1 = {
           '125',],
         value: '115'
       },
-      {
-        text: ['Minimum API score required per year 75']
-      }
+      // {
+      //   text: ['Minimum API score required per year 75']
+      // }
     ]
   },
 

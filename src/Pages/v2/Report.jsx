@@ -89,10 +89,11 @@ const Container = styled.div`
 const Report = () => {
   const user = useSelector(state => state.user.currentUser)
   const token = useSelector(state => state.user.token)
-  const [fetching, setFetching] = useState(true);
-  const [myMap, setMyMap] = useState(new Map());
+  const [fetching, setFetching] = useState(false);
+  const [myMap1, setMyMap1] = useState(new Map());
+  const [myMap3, setMyMap3] = useState(new Map());
 
-  const fetch = async (category, table) => {
+  const fetch = async (category, table, myMap, setMyMap) => {
     const res = await acrReport(category, table, user._id, token);
     var data = myMap;
     data.set(table, res.data);
@@ -100,13 +101,15 @@ const Report = () => {
   }
   const fetchAcrData = async () => {
     setFetching(true);
-    await fetch("3", "a1")
-    await fetch("3", "a2")
-    await fetch("3", "b1")
-    await fetch("3", "b2")
-    await fetch("3", "c12")
-    await fetch("3", "c34")
-    await fetch("3", "e1")
+    await fetch("1", "a1", myMap1, setMyMap1);
+    await fetch("1", "a2", myMap1, setMyMap1);
+    // await fetch("3", "a1",myMap3,setMyMap3)
+    // await fetch("3", "a2",myMap3,setMyMap3)
+    // await fetch("3", "b1",myMap3,setMyMap3)
+    // await fetch("3", "b2",myMap3,setMyMap3)
+    // await fetch("3", "c12",myMap3,setMyMap3)
+    // await fetch("3", "c34",myMap3,setMyMap3)
+    // await fetch("3", "e1",myMap3,setMyMap3)
     setFetching(false);
   }
   useEffect(() => {
@@ -116,9 +119,9 @@ const Report = () => {
     <Container id='report-export'>
       {fetching == false &&
         <>
-          <Category1 />
-          <Category2/>
-          <Category3 myMap={myMap} />
+          <Category1 myMap={myMap1} />
+          <Category2 />
+          <Category3 myMap={myMap3} />
         </>
       }
       {fetching && <Loader />}
@@ -127,6 +130,20 @@ const Report = () => {
 }
 
 const Category1 = ({ myMap }) => {
+  const [p1,setP1]=useState(0);
+  const [p2,setP2]=useState(0);
+  useEffect(()=>{
+    if(myMap.has('a1')){
+      var sum1=0;
+      myMap.get('a1').forEach(ele => {
+        // sum1+=ele[7];
+        var per= parseInt(ele[7].replace('%',''));
+        sum1+=per;
+      });
+      setP1((sum1/myMap.get('a1').length)*0.5)
+    }
+
+  })
   return (
     <>
       <h5>ACADEMIC PERFORMANCE INDICATORS (API) (CATEGORY: I)</h5>
@@ -148,8 +165,11 @@ const Category1 = ({ myMap }) => {
                 {r.text.map((key, index) => {
                   return <td key={index}>{key}</td>
                 })}
+                {index==0 && <td>{p1}</td>}
+                {index==1 && <td>{p2}</td>}
               </tr>;
             })}
+            <tr><td colSpan={4}>Minimum API score required per year 75</td></tr>
           </tbody>
         </table>
       </section>
@@ -178,9 +198,20 @@ const Category1 = ({ myMap }) => {
           </thead>
           <tbody>
             <tr>
-              <td colSpan={10}>Total Points Acquired (Max. 50 per Year for Part 1 & 10 per year for Part 2): 50
-                <br/>*Lecture (L), Seminar (S), Tutorial (T), Practical (P), Contact Hours (C)
+              {myMap.has('a1') && myMap.get('a1').map((ele, idx) => (
+                <>
+                  <td>{idx + 1}</td>
+                  {ele.length > 0 && ele.map(val => (
+                    <td>{val}</td>
+                  ))}
+                </>
+              ))}
+            </tr>
+            <tr>
+              <td colSpan={9}  style={{fontWeight:'600'}}>Total Points Acquired (Max. 50 per Year for Part 1 & 10 per year for Part 2):
+                <br />*Lecture (L), Seminar (S), Tutorial (T), Practical (P), Contact Hours (C)
               </td>
+              <td style={{fontWeight:'600'}}>{p1}</td>
             </tr>
           </tbody>
         </table>
@@ -188,23 +219,36 @@ const Category1 = ({ myMap }) => {
 
       <h6>Details of Part 3:	Reading/Instructional material consulted and additional knowledge resources provided to students</h6>
       <section>
-      <table className="table">
-        <thead>
-          <tr>
-            {category1.table3.fields.map(r=>(
-              <th>{r}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td colSpan={6}>Total Points acquired (Max. 20): 20</td></tr>
-        </tbody>
-      </table>
-      </section> 
-      
+        <table className="table">
+          <thead>
+            <tr>
+              {category1.table3.fields.map(r => (
+                <th>{r}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              {myMap.has('a2') && myMap.get('a2').map((ele, idx) => (
+                <>
+                  <td>{idx + 1}</td>
+                  {ele.length > 0 && ele.map(val => (
+                    <td>{val}</td>
+                  ))}
+                </>
+              ))}
+            </tr>
+            <tr>
+              <td colSpan={5} style={{fontWeight:'600'}}>Total Points acquired (Max. 20):</td>
+              <td style={{fontWeight:'600'}}>{p2}</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
       <h6>Details of Part 4:	Use of Participatory and innovative Teaching-Learning (T-L) Methodologies, Updating of subject content, Course Improvement etc.</h6>
       <section>
-      <table className="table">
+        <table className="table">
           <thead >
             <tr>
               {category1.table4.fields.map(heading => {
@@ -226,7 +270,7 @@ const Category1 = ({ myMap }) => {
 
       <h6>Details of Part 5 : Examination Duties Assigned and Performed</h6>
       <section>
-      <table className="table">
+        <table className="table">
           <thead >
             <tr>
               {category1.table5.fields.map(heading => {
@@ -249,53 +293,53 @@ const Category1 = ({ myMap }) => {
   )
 }
 
-const Category2 =()=>{
+const Category2 = () => {
   return (
     <>
-    <h5>ACADEMIC PERFORMANCE INDICATORS (API) – CATEGORY- II</h5>
-    <h6>Co-Curricular, Extension, Professional Development Related Activities</h6>
-    <h6>(Provide details of activities in separate sheet(s) as enclosure)</h6>
-    <section>
-      <table className="table">
-        <thead>
-          <tr>
-            {/* <th>S No.</th> */}
-            <th colSpan={2} >Type of Activity</th>
-            <th>API Score</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><th colSpan={2} style={{textAlign:'left'}}>(i) Extension, Co-curricular & Field based activities.</th></tr>
-          {category2.rows1.map(r=>(
+      <h5>ACADEMIC PERFORMANCE INDICATORS (API) – CATEGORY- II</h5>
+      <h6>Co-Curricular, Extension, Professional Development Related Activities</h6>
+      <h6>(Provide details of activities in separate sheet(s) as enclosure)</h6>
+      <section>
+        <table className="table">
+          <thead>
             <tr>
-                {r.text.map(t=>(
+              {/* <th>S No.</th> */}
+              <th colSpan={2} >Type of Activity</th>
+              <th>API Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th colSpan={2} style={{ textAlign: 'left' }}>(i) Extension, Co-curricular & Field based activities.</th></tr>
+            {category2.rows1.map(r => (
+              <tr>
+                {r.text.map(t => (
                   <td>{t}</td>
                 ))}
-            </tr>
-          ))}
-          <tr><th colSpan={2} style={{textAlign:'left'}}>(ii) Contribution to Corporate Life and Management of the Institution</th></tr>
-          {category2.rows2.map(r=>(
-            <tr>
-                {r.text.map(t=>(
+              </tr>
+            ))}
+            <tr><th colSpan={2} style={{ textAlign: 'left' }}>(ii) Contribution to Corporate Life and Management of the Institution</th></tr>
+            {category2.rows2.map(r => (
+              <tr>
+                {r.text.map(t => (
                   <td>{t}</td>
                 ))}
-            </tr>
-          ))}
-          <tr><th colSpan={2} style={{textAlign:'left'}}>(iii) Professional Development Activitie.</th></tr>
-          {category2.rows3.map(r=>(
-            <tr>
-                {r.text.map(t=>(
+              </tr>
+            ))}
+            <tr><th colSpan={2} style={{ textAlign: 'left' }}>(iii) Professional Development Activitie.</th></tr>
+            {category2.rows3.map(r => (
+              <tr>
+                {r.text.map(t => (
                   <td>{t}</td>
                 ))}
+              </tr>
+            ))}
+            <tr>
+              <td colSpan={2}>Total Score Acquired of  ( i to iii ) <br />(Min. Score needed is 15)</td>
+              <td></td>
             </tr>
-          ))}
-          <tr>
-            <td colSpan={2}>Total Score Acquired of  ( i to iii ) <br/>(Min. Score needed is 15)</td>
-            <td></td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+          </tbody>
+        </table>
+      </section>
     </>
   )
 
