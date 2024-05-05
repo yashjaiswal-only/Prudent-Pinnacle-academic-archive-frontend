@@ -13,7 +13,7 @@ import { Capitalize } from '../../services';
 
 const Teaching = () => {
     const location = useLocation();
-    const [openEditor, setOpenEditor] = useState(false);
+    const [openEditor, setOpenEditor] = useState(1);
     const [record, setRecord] = useState(null)
     const handleEditClick = (s) => {
         setRecord(s);

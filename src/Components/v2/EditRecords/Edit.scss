@@ -69,6 +69,30 @@
                         color: black;
                     }
                 }
+                .obj1{
+                    margin:0.5rem 0;
+                    display:flex;
+                    justify-content:space-between;
+                    align-items: center;
+                    width:100%;
+                    span{
+                        font-weight: 600;
+                        font-size: 1.4rem;
+                        font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+                    }
+                    input{
+                        // background-color: honeydew;
+                        width: 50%;
+                        margin-left: 1rem;
+                        border: none;
+                        border-bottom: 2px solid black;
+                        padding:0.5rem 1rem;
+                        font-size: 1rem;
+                        font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+                        border-radius: 3rem;
+                        color: black;
+                    }
+                }
             }
             .savebutton{
                 margin:1rem;

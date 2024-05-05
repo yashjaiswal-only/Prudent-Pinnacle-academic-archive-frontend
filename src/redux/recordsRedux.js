@@ -14,7 +14,8 @@ const recordsSlice = createSlice({
         talks: null,
         society: null,
         duty: null,
-        material:null
+        material:null,
+        excellence:null
     },
 
     reducers: {
@@ -66,13 +67,17 @@ const recordsSlice = createSlice({
 
         updateMaterial: (state, action) => { state.material = action.payload; },
         removeMaterial: (state) => { state.material = null; },
+
+        updateExcellence: (state, action) => { state.excellence = action.payload; },
+        removeExcellence: (state) => { state.excellence = null; },
     }//just in redux toolkit 
 
 });
 
 export const { removeAllRecord, updateBtp, removeBtp, updateMtp, removeMtp, updateFdp, removeFdp, updateStc, removeStc, updatePatents,
      removePatents, updateConsultancy, removeConsultancy, updateProjectgrands, removeProjectgrands, updateSociety, removeSociety,
-      updateTalks, removeTalks, updatePhd, removePhd, removeDuty, updateDuty, updateMaterial, removeMaterial } = recordsSlice.actions;
+      updateTalks, removeTalks, updatePhd, removePhd, removeDuty, updateDuty, updateMaterial, removeMaterial,
+    updateExcellence,removeExcellence } = recordsSlice.actions;
 export default recordsSlice.reducer;
 //reducer is combination of actions(functions)
 

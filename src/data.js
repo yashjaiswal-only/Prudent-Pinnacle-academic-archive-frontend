@@ -23,6 +23,7 @@ export const patentGrantedOptions = ['Yes', 'No'];
 export const studentProjectStatusOptions = ['Ongoing', 'Submitted', 'Awarded'];
 export const btpProjectType = ['Major', 'Minor'];
 export const classesType = ['BE, B.Tech.']
+export const categoryType = ['Category 1','Category 2']
 
 
 export const category3 = {
@@ -198,11 +199,11 @@ export const category1 = {
           '25',],
         value: 'r5'
       },
-      {
-        text: ['', 'Total Score Obtained',
-          '125',],
-        value: '115'
-      },
+      // {
+      //   text: ['', 'Total Score Obtained',
+      //     '125',],
+      //   value: '115'
+      // },
       // {
       //   text: ['Minimum API score required per year 75']
       // }

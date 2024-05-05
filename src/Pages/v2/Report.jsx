@@ -14,8 +14,6 @@ const Wrapper = styled.div`
   flex-direction: column;
   background-color: rgb(0, 0, 0);
   color:white;
-
-
 `
 
 const Heading = styled.div`
@@ -32,6 +30,7 @@ const Heading = styled.div`
     border-radius: 0;
     text-align: center;
     display: flex;
+    align-items: center;
   }
 `
 
@@ -132,6 +131,10 @@ const Report = () => {
 const Category1 = ({ myMap }) => {
   const [p1,setP1]=useState(0);
   const [p2,setP2]=useState(0);
+  const [p3,setP3]=useState(0);
+  const [p4,setP4]=useState(0);
+  const [p5,setP5]=useState(0);
+
   useEffect(()=>{
     if(myMap.has('a1')){
       var sum1=0;
@@ -142,7 +145,10 @@ const Category1 = ({ myMap }) => {
       });
       setP1((sum1/myMap.get('a1').length)*0.5)
     }
-
+    if(myMap.has('a2')){
+      console.log(Math.min(20, myMap.get('a2').length * 4))
+      setP3(Math.min(20, myMap.get('a2').length * 4))
+    }
   })
   return (
     <>
@@ -167,9 +173,17 @@ const Category1 = ({ myMap }) => {
                 })}
                 {index==0 && <td>{p1}</td>}
                 {index==1 && <td>{p2}</td>}
+                {index==2 && <td>{p3}</td>}
+                {index==3 && <td>{p4}</td>}
+                {index==4 && <td>{p5}</td>}
               </tr>;
             })}
-            <tr><td colSpan={4}>Minimum API score required per year 75</td></tr>
+            <tr>
+              <td  style={{fontWeight:'700'}} colSpan={2}>Total Score Obtained</td>
+              <td  style={{fontWeight:'700'}}>175</td>
+              <td  style={{fontWeight:'700'}}>{p1+p2+p3+p4+p5}</td>
+            </tr>
+            <tr><td style={{fontWeight:'700'}} colSpan={4}>Minimum API score required per year 75</td></tr>
           </tbody>
         </table>
       </section>
@@ -208,10 +222,10 @@ const Category1 = ({ myMap }) => {
               ))}
             </tr>
             <tr>
-              <td colSpan={9}  style={{fontWeight:'600'}}>Total Points Acquired (Max. 50 per Year for Part 1 & 10 per year for Part 2):
+              <td colSpan={9}  style={{fontWeight:'700'}}>Total Points Acquired (Max. 50 per Year for Part 1 & 10 per year for Part 2):
                 <br />*Lecture (L), Seminar (S), Tutorial (T), Practical (P), Contact Hours (C)
               </td>
-              <td style={{fontWeight:'600'}}>{p1}</td>
+              <td style={{fontWeight:'700'}}>{p1}</td>
             </tr>
           </tbody>
         </table>
@@ -239,8 +253,8 @@ const Category1 = ({ myMap }) => {
               ))}
             </tr>
             <tr>
-              <td colSpan={5} style={{fontWeight:'600'}}>Total Points acquired (Max. 20):</td>
-              <td style={{fontWeight:'600'}}>{p2}</td>
+              <td colSpan={5} style={{fontWeight:'700'}}>Total Points acquired (Max. 20):</td>
+              <td style={{fontWeight:'700'}}>{p3}</td>
             </tr>
           </tbody>
         </table>
