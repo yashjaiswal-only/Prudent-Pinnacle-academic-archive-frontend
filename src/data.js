@@ -25,6 +25,34 @@ export const btpProjectType = ['Major', 'Minor'];
 export const classesType = ['BE, B.Tech.']
 export const categoryType = ['Category 1','Category 2']
 
+export const excellenceFields = [
+  '1. Course Updated or Curriculum designed',
+  '2. (i) Participation in Interactive Courses',
+  '2. (ii) Participation in Learning Modules',
+  '2. (iii) Participation in case studies',
+  '3. Use of ICT in T-L process with computer-aided methods like power-point/Multimedia/ Simulation/Software etc.',
+  '4. Developing and imparting Remedial/Bridge Courses activites',
+  '5. Developing and imparting soft skills/ communications skills/personality development courses/modules',
+  '6. Developing and imparting specialized teaching-learning programmes in Physical education, library; innovative compositions and creations in music, performing and visual arts and other traditional area',
+  '7. Organizing and conduction of popularization programmes/training courses in computer assisted teaching/web-based learning and e-library skills to students',
+  '8. University end semester/Annual Examination work as per duties, allotted. (invigilation – 10 points, Evaluation of answer scripts – 5 points; Question paper setting - 5 points) (100% compliance = 20 points)',
+  '9. University examination/Evaluation responsibilities for internal/ continuous assessment work as allotted ( 100% compliance = 10 points)',
+  '10. Examination work such as coordination, or flying squad duties etc. (maximum of 5 or 10 depending upon intensity of duty) (100% compliance = 10 points)',
+  '1. (i) Instructional Co-curricular activities for students such as field studies / educational tours, industry –imparting training and placement activity (5 point each)',
+  '1. (ii) Positions held / Leadership role played in organization linked with Extension Work and National Service Scheme (NSS), NCC or any other similar activity (each activity 10 points)',
+  '1. (iii) Student and staff related Socio-Cultural and sports programs, campus publications (Students (departmental level 2 points, institutional level 5 points)',
+  '1. (iv) Community work such as values of National Integration, Environment democracy, socialism, Human Rights, peace, scientific temper; flood or, drought relief, small family norms etc. (5 points)',
+  '2. (i) Contribution to Corporate life in Universities/colleges through meetings, popular lectures, subject related events, articles in college magazine and University volumes ( 2 point each)',
+  '2. (ii) Institutional Governance responsibilities like, Vice-Principal, Dean, Director, Warden, Bursa, School Chairperson, IQAC Coordinator (10 points each)',
+  '2. (iii) Participation in committees concerned with any aspect of departmental or institutional management such as admission committee, campus development, library committee ( 5 points each)',
+  '2. (iv) Responsibility for, or participation in committees for Students Welfare, Counseling and Discipline ( 5 points each) ',
+  '2. (v) Organization of Conference / Training as Chairman/Organizational Secretary/Treasurer: (a) International (10 points) National/regional (5 points)As member of the organizing committee (1 point each)',
+  '3. (i) Membership in profession related committees at state and national level a) At national level : 3 points each b) At site activity : 2 points each',
+  '3. (ii) Participation in subject associations, conferences, seminars without paper presentation ( each activity : 2 points)',
+  '3. (iii) Participation in short term training courses less than one week duration in educational technology, curriculum development, professional development, Examination reforms, Institutional governance (each activity: 5 points)',
+  '3. (iv) Membership/participation in State/Central Bodies/Committees on Education, Research and National Development ( 5 points each)',
+  '3. (v) Publication of articles in newspapers, magazines or other publications ( not covered in category 3); radio talks; television programs ( 1 point each)'
+];
 
 export const category3 = {
   heading: 'RESEARCH, PUBLICATIONS AND ACADEMIC CONTRIBUTIONS',

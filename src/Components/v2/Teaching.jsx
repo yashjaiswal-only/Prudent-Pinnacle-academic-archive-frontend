@@ -6,14 +6,15 @@ import EmptyList from '../v1/EmptyList';
 import Loader from '../v1/Loader';
 import EditTeaching from './EditRecords/EditTeaching';
 import { getAllRecord } from '../../api_calls/Record';
-import { updateDuty, updateMaterial } from '../../redux/recordsRedux';
+import { updateDuty, updateExcellence, updateMaterial } from '../../redux/recordsRedux';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import EditIcon from '@mui/icons-material/Edit';
 import { Capitalize } from '../../services';
+import { excellenceFields } from '../../data';
 
 const Teaching = () => {
     const location = useLocation();
-    const [openEditor, setOpenEditor] = useState(1);
+    const [openEditor, setOpenEditor] = useState(false);
     const [record, setRecord] = useState(null)
     const handleEditClick = (s) => {
         setRecord(s);
@@ -174,10 +175,10 @@ const Material = ({ handleEditClick }) => {
 }
 
 const Excellence = ({ handleEditClick }) => {
-    const [materialList, setMaterialList] = useState([]);
+    const [excellenceList, setExcellenceList] = useState([]);
     const [fetching, setFetching] = useState(false);
     const [error, setError] = useState(null);
-    const { material } = useSelector(state => state.records)
+    const { excellence } = useSelector(state => state.records)
     const user = useSelector(state => state.user.currentUser)
     const token = useSelector(state => state.user.token)
     const dispatch = useDispatch();
@@ -185,47 +186,128 @@ const Excellence = ({ handleEditClick }) => {
     const get = async () => {
         setError(false);
         setFetching(true);
-        const res = await getAllRecord(user._id, 'material', token);
-        console.log(res)
-        if (res.status === 200) {
-            dispatch(updateMaterial(res.data));
-            setMaterialList(res.data);
+        var resArr = [];
+        var res = await getAllRecord(user._id, 'Cat1Record', token);
+        if (res.status == 200 && res.data.length > 0) resArr.push(res.data[0]);
+        var res = await getAllRecord(user._id, 'Cat2Record', token);
+        if (res.status == 200 && res.data.length > 0) resArr.push(res.data[0]);
+        if (resArr.length > 0) {
+            dispatch(updateExcellence(resArr));
+            setExcellenceList(resArr);
         }
-        else setError(res.response.data.message);
+        else setError('Unable to fetch data');
         setFetching(false);
     }
     useEffect(() => {
-        // if (material) setMaterialList(material);
-        // else get();
-        // console.log(material)
-    }, [material])
+        if (excellence) setExcellenceList(excellence);
+        else get();
+        console.log(excellence)
+    }, [excellence])
+    console.log(excellenceList)
     return (
         <div className="slide">
             <div className="heading">
                 Academic Excellence.
             </div>
-            {fetching === false && materialList.length === 0 ?
+            {fetching === false && excellenceList.length === 0 ?
                 <EmptyList qoute={'Nothing to show here. Please add your duties'} />
                 : ''}
-            {fetching === false ?
-                materialList.map(project => <div className="card">
-                    <EditIcon onClick={() => handleEditClick(project)} />
-                    <div className="obj">
-                        <span>Class : </span>{project.classes}
-                    </div>
-                    <div className="obj">
-                        <span>Course/Paper: </span>{Capitalize(project.course)}
-                    </div>
-                    <div className="obj">
-                        <span>Consulted Material: </span>{Capitalize(project.consulted)}
-                    </div>
-                    <div className="obj">
-                        <span>Prescribed Material: </span>{Capitalize(project.prescribed)}
-                    </div>
-                    <div className="obj">
-                        <span>Additional Resource provided: </span>{Capitalize(project.additional)}
-                    </div>
-                </div>)
+            {fetching === false && excellenceList.length ?
+                (
+                    <>
+                        {excellenceList[0] && <div className="card">
+                            <EditIcon onClick={() => handleEditClick({...excellenceList[0],...excellenceList[1]})} />
+                            <div className="obj">
+                                <span>Category : </span>{excellenceList[0].type}
+                            </div>
+                            <div className="obj1">
+                                <span>{excellenceFields[0] + " : "}</span>{excellenceList[0].four1}
+                            </div>
+                            <div className="obj1">
+                                <span>{excellenceFields[1] + " : "}</span>{excellenceList[0].four21}
+                            </div>
+                            <div className="obj1">
+                                <span>{excellenceFields[2] + " : "}</span>{excellenceList[0].four22}
+                            </div>
+                            <div className="obj1">
+                                <span>{excellenceFields[3] + " : "}</span>{excellenceList[0].four23}
+                            </div>
+                            <div className="obj1">
+                                <span>{excellenceFields[4] + " : "}</span>{excellenceList[0].four3}
+                            </div>
+                            <div className="obj1">
+                                <span>{excellenceFields[5] + " : "}</span>{excellenceList[0].four4}
+                            </div>
+                            <div className="obj1">
+                                <span>{excellenceFields[6] + " : "}</span>{excellenceList[0].four5}
+                            </div>
+                            <div className="obj1">
+                                <span>{excellenceFields[7] + " : "}</span>{excellenceList[0].four6}
+                            </div>
+                            <div className="obj1">
+                                <span>{excellenceFields[8] + " : "}</span>{excellenceList[0].four7}
+                            </div>
+                            <div className="obj1">
+                                <span>{excellenceFields[9] + " : "}</span>{excellenceList[0].five1}
+                            </div>
+                            <div className="obj1">
+                                <span>{excellenceFields[10] + " : "}</span>{excellenceList[0].five2}
+                            </div>
+                            <div className="obj1">
+                                <span>{excellenceFields[11] + " : "}</span>{excellenceList[0].five3}
+                            </div>
+                        </div>}
+                        {excellenceList[1] && <div className="card">
+                            <EditIcon onClick={() => handleEditClick({...excellenceList[0],...excellenceList[1]})} />
+                            <div className="obj">
+                                <span>Category : </span>{excellenceList[1].type}
+                            </div>
+                            <div className="obj1">
+                                <span>{excellenceFields[12] + " : "}</span>{excellenceList[1].cat21}
+                            </div>
+                            <div className="obj1">
+                                <span>{excellenceFields[13] + " : "}</span>{excellenceList[1].cat22}
+                            </div>
+                            <div className="obj1">
+                                <span>{excellenceFields[14] + " : "}</span>{excellenceList[1].cat23}
+                            </div>
+                            <div className="obj1">
+                                <span>{excellenceFields[15] + " : "}</span>{excellenceList[1].cat24}
+                            </div>
+                            <div className="obj1">
+                                <span>{excellenceFields[16] + " : "}</span>{excellenceList[1].cat25}
+                            </div>
+                            <div className="obj1">
+                                <span>{excellenceFields[17] + " : "}</span>{excellenceList[1].cat26}
+                            </div>
+                            <div className="obj1">
+                                <span>{excellenceFields[18] + " : "}</span>{excellenceList[1].cat27}
+                            </div>
+                            <div className="obj1">
+                                <span>{excellenceFields[19] + " : "}</span>{excellenceList[1].cat28}
+                            </div>
+                            <div className="obj1">
+                                <span>{excellenceFields[20] + " : "}</span>{excellenceList[1].cat29}
+                            </div>
+                            <div className="obj1">
+                                <span>{excellenceFields[21] + " : "}</span>{excellenceList[1].cat210}
+                            </div>
+                            <div className="obj1">
+                                <span>{excellenceFields[22] + " : "}</span>{excellenceList[1].cat211}
+                            </div>
+                            <div className="obj1">
+                                <span>{excellenceFields[23] + " : "}</span>{excellenceList[1].cat212}
+                            </div>
+                            <div className="obj1">
+                                <span>{excellenceFields[24] + " : "}</span>{excellenceList[1].cat213}
+                            </div>
+                            <div className="obj1">
+                                <span>{excellenceFields[25] + " : "}</span>{excellenceList[1].cat214}
+                            </div>
+                        </div>}
+                    </>
+
+                )
                 :
                 <Loader />
             }
