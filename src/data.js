@@ -306,11 +306,6 @@ export const category1 = {
           '10',],
         value: 'r7'
       },
-      {
-        text: ['', 'Total Score (Max. Score per Year 20)',
-          '20',],
-        value: 'r8'
-      }
     ]
   },
 
@@ -332,11 +327,11 @@ export const category1 = {
           '10',],
         value: 'r3'
       },
-      {
-        text: ['', 'Total Score (Max. Score per Year 25)',
-          '25',],
-        value: 'r4'
-      }
+      // {
+      //   text: ['', 'Total Score (Max. Score per Year 25)',
+      //     '25',],
+      //   value: 'r4'
+      // }
     ]
   },
 
@@ -360,10 +355,10 @@ export const category2 ={
         text: ['Community work such as values of National Integration, Environment democracy, socialism, Human Rights, peace, scientific temper; flood or, drought relief, small family norms etc. (5 points)','10',],
         value: 'r4'
       },
-      {
-        text: ['Total (Max. aggregate limit: 20)','20'],
-        value: 'r5'
-      }
+      // {
+      //   text: ['Total (Max. aggregate limit: 20)','20'],
+      //   value: 'r5'
+      // }
     ],
     rows2:[
       {
@@ -386,10 +381,10 @@ export const category2 ={
         text:['Organization of Conference / Training as Chairman/Organizational Secretary/Treasurer: (a)	International (10 points) National/regional (5 points)As member of the organizing committee (1 point each)','10'],
         value:'r5'
       },
-      {
-        text:['Total (Max aggregate limit: 15)','15'],
-        value:'r6'
-      },
+      // {
+      //   text:['Total (Max aggregate limit: 15)','15'],
+      //   value:'r6'
+      // },
     ],
     rows3:[
       {
@@ -412,9 +407,9 @@ export const category2 ={
         text:['Publication of articles in newspapers, magazines or other publications ( not covered in category 3); radio talks; television programs ( 1 point each)','10'],
         value:'r5'
       },
-      {
-        text:['Total (Max aggregate limit: 15)','15'],
-        value:'r6'
-      },
+      // {
+      //   text:['Total (Max aggregate limit: 15)','15'],
+      //   value:'r6'
+      // },
     ]
 }

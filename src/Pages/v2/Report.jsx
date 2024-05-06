@@ -90,6 +90,7 @@ const Report = () => {
   const token = useSelector(state => state.user.token)
   const [fetching, setFetching] = useState(false);
   const [myMap1, setMyMap1] = useState(new Map());
+  const [myMap2, setMyMap2] = useState(new Map());
   const [myMap3, setMyMap3] = useState(new Map());
 
   const fetch = async (category, table, myMap, setMyMap) => {
@@ -102,13 +103,16 @@ const Report = () => {
     setFetching(true);
     await fetch("1", "a1", myMap1, setMyMap1);
     await fetch("1", "a2", myMap1, setMyMap1);
-    // await fetch("3", "a1",myMap3,setMyMap3)
-    // await fetch("3", "a2",myMap3,setMyMap3)
-    // await fetch("3", "b1",myMap3,setMyMap3)
-    // await fetch("3", "b2",myMap3,setMyMap3)
-    // await fetch("3", "c12",myMap3,setMyMap3)
-    // await fetch("3", "c34",myMap3,setMyMap3)
-    // await fetch("3", "e1",myMap3,setMyMap3)
+    await fetch("1", "a3", myMap1, setMyMap1);
+    await fetch("1", "a4", myMap1, setMyMap1);
+    await fetch("2", "a1", myMap2, setMyMap2);
+    await fetch("3", "a1",myMap3,setMyMap3)
+    await fetch("3", "a2",myMap3,setMyMap3)
+    await fetch("3", "b1",myMap3,setMyMap3)
+    await fetch("3", "b2",myMap3,setMyMap3)
+    await fetch("3", "c12",myMap3,setMyMap3)
+    await fetch("3", "c34",myMap3,setMyMap3)
+    await fetch("3", "e1",myMap3,setMyMap3)
     setFetching(false);
   }
   useEffect(() => {
@@ -119,7 +123,7 @@ const Report = () => {
       {fetching == false &&
         <>
           <Category1 myMap={myMap1} />
-          <Category2 />
+          <Category2 myMap={myMap2} />
           <Category3 myMap={myMap3} />
         </>
       }
@@ -129,27 +133,40 @@ const Report = () => {
 }
 
 const Category1 = ({ myMap }) => {
-  const [p1,setP1]=useState(0);
-  const [p2,setP2]=useState(0);
-  const [p3,setP3]=useState(0);
-  const [p4,setP4]=useState(0);
-  const [p5,setP5]=useState(0);
+  const [p1, setP1] = useState(0);
+  const [p2, setP2] = useState(0);
+  const [p3, setP3] = useState(0);
+  const [p4, setP4] = useState(0);
+  const [p5, setP5] = useState(0);
 
-  useEffect(()=>{
-    if(myMap.has('a1')){
-      var sum1=0;
+  useEffect(() => {
+    if (myMap.has('a1')) {
+      var sum1 = 0;
       myMap.get('a1').forEach(ele => {
         // sum1+=ele[7];
-        var per= parseInt(ele[7].replace('%',''));
-        sum1+=per;
+        var per = parseInt(ele[7].replace('%', ''));
+        sum1 += per;
       });
-      setP1((sum1/myMap.get('a1').length)*0.5)
+      setP1((sum1 / myMap.get('a1').length) * 0.5)
     }
-    if(myMap.has('a2')){
-      console.log(Math.min(20, myMap.get('a2').length * 4))
+    if (myMap.has('a2')) {
       setP3(Math.min(20, myMap.get('a2').length * 4))
     }
-  })
+    if (myMap.has("a3")) {
+      var sum = 0;
+      myMap.get("a3").forEach(a => {
+        sum += a;
+      })
+      setP4(sum);
+    }
+    if (myMap.has("a4")) {
+      var sum = 0;
+      myMap.get("a4").forEach(a => {
+        sum += a - '0';
+      })
+      setP5(sum);
+    }
+  }, [])
   return (
     <>
       <h5>ACADEMIC PERFORMANCE INDICATORS (API) (CATEGORY: I)</h5>
@@ -171,19 +188,19 @@ const Category1 = ({ myMap }) => {
                 {r.text.map((key, index) => {
                   return <td key={index}>{key}</td>
                 })}
-                {index==0 && <td>{p1}</td>}
-                {index==1 && <td>{p2}</td>}
-                {index==2 && <td>{p3}</td>}
-                {index==3 && <td>{p4}</td>}
-                {index==4 && <td>{p5}</td>}
+                {index == 0 && <td>{p1}</td>}
+                {index == 1 && <td>{p2}</td>}
+                {index == 2 && <td>{p3}</td>}
+                {index == 3 && <td>{p4}</td>}
+                {index == 4 && <td>{p5}</td>}
               </tr>;
             })}
             <tr>
-              <td  style={{fontWeight:'700'}} colSpan={2}>Total Score Obtained</td>
-              <td  style={{fontWeight:'700'}}>175</td>
-              <td  style={{fontWeight:'700'}}>{p1+p2+p3+p4+p5}</td>
+              <td style={{ fontWeight: '700' }} colSpan={2}>Total Score Obtained</td>
+              <td style={{ fontWeight: '700' }}>175</td>
+              <td style={{ fontWeight: '700' }}>{p1 + p2 + p3 + p4 + p5}</td>
             </tr>
-            <tr><td style={{fontWeight:'700'}} colSpan={4}>Minimum API score required per year 75</td></tr>
+            <tr><td style={{ fontWeight: '700' }} colSpan={4}>Minimum API score required per year 75</td></tr>
           </tbody>
         </table>
       </section>
@@ -222,10 +239,10 @@ const Category1 = ({ myMap }) => {
               ))}
             </tr>
             <tr>
-              <td colSpan={9}  style={{fontWeight:'700'}}>Total Points Acquired (Max. 50 per Year for Part 1 & 10 per year for Part 2):
+              <td colSpan={9} style={{ fontWeight: '700' }}>Total Points Acquired (Max. 50 per Year for Part 1 & 10 per year for Part 2):
                 <br />*Lecture (L), Seminar (S), Tutorial (T), Practical (P), Contact Hours (C)
               </td>
-              <td style={{fontWeight:'700'}}>{p1}</td>
+              <td style={{ fontWeight: '700' }}>{p1}</td>
             </tr>
           </tbody>
         </table>
@@ -253,8 +270,8 @@ const Category1 = ({ myMap }) => {
               ))}
             </tr>
             <tr>
-              <td colSpan={5} style={{fontWeight:'700'}}>Total Points acquired (Max. 20):</td>
-              <td style={{fontWeight:'700'}}>{p3}</td>
+              <td colSpan={5} style={{ fontWeight: '700' }}>Total Points acquired (Max. 20):</td>
+              <td style={{ fontWeight: '700' }}>{p3}</td>
             </tr>
           </tbody>
         </table>
@@ -276,8 +293,14 @@ const Category1 = ({ myMap }) => {
                 {r.text.map((key, index) => {
                   return <td key={index}>{key}</td>
                 })}
+                <td>{myMap.has("a3") && myMap.get("a3")[index]}</td>
               </tr>;
             })}
+            <tr>
+              <td colSpan={2} style={{ fontWeight: '700' }}>Total Score (Max. Score per Year 20)</td>
+              <td style={{ fontWeight: '700' }}>20</td>
+              <td style={{ fontWeight: '700' }}>{p4}</td>
+            </tr>
           </tbody>
         </table>
       </section>
@@ -298,8 +321,14 @@ const Category1 = ({ myMap }) => {
                 {r.text.map((key, index) => {
                   return <td key={index}>{key}</td>
                 })}
+                <td>{myMap.has("a4") && myMap.get("a4")[index]}</td>
               </tr>;
             })}
+            <tr>
+              <td colSpan={2} style={{ fontWeight: '700' }}>Total Score (Max. Score per Year 25)</td>
+              <td style={{ fontWeight: '700' }}>25</td>
+              <td style={{ fontWeight: '700' }}>{p5}</td>
+            </tr>
           </tbody>
         </table>
       </section>
@@ -307,7 +336,30 @@ const Category1 = ({ myMap }) => {
   )
 }
 
-const Category2 = () => {
+const Category2 = ({ myMap }) => {
+  const [p1, setP1] = useState(0);
+  const [p2, setP2] = useState(0);
+  const [p3, setP3] = useState(0);
+
+  useEffect(() => {
+    if (myMap.has("a1")) {
+      var sum = 0;
+      myMap.get("a1").one.forEach(a => {
+        sum += a;
+      })
+      setP1(Math.min(20, sum));
+      sum = 0;
+      myMap.get("a1").two.forEach(a => {
+        sum += a;
+      })
+      setP2(Math.min(15, sum));
+      sum = 0;
+      myMap.get("a1").three.forEach(a => {
+        sum += a;
+      })
+      setP3(Math.min(15, sum));
+    }
+  }, [])
   return (
     <>
       <h5>ACADEMIC PERFORMANCE INDICATORS (API) – CATEGORY- II</h5>
@@ -324,32 +376,50 @@ const Category2 = () => {
           </thead>
           <tbody>
             <tr><th colSpan={2} style={{ textAlign: 'left' }}>(i) Extension, Co-curricular & Field based activities.</th></tr>
-            {category2.rows1.map(r => (
+            {category2.rows1.map((r, idx) => (
               <tr>
                 {r.text.map(t => (
                   <td>{t}</td>
                 ))}
-              </tr>
-            ))}
-            <tr><th colSpan={2} style={{ textAlign: 'left' }}>(ii) Contribution to Corporate Life and Management of the Institution</th></tr>
-            {category2.rows2.map(r => (
-              <tr>
-                {r.text.map(t => (
-                  <td>{t}</td>
-                ))}
-              </tr>
-            ))}
-            <tr><th colSpan={2} style={{ textAlign: 'left' }}>(iii) Professional Development Activitie.</th></tr>
-            {category2.rows3.map(r => (
-              <tr>
-                {r.text.map(t => (
-                  <td>{t}</td>
-                ))}
+                <td>{myMap.has('a1') && myMap.get('a1')['one'][idx]}</td>
               </tr>
             ))}
             <tr>
-              <td colSpan={2}>Total Score Acquired of  ( i to iii ) <br />(Min. Score needed is 15)</td>
-              <td></td>
+              <td style={{ fontWeight: '500' }}>Total (Max. aggregate limit: 20)</td>
+              <td style={{ fontWeight: '500' }}>20</td>
+              <td style={{ fontWeight: '500' }}>{p1}</td>
+            </tr>
+            <tr><th colSpan={2} style={{ textAlign: 'left' }}>(ii) Contribution to Corporate Life and Management of the Institution</th></tr>
+            {category2.rows2.map((r, idx) => (
+              <tr>
+                {r.text.map(t => (
+                  <td>{t}</td>
+                ))}
+                <td>{myMap.has('a1') && myMap.get('a1')['two'][idx]}</td>
+              </tr>
+            ))}
+            <tr>
+              <td style={{ fontWeight: '500' }}>Total (Max aggregate limit: 15)</td>
+              <td style={{ fontWeight: '500' }}>15</td>
+              <td style={{ fontWeight: '500' }}>{p2}</td>
+            </tr>
+            <tr><th colSpan={2} style={{ textAlign: 'left' }}>(iii) Professional Development Activitie.</th></tr>
+            {category2.rows3.map((r, idx) => (
+              <tr>
+                {r.text.map(t => (
+                  <td>{t}</td>
+                ))}
+                <td>{myMap.has('a1') && myMap.get('a1')['three'][idx]}</td>
+              </tr>
+            ))}
+            <tr>
+              <td style={{ fontWeight: '500' }}>Total (Max aggregate limit: 15)</td>
+              <td style={{ fontWeight: '500' }}>15</td>
+              <td style={{ fontWeight: '500' }}>{p3}</td>
+            </tr>
+            <tr>
+              <td style={{ fontWeight: '700' }} colSpan={2}>Total Score Acquired of  ( i to iii ) <br />(Min. Score needed is 15)</td>
+              <td style={{ fontWeight: '700' }}>{p1 + p2 + p3}</td>
             </tr>
           </tbody>
         </table>
